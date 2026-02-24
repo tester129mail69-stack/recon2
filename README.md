@@ -158,6 +158,47 @@ python main.py scan --target example.com --silent --format json -o results.json
 
 ---
 
+## 📖 Full Documentation
+
+For the complete guide on installation, configuration, all scan commands, REST API, dashboard, monitoring, and troubleshooting, see **[USAGE.md](USAGE.md)**.
+
+---
+
+## 🖥️ Web Dashboard & API
+
+```bash
+# Start the server
+python main.py api
+
+# Dashboard: http://127.0.0.1:8000/dashboard/
+# API Docs:  http://127.0.0.1:8000/docs
+```
+
+## 📡 Continuous Monitoring
+
+```bash
+# Schedule daily scans with Slack alerts
+python main.py monitor add --target example.com --interval daily --notify slack
+
+# Start monitoring daemon
+python main.py monitor run
+```
+
+## 🐳 Docker
+
+```bash
+# Build and run
+docker-compose build
+docker-compose run godrecon scan --target example.com --full
+
+# Start API + Dashboard
+docker-compose run -p 8000:8000 godrecon api --host 0.0.0.0
+
+# Results saved to ./output/
+```
+
+---
+
 ## Usage Examples
 
 ```bash
@@ -334,8 +375,8 @@ godrecon/
 
 - ✅ **Phase 1**: Core framework, async engine, CLI, HTTP/DNS clients
 - ✅ **Phase 2**: Full module implementations, AI scoring, advanced reporting
-- 🔄 **Phase 3**: REST API ✅ done, web dashboard, collaboration features
-- **Phase 4**: Plugin marketplace, CI/CD integrations, enterprise features
+- ✅ **Phase 3**: REST API, web dashboard, continuous monitoring
+- 🔮 **Phase 4**: Plugin marketplace, CI/CD integrations, enterprise features
 
 ---
 
