@@ -99,6 +99,42 @@ class ModulesConfig(BaseModel):
     api_intel: bool = True
 
 
+class HttpProbeConfig(BaseModel):
+    """HTTP probing configuration."""
+
+    enabled: bool = True
+    ports: List[int] = Field(default_factory=lambda: [80, 443, 8080, 8443, 8000, 8888, 3000, 5000])
+    concurrency: int = 100
+    timeout: int = 10
+    follow_redirects: bool = True
+    max_redirects: int = 5
+    check_security_headers: bool = True
+    check_cors: bool = True
+
+
+class TechDetectionConfig(BaseModel):
+    """Technology detection configuration."""
+
+    enabled: bool = True
+    detect_cms: bool = True
+    detect_waf: bool = True
+    detect_cdn: bool = True
+    detect_frameworks: bool = True
+    favicon_hash: bool = True
+    jarm: bool = True
+
+
+class SSLAnalysisConfig(BaseModel):
+    """SSL/TLS analysis configuration."""
+
+    enabled: bool = True
+    check_ciphers: bool = True
+    check_vulnerabilities: bool = True
+    check_certificate: bool = True
+    check_protocols: bool = True
+    grade: bool = True
+
+
 class APIKeysConfig(BaseModel):
     """API key configuration for external services."""
 
@@ -151,6 +187,9 @@ class Config(BaseModel):
     dns_module: DNSModuleConfig = Field(default_factory=DNSModuleConfig)
     api_keys: APIKeysConfig = Field(default_factory=APIKeysConfig)
     reporting: ReportingConfig = Field(default_factory=ReportingConfig)
+    http_probe: HttpProbeConfig = Field(default_factory=HttpProbeConfig)
+    tech_detection: TechDetectionConfig = Field(default_factory=TechDetectionConfig)
+    ssl_analysis: SSLAnalysisConfig = Field(default_factory=SSLAnalysisConfig)
 
 
 def load_config(config_path: Optional[str] = None) -> Config:
