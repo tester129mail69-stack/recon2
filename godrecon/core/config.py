@@ -212,6 +212,48 @@ class GeneralConfig(BaseModel):
     output_format: str = "json"
 
 
+class OSINTConfig(BaseModel):
+    """Configuration for the OSINT module."""
+
+    enabled: bool = True
+    whois: bool = True
+    social_media: bool = True
+    google_dorks: bool = True
+    metadata_extraction: bool = True
+
+
+class CloudConfig(BaseModel):
+    """Configuration for the cloud asset enumeration module."""
+
+    enabled: bool = True
+    check_aws: bool = True
+    check_azure: bool = True
+    check_gcp: bool = True
+    bucket_bruteforce: bool = True
+    bucket_permutations: int = 10
+
+
+class CrawlConfig(BaseModel):
+    """Configuration for the web crawl module."""
+
+    enabled: bool = True
+    max_depth: int = 3
+    max_pages: int = 100
+    respect_robots: bool = True
+    extract_forms: bool = True
+    analyze_js: bool = True
+    follow_redirects: bool = True
+
+
+class APIIntelConfig(BaseModel):
+    """Configuration for the API intelligence module."""
+
+    enabled: bool = True
+    discover_endpoints: bool = True
+    check_security: bool = True
+    check_graphql: bool = True
+
+
 class Config(BaseModel):
     """Top-level GODRECON configuration."""
 
@@ -228,6 +270,10 @@ class Config(BaseModel):
     port_scan: PortScanConfig = Field(default_factory=PortScanConfig)
     content_discovery: ContentDiscoveryConfig = Field(default_factory=ContentDiscoveryConfig)
     takeover: TakeoverConfig = Field(default_factory=TakeoverConfig)
+    osint: OSINTConfig = Field(default_factory=OSINTConfig)
+    cloud_config: CloudConfig = Field(default_factory=CloudConfig)
+    crawl: CrawlConfig = Field(default_factory=CrawlConfig)
+    api_intel: APIIntelConfig = Field(default_factory=APIIntelConfig)
 
 
 def load_config(config_path: Optional[str] = None) -> Config:
