@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List
 
+from godrecon.ai.scorer import RiskScorer
 from godrecon.modules.base import Finding, ModuleResult
 
 
@@ -82,9 +83,7 @@ class HTMLReporter:
             k = f.severity.lower()
             sev_counts[k] = sev_counts.get(k, 0) + 1
 
-        weights = {"critical": 100, "high": 75, "medium": 50, "low": 25, "info": 0}
-        total_weight = sum(weights.get(f.severity.lower(), 0) for f in all_findings)
-        risk_score = int(min(100, total_weight / max(len(all_findings), 1))) if all_findings else 0
+        risk_score = int(RiskScorer().score(all_findings))
 
         cat_counts: Dict[str, int] = {}
         for f in all_findings:

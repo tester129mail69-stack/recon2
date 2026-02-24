@@ -16,8 +16,10 @@ _SEVERITY_SCORES: Dict[str, int] = {
 }
 
 # Category-based weight multipliers
+_MAX_CATEGORY_WEIGHT: float = 1.5
+
 _CATEGORY_WEIGHTS: Dict[str, float] = {
-    "secrets": 1.5,
+    "secrets": _MAX_CATEGORY_WEIGHT,
     "misconfig": 1.2,
     "cloud": 1.3,
     "api": 1.1,
@@ -67,7 +69,7 @@ class RiskScorer:
         critical_count = sum(1 for f in findings if f.severity.lower() == "critical")
         critical_bonus = min(25.0, critical_count * 5.0)
 
-        max_possible = len(findings) * 100 * max(_CATEGORY_WEIGHTS.values(), default=1.5)  # max weighted score per finding
+        max_possible = len(findings) * 100 * max(_CATEGORY_WEIGHTS.values(), default=_MAX_CATEGORY_WEIGHT)  # max weighted score per finding
         raw_score = (weighted_total / max_possible) * 100 + critical_bonus
         return round(min(100.0, raw_score), 1)
 

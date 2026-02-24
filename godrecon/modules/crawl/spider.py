@@ -201,7 +201,7 @@ class WebSpider:
             action_m = re.search(r'action=["\']([^"\']*)["\']', attrs, re.IGNORECASE)
             method_m = re.search(r'method=["\']([^"\']*)["\']', attrs, re.IGNORECASE)
             action = urljoin(base_url, action_m.group(1)) if action_m else base_url
-            method = method_m.group(1).upper() if method_m else "GET"
+            method = method_m.group(1).strip().upper() if method_m else "GET"
 
             inputs = []
             for inp in re.finditer(r'<input([^>]*)>', body, re.IGNORECASE):

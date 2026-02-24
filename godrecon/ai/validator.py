@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 from typing import Any, Dict, List
 
 from godrecon.modules.base import Finding
@@ -62,9 +63,11 @@ class FalsePositiveValidator:
                 # Check if a related HTTP finding exists
                 title_key = finding.title.lower().replace("dns", "").strip()
                 if not any(title_key in h for h in http_confirmed):
-                    # Reduce to info-like but still keep it; mark lower confidence
-                    finding.data["_confidence"] = 0.5
-                    result.append(finding)
+                    # Mark lower confidence without mutating the original finding's data
+                    f_copy = copy.copy(finding)
+                    f_copy.data = dict(finding.data)
+                    f_copy.data["_confidence"] = 0.5
+                    result.append(f_copy)
                     continue
             result.append(finding)
         return result
