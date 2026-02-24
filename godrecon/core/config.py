@@ -305,6 +305,74 @@ class APIConfig(BaseModel):
     max_concurrent_scans: int = 3
 
 
+class SlackConfig(BaseModel):
+    """Slack notification configuration."""
+
+    enabled: bool = False
+    webhook_url: str = ""
+
+
+class DiscordConfig(BaseModel):
+    """Discord notification configuration."""
+
+    enabled: bool = False
+    webhook_url: str = ""
+
+
+class TelegramConfig(BaseModel):
+    """Telegram notification configuration."""
+
+    enabled: bool = False
+    bot_token: str = ""
+    chat_id: str = ""
+
+
+class EmailConfig(BaseModel):
+    """Email (SMTP) notification configuration."""
+
+    enabled: bool = False
+    smtp_host: str = ""
+    smtp_port: int = 587
+    smtp_user: str = ""
+    smtp_pass: str = ""
+    from_addr: str = ""
+    to_addrs: List[str] = Field(default_factory=list)
+
+
+class WebhookNotifConfig(BaseModel):
+    """Generic webhook notification configuration."""
+
+    enabled: bool = False
+    url: str = ""
+    headers: Dict[str, Any] = Field(default_factory=dict)
+
+
+class NotificationsConfig(BaseModel):
+    """Configuration for all notification backends."""
+
+    slack: SlackConfig = Field(default_factory=SlackConfig)
+    discord: DiscordConfig = Field(default_factory=DiscordConfig)
+    telegram: TelegramConfig = Field(default_factory=TelegramConfig)
+    email: EmailConfig = Field(default_factory=EmailConfig)
+    webhook: WebhookNotifConfig = Field(default_factory=WebhookNotifConfig)
+
+
+class MonitoringConfig(BaseModel):
+    """Continuous monitoring configuration."""
+
+    enabled: bool = True
+    storage_dir: str = "./output/monitoring"
+    max_history: int = 100
+
+
+class DashboardConfig(BaseModel):
+    """Web dashboard configuration."""
+
+    enabled: bool = True
+    host: str = "127.0.0.1"
+    port: int = 8000
+
+
 class Config(BaseModel):
     """Top-level GODRECON configuration."""
 
@@ -329,6 +397,9 @@ class Config(BaseModel):
     network: NetworkConfig = Field(default_factory=NetworkConfig)
     visual: VisualConfig = Field(default_factory=VisualConfig)
     api: APIConfig = Field(default_factory=APIConfig)
+    monitoring: MonitoringConfig = Field(default_factory=MonitoringConfig)
+    notifications: NotificationsConfig = Field(default_factory=NotificationsConfig)
+    dashboard: DashboardConfig = Field(default_factory=DashboardConfig)
 
 
 def load_config(config_path: Optional[str] = None) -> Config:

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}GODRECON — Overview{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>🔱 GODRECON Dashboard</h1>
+    <p>Real-time reconnaissance monitoring and results</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">{{ total_scans }}</div>
+        <div class="stat-label">Total Scans</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value" style="color:var(--accent2)">{{ active_scans }}</div>
+        <div class="stat-label">Active Scans</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value" style="color:var(--red)">{{ total_findings }}</div>
+        <div class="stat-label">Total Findings</div>
+    </div>
+</div>
+
+<!-- Quick-start scan form -->
+<div class="card" style="margin-bottom:24px;">
+    <div class="card-title">Quick Scan</div>
+    <form id="quick-scan-form" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+        <input class="filter-input" id="qs-target" type="text" placeholder="Target domain or IP" style="flex:1;min-width:200px;">
+        <button type="submit" class="btn btn-primary">▶ Start Scan</button>
+        <span id="qs-status" style="color:var(--text-muted);font-size:13px;align-self:center;"></span>
+    </form>
+</div>
+
+<!-- Recent scans -->
+<div class="card">
+    <div class="card-title">Recent Scans</div>
+    {% if recent_scans %}
+    <div class="table-wrap" style="margin-top:12px;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Target</th>
+                    <th>Status</th>
+                    <th>Started</th>
+                    <th>Findings</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for scan in recent_scans %}
+                <tr>
+                    <td><strong>{{ scan.target }}</strong></td>
+                    <td><span class="status-{{ scan.status }}">{{ scan.status | upper }}</span></td>
+                    <td style="color:var(--text-muted);font-size:12px;">{{ scan.started_at or scan.created_at }}</td>
+                    <td>{{ scan.findings_count }}</td>
+                    <td><a href="/dashboard/scans/{{ scan.scan_id }}" class="btn" style="padding:4px 10px;font-size:12px;">View</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-top:12px;text-align:right;">
+        <a href="/dashboard/scans" class="btn">View all scans →</a>
+    </div>
+    {% else %}
+    <p style="color:var(--text-muted);margin-top:12px;">No scans yet. Use the quick scan form above or the CLI to start scanning.</p>
+    {% endif %}
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.getElementById('quick-scan-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const target = document.getElementById('qs-target').value.trim();
+    const status = document.getElementById('qs-status');
+    if (!target) { status.textContent = 'Please enter a target.'; return; }
+    status.textContent = 'Starting scan…';
+    try {
+        const resp = await fetch('/api/v1/scan', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({target: target})
+        });
+        if (resp.ok) {
+            const data = await resp.json();
+            status.textContent = `Scan started! ID: ${data.scan_id}`;
+            status.style.color = 'var(--green)';
+            setTimeout(() => location.href = '/dashboard/scans/' + data.scan_id, 1500);
+        } else {
+            const err = await resp.json();
+            status.textContent = `Error: ${err.detail || resp.statusText}`;
+            status.style.color = 'var(--red)';
+        }
+    } catch(err) {
+        status.textContent = `Error: ${err.message}`;
+        status.style.color = 'var(--red)';
+    }
+});
+</script>
+{% endblock %}

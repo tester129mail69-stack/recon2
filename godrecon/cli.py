@@ -5,7 +5,7 @@ from __future__ import annotations
 import asyncio
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 
 import typer
 from rich.console import Console
@@ -322,6 +322,139 @@ def api(
 def main() -> None:
     """Entry point registered in setup.py / pyproject.toml."""
     app()
+
+
+# ---------------------------------------------------------------------------
+# monitor command
+# ---------------------------------------------------------------------------
+
+
+@app.command()
+def monitor(
+    target: str = typer.Argument(..., help="Target domain or IP to monitor"),
+    interval: str = typer.Option("daily", "--interval", "-i", help="Scan interval: hourly, daily, weekly, or seconds"),
+    notify: Optional[List[str]] = typer.Option(None, "--notify", "-n", help="Notification backends: slack, discord, telegram, email, webhook"),
+    config_file: Optional[str] = typer.Option(None, "--config", help="Custom config file"),
+) -> None:
+    """[bold]Start continuous monitoring for a target.[/]
+
+    Schedules recurring scans and sends alerts when new findings are detected.
+
+    Examples:
+
+        godrecon monitor example.com
+
+        godrecon monitor example.com --interval daily --notify slack
+
+        godrecon monitor example.com --interval 3600
+    """
+    _print_banner()
+    cfg = load_config(config_file)
+
+    from godrecon.monitoring.monitor import ContinuousMonitor
+
+    cm = ContinuousMonitor(cfg)
+    entry = cm.add_target(target, interval=interval, notify=notify or [])
+    console.print(
+        f"[bold green]►[/] Monitoring [bold]{target}[/] "
+        f"(interval=[bold]{interval}[/], id=[dim]{entry.schedule_id}[/])"
+    )
+    console.print("[dim]  Press Ctrl+C to stop.[/]")
+
+    async def _run() -> None:
+        await cm.start()
+        try:
+            while True:
+                await asyncio.sleep(60)
+        except asyncio.CancelledError:
+            pass
+        finally:
+            await cm.stop()
+
+    try:
+        asyncio.run(_run())
+    except KeyboardInterrupt:
+        console.print("\n[yellow]Monitoring stopped.[/]")
+
+
+# ---------------------------------------------------------------------------
+# schedules command
+# ---------------------------------------------------------------------------
+
+
+@app.command()
+def schedules(
+    action: str = typer.Argument("list", help="Action: list, add, remove"),
+    target: Optional[str] = typer.Option(None, "--target", "-t", help="Target (for add)"),
+    interval: str = typer.Option("daily", "--interval", "-i", help="Interval (for add)"),
+    schedule_id: Optional[str] = typer.Option(None, "--id", help="Schedule ID (for remove)"),
+    config_file: Optional[str] = typer.Option(None, "--config", help="Custom config file"),
+) -> None:
+    """[bold]Manage scan schedules.[/]
+
+    Actions: list, add, remove
+
+    Examples:
+
+        godrecon schedules list
+
+        godrecon schedules add --target example.com --interval daily
+
+        godrecon schedules remove --id <schedule_id>
+    """
+    from godrecon.monitoring.scheduler import ScanScheduler
+
+    scheduler = ScanScheduler()
+    action = action.lower()
+
+    if action == "list":
+        entries = scheduler.list_schedules()
+        if not entries:
+            console.print("[dim]No schedules configured.[/]")
+            return
+        import time as _time
+        table = Table(title="Scan Schedules", border_style="dim")
+        table.add_column("ID", style="dim", no_wrap=True)
+        table.add_column("Target", style="bold")
+        table.add_column("Interval")
+        table.add_column("Next Run")
+        table.add_column("Enabled")
+        for e in entries:
+            next_ts = e.next_run
+            secs = round(next_ts - _time.time()) if next_ts else 0
+            next_str = "overdue" if secs <= 0 else f"in {secs}s"
+            table.add_row(
+                e.schedule_id[:8] + "…",
+                e.target,
+                e.interval,
+                next_str,
+                "[green]Yes[/]" if e.enabled else "[red]No[/]",
+            )
+        console.print(table)
+
+    elif action == "add":
+        if not target:
+            err_console.print("[red]--target is required for 'add'[/]")
+            raise typer.Exit(1)
+        entry = scheduler.add(target, interval=interval)
+        console.print(
+            f"[bold green]✓[/] Schedule added: [bold]{target}[/] every [bold]{interval}[/] "
+            f"(id=[dim]{entry.schedule_id}[/])"
+        )
+
+    elif action == "remove":
+        if not schedule_id:
+            err_console.print("[red]--id is required for 'remove'[/]")
+            raise typer.Exit(1)
+        if scheduler.remove(schedule_id):
+            console.print(f"[bold green]✓[/] Schedule [dim]{schedule_id}[/] removed.")
+        else:
+            err_console.print(f"[red]Schedule {schedule_id!r} not found.[/]")
+            raise typer.Exit(1)
+
+    else:
+        err_console.print(f"[red]Unknown action: {action!r}. Use list, add, or remove.[/]")
+        raise typer.Exit(1)
 
 
 if __name__ == "__main__":

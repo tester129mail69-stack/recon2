@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Settings — GODRECON{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Settings</h1>
+    <p>Review and configure GODRECON settings. Edit <code>config.yaml</code> to persist changes.</p>
+</div>
+
+{% if message %}
+<div class="alert alert-success">{{ message }}</div>
+{% endif %}
+
+<!-- API Keys -->
+<div class="card">
+    <div class="card-title">API Keys</div>
+    <p style="color:var(--text-muted);font-size:13px;margin-bottom:12px;">Configure external service API keys in <code>config.yaml</code> under <code>api_keys</code>.</p>
+    {% if config.api_keys %}
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Service</th><th>Status</th></tr></thead>
+            <tbody>
+                {% for key, val in config.api_keys.items() %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{% if val and val != '***' %}<span style="color:var(--green);">✓ Configured</span>{% elif val == '***' %}<span style="color:var(--green);">✓ Set</span>{% else %}<span style="color:var(--text-muted);">Not set</span>{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Notifications -->
+<div class="card">
+    <div class="card-title">Notifications</div>
+    <p style="color:var(--text-muted);font-size:13px;margin-bottom:12px;">Configure notification backends for continuous monitoring alerts.</p>
+    {% if config.notifications %}
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Backend</th><th>Status</th></tr></thead>
+            <tbody>
+                {% for backend, cfg in config.notifications.items() %}
+                <tr>
+                    <td>{{ backend | capitalize }}</td>
+                    <td>{% if cfg.get('enabled') %}<span style="color:var(--green);">Enabled</span>{% else %}<span style="color:var(--text-muted);">Disabled</span>{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Modules -->
+<div class="card">
+    <div class="card-title">Modules</div>
+    {% if config.modules %}
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+        {% for mod, enabled in config.modules.items() %}
+        <span style="padding:4px 12px;border-radius:12px;font-size:12px;{% if enabled %}background:rgba(63,185,80,0.1);border:1px solid rgba(63,185,80,0.3);color:var(--green);{% else %}background:var(--bg3);border:1px solid var(--border);color:var(--text-muted);{% endif %}">
+            {{ mod }}
+        </span>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<!-- Current config (raw) -->
+<div class="card">
+    <div class="card-title">Full Configuration (read-only)</div>
+    <pre style="margin-top:8px;max-height:400px;overflow-y:auto;font-size:11px;">{{ config | tojson(indent=2) }}</pre>
+</div>
+{% endblock %}

@@ -69,6 +69,16 @@ try:
         scan_manager = ScanManager(max_concurrent_scans=max_concurrent_scans)
         auth_dep = make_api_key_dependency(api_key)
 
+        # Attach scan_manager to app state so the dashboard router can access it
+        _app.state.scan_manager = scan_manager
+
+        # Mount dashboard router (Jinja2 templates served at /dashboard/*)
+        try:
+            from godrecon.dashboard.routes import router as dashboard_router
+            _app.include_router(dashboard_router)
+        except Exception:  # noqa: BLE001
+            pass
+
         # ------------------------------------------------------------------
         # Health / meta
         # ------------------------------------------------------------------

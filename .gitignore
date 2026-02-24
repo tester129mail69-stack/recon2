@@ -46,6 +46,11 @@ output/
 *.html
 *.pdf
 
+# Dashboard templates are Jinja2 source files (not scan output)
+!godrecon/dashboard/templates/*.html
+# Schedules data file is part of the source tree
+!godrecon/data/schedules.json
+
 # Secrets / keys
 .env
 *.key

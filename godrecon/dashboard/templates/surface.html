@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Attack Surface — GODRECON{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Attack Surface Map</h1>
+    <p>Visual overview of discovered subdomains, IPs, open ports, and technologies</p>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+    <!-- Subdomains -->
+    <div class="card">
+        <div class="card-title">Subdomains ({{ surface_data.subdomains | length }})</div>
+        {% if surface_data.subdomains %}
+        <div style="margin-top:10px;max-height:300px;overflow-y:auto;">
+            {% for sub in surface_data.subdomains %}
+            <div style="padding:4px 0;border-bottom:1px solid var(--border);font-size:13px;">
+                <span style="color:var(--accent2);">{{ sub }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p style="color:var(--text-muted);margin-top:10px;font-size:13px;">No subdomains discovered yet. Run a scan with the subdomains module enabled.</p>
+        {% endif %}
+    </div>
+
+    <!-- Technologies -->
+    <div class="card">
+        <div class="card-title">Technologies ({{ surface_data.technologies | length }})</div>
+        {% if surface_data.technologies %}
+        <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;">
+            {% for tech in surface_data.technologies %}
+            <span style="background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:3px 10px;font-size:12px;color:var(--text-muted);">{{ tech }}</span>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p style="color:var(--text-muted);margin-top:10px;font-size:13px;">No technologies detected yet.</p>
+        {% endif %}
+    </div>
+
+    <!-- Open Ports -->
+    <div class="card">
+        <div class="card-title">Open Ports ({{ surface_data.ports | length }})</div>
+        {% if surface_data.ports %}
+        <div style="margin-top:10px;max-height:300px;overflow-y:auto;">
+            {% for port in surface_data.ports %}
+            <div style="padding:4px 0;border-bottom:1px solid var(--border);font-size:13px;">
+                <span style="color:var(--yellow);">{{ port }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p style="color:var(--text-muted);margin-top:10px;font-size:13px;">No open ports recorded yet. Enable the ports module in a scan.</p>
+        {% endif %}
+    </div>
+
+    <!-- IPs -->
+    <div class="card">
+        <div class="card-title">IP Addresses ({{ surface_data.ips | length }})</div>
+        {% if surface_data.ips %}
+        <div style="margin-top:10px;max-height:300px;overflow-y:auto;">
+            {% for ip in surface_data.ips %}
+            <div style="padding:4px 0;border-bottom:1px solid var(--border);font-size:13px;">{{ ip }}</div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p style="color:var(--text-muted);margin-top:10px;font-size:13px;">No IPs recorded yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
