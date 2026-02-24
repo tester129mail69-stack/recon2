@@ -98,6 +98,7 @@ class ModulesConfig(BaseModel):
     screenshots: bool = False
     api_intel: bool = True
     content_discovery: bool = True
+    network: bool = True
 
 
 class HttpProbeConfig(BaseModel):
@@ -266,6 +267,19 @@ class VulnsConfig(BaseModel):
     severity_threshold: str = "info"
 
 
+class NetworkConfig(BaseModel):
+    """Configuration for the network intelligence module."""
+
+    enabled: bool = True
+    traceroute: bool = True
+    cdn_bypass: bool = True
+    geolocation: bool = True
+    asn_lookup: bool = True
+    topology: bool = True
+    max_traceroute_hops: int = 30
+    origin_subdomain_check: bool = True
+
+
 class Config(BaseModel):
     """Top-level GODRECON configuration."""
 
@@ -287,6 +301,7 @@ class Config(BaseModel):
     crawl: CrawlConfig = Field(default_factory=CrawlConfig)
     api_intel: APIIntelConfig = Field(default_factory=APIIntelConfig)
     vulns: VulnsConfig = Field(default_factory=VulnsConfig)
+    network: NetworkConfig = Field(default_factory=NetworkConfig)
 
 
 def load_config(config_path: Optional[str] = None) -> Config:
