@@ -99,6 +99,7 @@ class ModulesConfig(BaseModel):
     api_intel: bool = True
     content_discovery: bool = True
     network: bool = True
+    visual: bool = False
 
 
 class HttpProbeConfig(BaseModel):
@@ -280,6 +281,30 @@ class NetworkConfig(BaseModel):
     origin_subdomain_check: bool = True
 
 
+class VisualConfig(BaseModel):
+    """Configuration for the visual reconnaissance module."""
+
+    enabled: bool = True
+    screenshots: bool = True
+    similarity: bool = True
+    concurrency: int = 5
+    timeout: int = 15
+    viewport_width: int = 1280
+    viewport_height: int = 720
+    output_dir: str = "output/screenshots"
+
+
+class APIConfig(BaseModel):
+    """Configuration for the REST API server."""
+
+    enabled: bool = True
+    host: str = "127.0.0.1"
+    port: int = 8000
+    api_key: str = ""
+    cors_origins: List[str] = Field(default_factory=lambda: ["*"])
+    max_concurrent_scans: int = 3
+
+
 class Config(BaseModel):
     """Top-level GODRECON configuration."""
 
@@ -302,6 +327,8 @@ class Config(BaseModel):
     api_intel: APIIntelConfig = Field(default_factory=APIIntelConfig)
     vulns: VulnsConfig = Field(default_factory=VulnsConfig)
     network: NetworkConfig = Field(default_factory=NetworkConfig)
+    visual: VisualConfig = Field(default_factory=VisualConfig)
+    api: APIConfig = Field(default_factory=APIConfig)
 
 
 def load_config(config_path: Optional[str] = None) -> Config:
