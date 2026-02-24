@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Scan {{ scan.scan_id[:8] }} — GODRECON{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <div>
+            <h1>{{ scan.target }}</h1>
+            <p>Scan <code style="font-size:12px;">{{ scan.scan_id }}</code> &nbsp;·&nbsp; <span class="status-{{ scan.status }}">{{ scan.status | upper }}</span></p>
+        </div>
+        <a href="/dashboard/scans" class="btn" style="margin-left:auto;">← Back</a>
+    </div>
+</div>
+
+<!-- Metadata row -->
+<div class="stats-grid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:20px;">
+    <div class="stat-card">
+        <div class="stat-value" style="font-size:22px;">{{ findings | length }}</div>
+        <div class="stat-label">Total Findings</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value" style="font-size:22px;">{{ module_breakdown | length }}</div>
+        <div class="stat-label">Modules Run</div>
+    </div>
+    {% set critical_count = findings | selectattr('severity', 'equalto', 'critical') | list | length %}
+    {% set high_count = findings | selectattr('severity', 'equalto', 'high') | list | length %}
+    <div class="stat-card">
+        <div class="stat-value" style="font-size:22px;color:var(--red);">{{ critical_count }}</div>
+        <div class="stat-label">Critical</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value" style="font-size:22px;color:var(--orange);">{{ high_count }}</div>
+        <div class="stat-label">High</div>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px;">
+    <!-- Module breakdown -->
+    <div class="card">
+        <div class="card-title">Module Breakdown</div>
+        <div class="table-wrap" style="margin-top:8px;">
+            <table>
+                <thead><tr><th>Module</th><th>Findings</th></tr></thead>
+                <tbody>
+                {% for m in module_breakdown %}
+                <tr>
+                    <td>{{ m.module }}</td>
+                    <td>{{ m.findings }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="2" style="color:var(--text-muted);">No module data.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Scan info -->
+    <div class="card">
+        <div class="card-title">Scan Info</div>
+        <table style="margin-top:8px;">
+            <tr><td style="color:var(--text-muted);padding:4px 0;width:90px;">Started</td><td style="font-size:12px;">{{ scan.started_at or '—' }}</td></tr>
+            <tr><td style="color:var(--text-muted);padding:4px 0;">Finished</td><td style="font-size:12px;">{{ scan.finished_at or '—' }}</td></tr>
+            <tr><td style="color:var(--text-muted);padding:4px 0;">Status</td><td><span class="status-{{ scan.status }}">{{ scan.status }}</span></td></tr>
+            {% if scan.error %}
+            <tr><td style="color:var(--text-muted);padding:4px 0;">Error</td><td style="color:var(--red);font-size:12px;">{{ scan.error }}</td></tr>
+            {% endif %}
+        </table>
+    </div>
+</div>
+
+<!-- Findings table -->
+<div class="card" style="padding:0;">
+    <div style="padding:16px 20px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span class="card-title" style="margin:0;">Findings</span>
+        <input class="filter-input" id="findings-filter" type="text" placeholder="Filter findings…" style="margin-left:auto;">
+    </div>
+    <div class="table-wrap">
+        <table id="findings-table">
+            <thead>
+                <tr>
+                    <th>Severity</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Module</th>
+                    <th>Target</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for f in findings %}
+                <tr>
+                    <td><span class="badge badge-{{ f.severity | lower }}">{{ f.severity }}</span></td>
+                    <td>
+                        <strong>{{ f.title }}</strong>
+                        {% if f.description %}<br><span style="font-size:11px;color:var(--text-muted);">{{ f.description[:120] }}{% if f.description | length > 120 %}…{% endif %}</span>{% endif %}
+                    </td>
+                    <td style="font-size:12px;">{{ f.category }}</td>
+                    <td style="font-size:12px;color:var(--text-muted);">{{ f.module }}</td>
+                    <td style="font-size:12px;color:var(--text-muted);">{{ f.target }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:32px;">No findings for this scan.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>filterTable('findings-filter', 'findings-table');</script>
+{% endblock %}

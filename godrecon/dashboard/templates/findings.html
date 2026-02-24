@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Findings Browser — GODRECON{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Findings Browser</h1>
+    <p>All findings across all scans — filter by severity, category, module, or target</p>
+</div>
+
+<form method="get" action="/dashboard/findings">
+    <div class="filters">
+        <select class="filter-input" name="severity">
+            <option value="">All Severities</option>
+            {% for sev in ['critical','high','medium','low','info'] %}
+            <option value="{{ sev }}" {% if filters.severity == sev %}selected{% endif %}>{{ sev | capitalize }}</option>
+            {% endfor %}
+        </select>
+        <input class="filter-input" name="category" type="text" placeholder="Category…" value="{{ filters.category or '' }}">
+        <input class="filter-input" name="module" type="text" placeholder="Module…" value="{{ filters.module or '' }}">
+        <input class="filter-input" name="target" type="text" placeholder="Target…" value="{{ filters.target or '' }}">
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="/dashboard/findings" class="btn">Reset</a>
+        <span style="margin-left:auto;color:var(--text-muted);font-size:13px;align-self:center;">{{ findings | length }} finding(s)</span>
+    </div>
+</form>
+
+<div class="card" style="padding:0;">
+    <div class="table-wrap">
+        <table id="findings-table">
+            <thead>
+                <tr>
+                    <th>Severity</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Module</th>
+                    <th>Scan Target</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for f in findings %}
+                <tr>
+                    <td><span class="badge badge-{{ f.severity | lower }}">{{ f.severity }}</span></td>
+                    <td>
+                        <strong>{{ f.title }}</strong>
+                        {% if f.description %}<br><span style="font-size:11px;color:var(--text-muted);">{{ f.description[:100] }}{% if f.description | length > 100 %}…{% endif %}</span>{% endif %}
+                    </td>
+                    <td style="font-size:12px;">{{ f.category }}</td>
+                    <td style="font-size:12px;color:var(--text-muted);">{{ f.module }}</td>
+                    <td style="font-size:12px;">{{ f.scan_target }}</td>
+                    <td><a href="/dashboard/scans/{{ f.scan_id }}" class="btn" style="padding:3px 8px;font-size:11px;">Scan</a></td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:32px;">No findings match the current filters.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
