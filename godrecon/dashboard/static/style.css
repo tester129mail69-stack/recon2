@@ -1,0 +1,26 @@
+/* GODRECON Dashboard — supplemental styles (dark theme) */
+/* Core styles are inlined in base.html for zero-dependency operation */
+
+/* Utility: scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0d1117; }
+::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #484f58; }
+
+/* Transitions */
+.card { transition: border-color 0.15s; }
+.card:hover { border-color: #484f58; }
+
+/* Gauge (risk score) */
+.gauge { position: relative; width: 120px; height: 60px; overflow: hidden; }
+.gauge svg { width: 120px; height: 120px; }
+
+/* Severity count badges in summary */
+.sev-summary { display: flex; gap: 8px; flex-wrap: wrap; }
+.sev-count { display: flex; flex-direction: column; align-items: center; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; min-width: 60px; }
+.sev-count-num { font-size: 20px; font-weight: 700; }
+.sev-count-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+
+/* Loading spinner */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; }
