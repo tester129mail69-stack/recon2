@@ -97,6 +97,7 @@ class ModulesConfig(BaseModel):
     email_sec: bool = True
     screenshots: bool = False
     api_intel: bool = True
+    content_discovery: bool = True
 
 
 class HttpProbeConfig(BaseModel):
@@ -133,6 +134,40 @@ class SSLAnalysisConfig(BaseModel):
     check_certificate: bool = True
     check_protocols: bool = True
     grade: bool = True
+
+
+class PortScanConfig(BaseModel):
+    """Port scanning configuration."""
+
+    enabled: bool = True
+    scan_type: str = "top100"  # top100, top1000, custom, full
+    custom_ports: List[int] = Field(default_factory=list)
+    concurrency: int = 500
+    timeout: float = 3.0
+    banner_grab: bool = True
+    service_detection: bool = True
+
+
+class ContentDiscoveryConfig(BaseModel):
+    """Content and directory discovery configuration."""
+
+    enabled: bool = True
+    wordlist: str = "wordlists/directories.txt"
+    concurrency: int = 50
+    status_codes: List[int] = Field(default_factory=lambda: [200, 201, 301, 302, 307, 401, 403])
+    recursive: bool = False
+    recursive_depth: int = 2
+    check_sensitive_files: bool = True
+    check_backups: bool = True
+    timeout: float = 10.0
+
+
+class TakeoverConfig(BaseModel):
+    """Subdomain takeover detection configuration."""
+
+    enabled: bool = True
+    verify: bool = True
+    check_all_subdomains: bool = True
 
 
 class APIKeysConfig(BaseModel):
@@ -190,6 +225,9 @@ class Config(BaseModel):
     http_probe: HttpProbeConfig = Field(default_factory=HttpProbeConfig)
     tech_detection: TechDetectionConfig = Field(default_factory=TechDetectionConfig)
     ssl_analysis: SSLAnalysisConfig = Field(default_factory=SSLAnalysisConfig)
+    port_scan: PortScanConfig = Field(default_factory=PortScanConfig)
+    content_discovery: ContentDiscoveryConfig = Field(default_factory=ContentDiscoveryConfig)
+    takeover: TakeoverConfig = Field(default_factory=TakeoverConfig)
 
 
 def load_config(config_path: Optional[str] = None) -> Config:
