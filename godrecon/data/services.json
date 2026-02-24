@@ -1,0 +1,3947 @@
+{
+  "1": {
+    "service": "TCP Port Service Multiplexer",
+    "protocol": "tcp",
+    "description": "TCP Port Service Multiplexer"
+  },
+  "5": {
+    "service": "RJE",
+    "protocol": "tcp",
+    "description": "Remote Job Entry"
+  },
+  "7": {
+    "service": "Echo",
+    "protocol": "tcp",
+    "description": "Echo protocol"
+  },
+  "9": {
+    "service": "Discard",
+    "protocol": "tcp",
+    "description": "Discard protocol"
+  },
+  "11": {
+    "service": "Systat",
+    "protocol": "tcp",
+    "description": "Active Users"
+  },
+  "13": {
+    "service": "Daytime",
+    "protocol": "tcp",
+    "description": "Daytime protocol"
+  },
+  "17": {
+    "service": "QOTD",
+    "protocol": "tcp",
+    "description": "Quote of the Day"
+  },
+  "18": {
+    "service": "MSP",
+    "protocol": "tcp",
+    "description": "Message Send Protocol"
+  },
+  "19": {
+    "service": "Chargen",
+    "protocol": "tcp",
+    "description": "Character Generator"
+  },
+  "20": {
+    "service": "FTP-Data",
+    "protocol": "tcp",
+    "description": "File Transfer Protocol (Data)"
+  },
+  "21": {
+    "service": "FTP",
+    "protocol": "tcp",
+    "description": "File Transfer Protocol"
+  },
+  "22": {
+    "service": "SSH",
+    "protocol": "tcp",
+    "description": "Secure Shell"
+  },
+  "23": {
+    "service": "Telnet",
+    "protocol": "tcp",
+    "description": "Telnet protocol"
+  },
+  "24": {
+    "service": "Priv-Mail",
+    "protocol": "tcp",
+    "description": "Private Mail System"
+  },
+  "25": {
+    "service": "SMTP",
+    "protocol": "tcp",
+    "description": "Simple Mail Transfer Protocol"
+  },
+  "29": {
+    "service": "MSG-ICP",
+    "protocol": "tcp",
+    "description": "MSG ICP"
+  },
+  "31": {
+    "service": "MSG-Auth",
+    "protocol": "tcp",
+    "description": "MSG Authentication"
+  },
+  "33": {
+    "service": "DSP",
+    "protocol": "tcp",
+    "description": "Display Support Protocol"
+  },
+  "35": {
+    "service": "Priv-Printer",
+    "protocol": "tcp",
+    "description": "Private Printer"
+  },
+  "37": {
+    "service": "Time",
+    "protocol": "tcp",
+    "description": "Time protocol"
+  },
+  "39": {
+    "service": "RLP",
+    "protocol": "tcp",
+    "description": "Resource Location Protocol"
+  },
+  "41": {
+    "service": "Graphics",
+    "protocol": "tcp",
+    "description": "Graphics"
+  },
+  "42": {
+    "service": "WINS",
+    "protocol": "tcp",
+    "description": "Windows Internet Name Service"
+  },
+  "43": {
+    "service": "WHOIS",
+    "protocol": "tcp",
+    "description": "WHOIS protocol"
+  },
+  "46": {
+    "service": "MPM-FLAGS",
+    "protocol": "tcp",
+    "description": "Message Processing Module (recv)"
+  },
+  "47": {
+    "service": "NI-FTP",
+    "protocol": "tcp",
+    "description": "NI FTP"
+  },
+  "48": {
+    "service": "Digital-Audit",
+    "protocol": "tcp",
+    "description": "Digital Audit Daemon"
+  },
+  "49": {
+    "service": "TACACS",
+    "protocol": "tcp",
+    "description": "Terminal Access Controller Access-Control System"
+  },
+  "50": {
+    "service": "re-mail-ck",
+    "protocol": "tcp",
+    "description": "Remote Mail Checking Protocol"
+  },
+  "51": {
+    "service": "IMP-Logical",
+    "protocol": "tcp",
+    "description": "IMP Logical Address"
+  },
+  "52": {
+    "service": "XNS-Time",
+    "protocol": "tcp",
+    "description": "XNS Time Protocol"
+  },
+  "53": {
+    "service": "DNS",
+    "protocol": "tcp",
+    "description": "Domain Name System"
+  },
+  "54": {
+    "service": "XNS-Clearinghouse",
+    "protocol": "tcp",
+    "description": "XNS Clearinghouse"
+  },
+  "56": {
+    "service": "XNS-Auth",
+    "protocol": "tcp",
+    "description": "XNS Authentication"
+  },
+  "58": {
+    "service": "XNS-Mail",
+    "protocol": "tcp",
+    "description": "XNS Mail"
+  },
+  "61": {
+    "service": "NI-Mail",
+    "protocol": "tcp",
+    "description": "NI MAIL"
+  },
+  "62": {
+    "service": "ACA-Services",
+    "protocol": "tcp",
+    "description": "ACA Services"
+  },
+  "63": {
+    "service": "via-FTP",
+    "protocol": "tcp",
+    "description": "via FTP"
+  },
+  "64": {
+    "service": "Covia",
+    "protocol": "tcp",
+    "description": "Communications Integrator"
+  },
+  "65": {
+    "service": "TACACS-DS",
+    "protocol": "tcp",
+    "description": "TACACS-Database Service"
+  },
+  "66": {
+    "service": "SQL-Net",
+    "protocol": "tcp",
+    "description": "Oracle SQL*Net"
+  },
+  "67": {
+    "service": "DHCP",
+    "protocol": "udp",
+    "description": "Dynamic Host Configuration Protocol (Server)"
+  },
+  "68": {
+    "service": "DHCP",
+    "protocol": "udp",
+    "description": "Dynamic Host Configuration Protocol (Client)"
+  },
+  "69": {
+    "service": "TFTP",
+    "protocol": "udp",
+    "description": "Trivial File Transfer Protocol"
+  },
+  "70": {
+    "service": "Gopher",
+    "protocol": "tcp",
+    "description": "Gopher protocol"
+  },
+  "71": {
+    "service": "Netrjs",
+    "protocol": "tcp",
+    "description": "Remote Job Service"
+  },
+  "72": {
+    "service": "Netrjs",
+    "protocol": "tcp",
+    "description": "Remote Job Service"
+  },
+  "73": {
+    "service": "Netrjs",
+    "protocol": "tcp",
+    "description": "Remote Job Service"
+  },
+  "74": {
+    "service": "Netrjs",
+    "protocol": "tcp",
+    "description": "Remote Job Service"
+  },
+  "76": {
+    "service": "Distributed",
+    "protocol": "tcp",
+    "description": "Distributed External Object Store"
+  },
+  "78": {
+    "service": "vetRPC",
+    "protocol": "tcp",
+    "description": "vettcp"
+  },
+  "79": {
+    "service": "Finger",
+    "protocol": "tcp",
+    "description": "Finger protocol"
+  },
+  "80": {
+    "service": "HTTP",
+    "protocol": "tcp",
+    "description": "Hypertext Transfer Protocol"
+  },
+  "81": {
+    "service": "HTTP Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP"
+  },
+  "82": {
+    "service": "XFER",
+    "protocol": "tcp",
+    "description": "XFER Utility"
+  },
+  "83": {
+    "service": "MIT-ML-DEV",
+    "protocol": "tcp",
+    "description": "MIT ML Device"
+  },
+  "84": {
+    "service": "CTF",
+    "protocol": "tcp",
+    "description": "Common Trace Facility"
+  },
+  "85": {
+    "service": "MIT-ML-DEV",
+    "protocol": "tcp",
+    "description": "MIT ML Device"
+  },
+  "86": {
+    "service": "mfcobol",
+    "protocol": "tcp",
+    "description": "Micro Focus Cobol"
+  },
+  "88": {
+    "service": "Kerberos",
+    "protocol": "tcp",
+    "description": "Kerberos authentication"
+  },
+  "89": {
+    "service": "SU-MIT-TG",
+    "protocol": "tcp",
+    "description": "SU/MIT Telnet Gateway"
+  },
+  "90": {
+    "service": "DNSIX",
+    "protocol": "tcp",
+    "description": "DNSIX Securit Attribute Token Map"
+  },
+  "91": {
+    "service": "MIT-DOV",
+    "protocol": "tcp",
+    "description": "MIT Dover Spooler"
+  },
+  "92": {
+    "service": "NPP",
+    "protocol": "tcp",
+    "description": "Network Printing Protocol"
+  },
+  "93": {
+    "service": "DCP",
+    "protocol": "tcp",
+    "description": "Device Control Protocol"
+  },
+  "94": {
+    "service": "OBJCALL",
+    "protocol": "tcp",
+    "description": "Tivoli Object Dispatcher"
+  },
+  "95": {
+    "service": "SUPDUP",
+    "protocol": "tcp",
+    "description": "SUPDUP Protocol"
+  },
+  "96": {
+    "service": "DIXIE",
+    "protocol": "tcp",
+    "description": "DIXIE Protocol Specification"
+  },
+  "97": {
+    "service": "Swift-RVF",
+    "protocol": "tcp",
+    "description": "Swift Remote Vitural File Protocol"
+  },
+  "98": {
+    "service": "TAC-News",
+    "protocol": "tcp",
+    "description": "TAC News"
+  },
+  "99": {
+    "service": "Metagram",
+    "protocol": "tcp",
+    "description": "Metagram Relay"
+  },
+  "100": {
+    "service": "newacct",
+    "protocol": "tcp",
+    "description": "New Account"
+  },
+  "101": {
+    "service": "Hostname",
+    "protocol": "tcp",
+    "description": "NIC Host Name Server"
+  },
+  "102": {
+    "service": "MS Exchange",
+    "protocol": "tcp",
+    "description": "Microsoft Exchange ISO-TSAP"
+  },
+  "105": {
+    "service": "CSNET-NS",
+    "protocol": "tcp",
+    "description": "CSNET Name Server"
+  },
+  "106": {
+    "service": "3COM-TSMUX",
+    "protocol": "tcp",
+    "description": "3COM-TSMUX"
+  },
+  "107": {
+    "service": "rtelnet",
+    "protocol": "tcp",
+    "description": "Remote Telnet Service"
+  },
+  "108": {
+    "service": "SNAGAS",
+    "protocol": "tcp",
+    "description": "SNA Gateway Access Server"
+  },
+  "109": {
+    "service": "POP2",
+    "protocol": "tcp",
+    "description": "Post Office Protocol v2"
+  },
+  "110": {
+    "service": "POP3",
+    "protocol": "tcp",
+    "description": "Post Office Protocol v3"
+  },
+  "111": {
+    "service": "RPC",
+    "protocol": "tcp",
+    "description": "Remote Procedure Call / portmapper"
+  },
+  "112": {
+    "service": "MCIDAS",
+    "protocol": "tcp",
+    "description": "McIDAS Data Transmission Protocol"
+  },
+  "113": {
+    "service": "Ident",
+    "protocol": "tcp",
+    "description": "Identification Protocol"
+  },
+  "114": {
+    "service": "audionews",
+    "protocol": "tcp",
+    "description": "Audio News Multicast"
+  },
+  "115": {
+    "service": "SFTP",
+    "protocol": "tcp",
+    "description": "Simple File Transfer Protocol"
+  },
+  "116": {
+    "service": "ANSA-REX",
+    "protocol": "tcp",
+    "description": "ANSA REX Notify"
+  },
+  "117": {
+    "service": "UUCP-Path",
+    "protocol": "tcp",
+    "description": "UUCP Path Service"
+  },
+  "118": {
+    "service": "SQL-Services",
+    "protocol": "tcp",
+    "description": "SQL Services"
+  },
+  "119": {
+    "service": "NNTP",
+    "protocol": "tcp",
+    "description": "Network News Transfer Protocol"
+  },
+  "120": {
+    "service": "CFDP-CC",
+    "protocol": "tcp",
+    "description": "CFDP"
+  },
+  "121": {
+    "service": "Encore",
+    "protocol": "tcp",
+    "description": "Encore Presentation Protocol"
+  },
+  "122": {
+    "service": "SMAKYNET",
+    "protocol": "tcp",
+    "description": "SMAKYNET"
+  },
+  "123": {
+    "service": "NTP",
+    "protocol": "udp",
+    "description": "Network Time Protocol"
+  },
+  "124": {
+    "service": "ANSA-REX-TRADER",
+    "protocol": "tcp",
+    "description": "ANSA REX Trader"
+  },
+  "125": {
+    "service": "LOCUS-MAP",
+    "protocol": "tcp",
+    "description": "Locus PC-Interface Net Map Server"
+  },
+  "126": {
+    "service": "NXEdit",
+    "protocol": "tcp",
+    "description": "NXEdit"
+  },
+  "127": {
+    "service": "LOCUS-CON",
+    "protocol": "tcp",
+    "description": "Locus PC-Interface Conn Server"
+  },
+  "128": {
+    "service": "GSS-XLICEN",
+    "protocol": "tcp",
+    "description": "GSS X License Verification"
+  },
+  "129": {
+    "service": "PWDGEN",
+    "protocol": "tcp",
+    "description": "Password Generator Protocol"
+  },
+  "130": {
+    "service": "cisco-fna",
+    "protocol": "tcp",
+    "description": "Cisco FNATIVE"
+  },
+  "131": {
+    "service": "cisco-tna",
+    "protocol": "tcp",
+    "description": "Cisco TNATIVE"
+  },
+  "132": {
+    "service": "cisco-sys",
+    "protocol": "tcp",
+    "description": "Cisco SYSMAINT"
+  },
+  "133": {
+    "service": "statsrv",
+    "protocol": "tcp",
+    "description": "Statistics Service"
+  },
+  "134": {
+    "service": "INGRES-NET",
+    "protocol": "tcp",
+    "description": "INGRES-NET Service"
+  },
+  "135": {
+    "service": "MSRPC",
+    "protocol": "tcp",
+    "description": "Microsoft Remote Procedure Call"
+  },
+  "136": {
+    "service": "PROFILE",
+    "protocol": "tcp",
+    "description": "PROFILE Naming System"
+  },
+  "137": {
+    "service": "NetBIOS-NS",
+    "protocol": "udp",
+    "description": "NetBIOS Name Service"
+  },
+  "138": {
+    "service": "NetBIOS-DGM",
+    "protocol": "udp",
+    "description": "NetBIOS Datagram Service"
+  },
+  "139": {
+    "service": "NetBIOS-SSN",
+    "protocol": "tcp",
+    "description": "NetBIOS Session Service"
+  },
+  "140": {
+    "service": "EMFIS-DATA",
+    "protocol": "tcp",
+    "description": "EMFIS Data Service"
+  },
+  "141": {
+    "service": "EMFIS-CNTL",
+    "protocol": "tcp",
+    "description": "EMFIS Control Service"
+  },
+  "142": {
+    "service": "BL-IDM",
+    "protocol": "tcp",
+    "description": "Britton-Lee IDM"
+  },
+  "143": {
+    "service": "IMAP",
+    "protocol": "tcp",
+    "description": "Internet Message Access Protocol"
+  },
+  "144": {
+    "service": "NewS",
+    "protocol": "tcp",
+    "description": "NewS window system"
+  },
+  "145": {
+    "service": "UAAC",
+    "protocol": "tcp",
+    "description": "UAAC Protocol"
+  },
+  "146": {
+    "service": "ISO-TP0",
+    "protocol": "tcp",
+    "description": "ISO-IP0"
+  },
+  "147": {
+    "service": "ISO-IP",
+    "protocol": "tcp",
+    "description": "ISO-IP"
+  },
+  "148": {
+    "service": "JARGON",
+    "protocol": "tcp",
+    "description": "Jargon"
+  },
+  "149": {
+    "service": "AED-512",
+    "protocol": "tcp",
+    "description": "AED 512 Emulation Service"
+  },
+  "150": {
+    "service": "SQL-NET",
+    "protocol": "tcp",
+    "description": "SQL-NET"
+  },
+  "151": {
+    "service": "HEMS",
+    "protocol": "tcp",
+    "description": "HEMS"
+  },
+  "152": {
+    "service": "BFTP",
+    "protocol": "tcp",
+    "description": "Background File Transfer Program"
+  },
+  "153": {
+    "service": "SGMP",
+    "protocol": "tcp",
+    "description": "SGMP"
+  },
+  "154": {
+    "service": "Netsc-Prod",
+    "protocol": "tcp",
+    "description": "NETSC"
+  },
+  "155": {
+    "service": "Netsc-Dev",
+    "protocol": "tcp",
+    "description": "NETSC"
+  },
+  "156": {
+    "service": "SQL-Svc",
+    "protocol": "tcp",
+    "description": "SQL Service"
+  },
+  "157": {
+    "service": "KNET-CMP",
+    "protocol": "tcp",
+    "description": "KNET/VM Command/Message Protocol"
+  },
+  "158": {
+    "service": "PCMail-Srv",
+    "protocol": "tcp",
+    "description": "PCMail Server"
+  },
+  "159": {
+    "service": "NSS-Routing",
+    "protocol": "tcp",
+    "description": "NSS-Routing"
+  },
+  "160": {
+    "service": "SGMP-TRAPS",
+    "protocol": "tcp",
+    "description": "SGMP-TRAPS"
+  },
+  "161": {
+    "service": "SNMP",
+    "protocol": "udp",
+    "description": "Simple Network Management Protocol"
+  },
+  "162": {
+    "service": "SNMP-Trap",
+    "protocol": "udp",
+    "description": "Simple Network Management Protocol Trap"
+  },
+  "163": {
+    "service": "CMIP-Man",
+    "protocol": "tcp",
+    "description": "CMIP/TCP Manager"
+  },
+  "164": {
+    "service": "CMIP-Agent",
+    "protocol": "tcp",
+    "description": "CMIP/TCP Agent"
+  },
+  "165": {
+    "service": "XNS-Courier",
+    "protocol": "tcp",
+    "description": "Xerox"
+  },
+  "166": {
+    "service": "S-Net",
+    "protocol": "tcp",
+    "description": "Sirius Systems"
+  },
+  "167": {
+    "service": "NAMP",
+    "protocol": "tcp",
+    "description": "NAMP"
+  },
+  "168": {
+    "service": "RSVD",
+    "protocol": "tcp",
+    "description": "RSVD"
+  },
+  "169": {
+    "service": "SEND",
+    "protocol": "tcp",
+    "description": "SEND"
+  },
+  "170": {
+    "service": "Print-Srv",
+    "protocol": "tcp",
+    "description": "Network PostScript"
+  },
+  "171": {
+    "service": "Multi-Hop",
+    "protocol": "tcp",
+    "description": "Network Innovations Multiplex"
+  },
+  "172": {
+    "service": "CL/1",
+    "protocol": "tcp",
+    "description": "Network Innovations CL/1"
+  },
+  "173": {
+    "service": "XYPLEX-MUX",
+    "protocol": "tcp",
+    "description": "Xyplex"
+  },
+  "174": {
+    "service": "MAILQ",
+    "protocol": "tcp",
+    "description": "MAILQ"
+  },
+  "175": {
+    "service": "VMNET",
+    "protocol": "tcp",
+    "description": "VMNET"
+  },
+  "176": {
+    "service": "GENRAD-MUX",
+    "protocol": "tcp",
+    "description": "GENRAD-MUX"
+  },
+  "177": {
+    "service": "XDMCP",
+    "protocol": "udp",
+    "description": "X Display Manager Control Protocol"
+  },
+  "178": {
+    "service": "NextStep",
+    "protocol": "tcp",
+    "description": "NextStep Window Server"
+  },
+  "179": {
+    "service": "BGP",
+    "protocol": "tcp",
+    "description": "Border Gateway Protocol"
+  },
+  "180": {
+    "service": "SAS",
+    "protocol": "tcp",
+    "description": "SAS"
+  },
+  "181": {
+    "service": "UNIFY",
+    "protocol": "tcp",
+    "description": "Unify"
+  },
+  "182": {
+    "service": "AUDIT",
+    "protocol": "tcp",
+    "description": "Unisys Audit SITP"
+  },
+  "183": {
+    "service": "OCBINDER",
+    "protocol": "tcp",
+    "description": "OCBinder"
+  },
+  "184": {
+    "service": "OCSERVER",
+    "protocol": "tcp",
+    "description": "OCServer"
+  },
+  "185": {
+    "service": "Remote-KIS",
+    "protocol": "tcp",
+    "description": "Remote-KIS"
+  },
+  "186": {
+    "service": "KIS",
+    "protocol": "tcp",
+    "description": "KIS Protocol"
+  },
+  "187": {
+    "service": "ACI",
+    "protocol": "tcp",
+    "description": "Application Communication Interface"
+  },
+  "188": {
+    "service": "MUMPS",
+    "protocol": "tcp",
+    "description": "Plus Five's MUMPS"
+  },
+  "189": {
+    "service": "QFT",
+    "protocol": "tcp",
+    "description": "Queued File Transport"
+  },
+  "190": {
+    "service": "GACP",
+    "protocol": "tcp",
+    "description": "Gateway Access Control Protocol"
+  },
+  "191": {
+    "service": "Prospero",
+    "protocol": "tcp",
+    "description": "Prospero Directory Service"
+  },
+  "192": {
+    "service": "OSU-NMS",
+    "protocol": "tcp",
+    "description": "OSU Network Monitoring System"
+  },
+  "193": {
+    "service": "SRMP",
+    "protocol": "tcp",
+    "description": "Spider Remote Monitoring Protocol"
+  },
+  "194": {
+    "service": "IRC",
+    "protocol": "tcp",
+    "description": "Internet Relay Chat"
+  },
+  "195": {
+    "service": "DN6-NLM-AUD",
+    "protocol": "tcp",
+    "description": "DNSIX Network Level Module Audit"
+  },
+  "196": {
+    "service": "DN6-SMM-RED",
+    "protocol": "tcp",
+    "description": "DNSIX Session Mgt Module Audit Redirect"
+  },
+  "197": {
+    "service": "DLS",
+    "protocol": "tcp",
+    "description": "Directory Location Service"
+  },
+  "198": {
+    "service": "DLS-Mon",
+    "protocol": "tcp",
+    "description": "Directory Location Service Monitor"
+  },
+  "199": {
+    "service": "SMUX",
+    "protocol": "tcp",
+    "description": "SNMP Unix Multiplexer"
+  },
+  "200": {
+    "service": "IBM-System-AD",
+    "protocol": "tcp",
+    "description": "IBM System Resource Controller"
+  },
+  "201": {
+    "service": "AppleTalk",
+    "protocol": "tcp",
+    "description": "AppleTalk Routing Maintenance"
+  },
+  "209": {
+    "service": "QMTP",
+    "protocol": "tcp",
+    "description": "The Quick Mail Transfer Protocol"
+  },
+  "210": {
+    "service": "Z39.50",
+    "protocol": "tcp",
+    "description": "ANSI Z39.50"
+  },
+  "213": {
+    "service": "IPX",
+    "protocol": "tcp",
+    "description": "IPX"
+  },
+  "218": {
+    "service": "MPP",
+    "protocol": "tcp",
+    "description": "Netix Message Posting Protocol"
+  },
+  "219": {
+    "service": "UARPS",
+    "protocol": "tcp",
+    "description": "Unisys ARPs"
+  },
+  "220": {
+    "service": "IMAP3",
+    "protocol": "tcp",
+    "description": "Interactive Mail Access Protocol v3"
+  },
+  "223": {
+    "service": "Certificate-Distribution",
+    "protocol": "tcp",
+    "description": "Certificate Distribution Center"
+  },
+  "242": {
+    "service": "Direct",
+    "protocol": "tcp",
+    "description": "Direct"
+  },
+  "243": {
+    "service": "Survey",
+    "protocol": "tcp",
+    "description": "Survey Measurement"
+  },
+  "245": {
+    "service": "LINK",
+    "protocol": "tcp",
+    "description": "LINK"
+  },
+  "246": {
+    "service": "DSP3270",
+    "protocol": "tcp",
+    "description": "Display Systems Protocol"
+  },
+  "247": {
+    "service": "SUBNTBCST-TFTP",
+    "protocol": "tcp",
+    "description": "SUBNTBCST_TFTP"
+  },
+  "248": {
+    "service": "BHFHS",
+    "protocol": "tcp",
+    "description": "bhfhs"
+  },
+  "256": {
+    "service": "RAP",
+    "protocol": "tcp",
+    "description": "RAP"
+  },
+  "257": {
+    "service": "Set",
+    "protocol": "tcp",
+    "description": "Secure Electronic Transaction"
+  },
+  "258": {
+    "service": "Yak",
+    "protocol": "tcp",
+    "description": "Yak Winsock Personal Chat"
+  },
+  "259": {
+    "service": "ESRO-Gen",
+    "protocol": "tcp",
+    "description": "Efficient Short Remote Operations"
+  },
+  "260": {
+    "service": "Openport",
+    "protocol": "tcp",
+    "description": "Openport"
+  },
+  "261": {
+    "service": "NSIIOPS",
+    "protocol": "tcp",
+    "description": "IIOP Name Service over TLS/SSL"
+  },
+  "262": {
+    "service": "Arcisdms",
+    "protocol": "tcp",
+    "description": "Arcisdms"
+  },
+  "263": {
+    "service": "HDAP",
+    "protocol": "tcp",
+    "description": "HDAP"
+  },
+  "264": {
+    "service": "BGMP",
+    "protocol": "tcp",
+    "description": "Border Gateway Multicast Protocol"
+  },
+  "265": {
+    "service": "X-Bone-CTL",
+    "protocol": "tcp",
+    "description": "X-Bone CTL"
+  },
+  "266": {
+    "service": "SSVP",
+    "protocol": "tcp",
+    "description": "SSVP"
+  },
+  "267": {
+    "service": "Squsabase",
+    "protocol": "tcp",
+    "description": "Tobit David Service Layer"
+  },
+  "268": {
+    "service": "Phillip-Ict",
+    "protocol": "tcp",
+    "description": "Phillip ICT"
+  },
+  "269": {
+    "service": "MANET",
+    "protocol": "tcp",
+    "description": "MANET Protocols"
+  },
+  "270": {
+    "service": "GIST",
+    "protocol": "tcp",
+    "description": "Q-mode encapsulation for GIST messages"
+  },
+  "271": {
+    "service": "pt-tls",
+    "protocol": "tcp",
+    "description": "IETF Network Endpoint Assessment"
+  },
+  "280": {
+    "service": "HTTP-MGMT",
+    "protocol": "tcp",
+    "description": "http-mgmt"
+  },
+  "300": {
+    "service": "ThinLinc-web",
+    "protocol": "tcp",
+    "description": "ThinLinc Web Access"
+  },
+  "311": {
+    "service": "AppleShare-IP",
+    "protocol": "tcp",
+    "description": "AppleShare IP WebAdmin"
+  },
+  "312": {
+    "service": "VSLMP",
+    "protocol": "tcp",
+    "description": "VSLMP"
+  },
+  "313": {
+    "service": "Magenta-Logic",
+    "protocol": "tcp",
+    "description": "Magenta Logic"
+  },
+  "314": {
+    "service": "Opalis-Robot",
+    "protocol": "tcp",
+    "description": "Opalis Robot"
+  },
+  "315": {
+    "service": "DPSI",
+    "protocol": "tcp",
+    "description": "DPSI"
+  },
+  "316": {
+    "service": "Decauth",
+    "protocol": "tcp",
+    "description": "decAuth"
+  },
+  "317": {
+    "service": "Zannet",
+    "protocol": "tcp",
+    "description": "Zannet"
+  },
+  "318": {
+    "service": "TSP",
+    "protocol": "tcp",
+    "description": "PKIX TimeStamp Protocol"
+  },
+  "319": {
+    "service": "PTP-Event",
+    "protocol": "tcp",
+    "description": "Message Digest"
+  },
+  "320": {
+    "service": "PTP-General",
+    "protocol": "tcp",
+    "description": "PTP General"
+  },
+  "321": {
+    "service": "PIP",
+    "protocol": "tcp",
+    "description": "PIP"
+  },
+  "322": {
+    "service": "RTSPS",
+    "protocol": "tcp",
+    "description": "RTSPS"
+  },
+  "333": {
+    "service": "Texar",
+    "protocol": "tcp",
+    "description": "Texar Security Port"
+  },
+  "344": {
+    "service": "PDAP",
+    "protocol": "tcp",
+    "description": "Prospero Data Access Protocol"
+  },
+  "345": {
+    "service": "Peacock",
+    "protocol": "tcp",
+    "description": "Peacock"
+  },
+  "346": {
+    "service": "DHCP-Failover-1",
+    "protocol": "tcp",
+    "description": "DHCP Failover Protocol"
+  },
+  "347": {
+    "service": "Gnutella",
+    "protocol": "tcp",
+    "description": "Gnutella"
+  },
+  "348": {
+    "service": "Cabernet-Opcode",
+    "protocol": "tcp",
+    "description": "Cabernet Opcode Commands"
+  },
+  "349": {
+    "service": "Mftp",
+    "protocol": "tcp",
+    "description": "mftp"
+  },
+  "350": {
+    "service": "MATIP-TypeA",
+    "protocol": "tcp",
+    "description": "MATIP Type A"
+  },
+  "351": {
+    "service": "MATIP-TypeB",
+    "protocol": "tcp",
+    "description": "MATIP Type B"
+  },
+  "352": {
+    "service": "DTAG-STE-SB",
+    "protocol": "tcp",
+    "description": "DTAG"
+  },
+  "353": {
+    "service": "NDSAUTH",
+    "protocol": "tcp",
+    "description": "NDSAUTH"
+  },
+  "354": {
+    "service": "BH611",
+    "protocol": "tcp",
+    "description": "bh611"
+  },
+  "355": {
+    "service": "DATEX-ASN",
+    "protocol": "tcp",
+    "description": "DATEX-ASN"
+  },
+  "356": {
+    "service": "Cloanto-Net-1",
+    "protocol": "tcp",
+    "description": "Cloanto Net 1"
+  },
+  "357": {
+    "service": "BHEVENT",
+    "protocol": "tcp",
+    "description": "bhevent"
+  },
+  "358": {
+    "service": "Shrinkwrap",
+    "protocol": "tcp",
+    "description": "Shrinkwrap"
+  },
+  "359": {
+    "service": "TENEBRIS-NTS",
+    "protocol": "tcp",
+    "description": "Tenebris Network Trace Service"
+  },
+  "360": {
+    "service": "SCOI2ODIALOG",
+    "protocol": "tcp",
+    "description": "scoi2odialog"
+  },
+  "361": {
+    "service": "Semantix",
+    "protocol": "tcp",
+    "description": "Semantix"
+  },
+  "362": {
+    "service": "SRS-Send",
+    "protocol": "tcp",
+    "description": "SRS Send"
+  },
+  "363": {
+    "service": "RSVP-Tunnel",
+    "protocol": "tcp",
+    "description": "RSVP Tunnel"
+  },
+  "364": {
+    "service": "Aurora-CMGR",
+    "protocol": "tcp",
+    "description": "Aurora CMGR"
+  },
+  "365": {
+    "service": "DTK",
+    "protocol": "tcp",
+    "description": "DTK"
+  },
+  "366": {
+    "service": "ODMR",
+    "protocol": "tcp",
+    "description": "On-Demand Mail Relay"
+  },
+  "367": {
+    "service": "Mortgageware",
+    "protocol": "tcp",
+    "description": "MortgageWare"
+  },
+  "368": {
+    "service": "Qbikgdp",
+    "protocol": "tcp",
+    "description": "QbikGDP"
+  },
+  "369": {
+    "service": "RPC2PORTMAP",
+    "protocol": "tcp",
+    "description": "rpc2portmap"
+  },
+  "370": {
+    "service": "Codaauth2",
+    "protocol": "tcp",
+    "description": "codaauth2"
+  },
+  "371": {
+    "service": "ClearCase",
+    "protocol": "tcp",
+    "description": "Clearcase"
+  },
+  "372": {
+    "service": "UIClient",
+    "protocol": "tcp",
+    "description": "ListProcessor"
+  },
+  "373": {
+    "service": "Legent-1",
+    "protocol": "tcp",
+    "description": "Legent Corporation"
+  },
+  "374": {
+    "service": "Legent-2",
+    "protocol": "tcp",
+    "description": "Legent Corporation"
+  },
+  "375": {
+    "service": "Hassle",
+    "protocol": "tcp",
+    "description": "Hassle"
+  },
+  "376": {
+    "service": "NIP",
+    "protocol": "tcp",
+    "description": "Amiga Envoy Network Inquiry Protocol"
+  },
+  "377": {
+    "service": "Tnetos",
+    "protocol": "tcp",
+    "description": "tnETOS"
+  },
+  "378": {
+    "service": "Dsetos",
+    "protocol": "tcp",
+    "description": "dsETOS"
+  },
+  "379": {
+    "service": "IS99c",
+    "protocol": "tcp",
+    "description": "TIA/EIA/IS-99 modem client"
+  },
+  "380": {
+    "service": "IS99s",
+    "protocol": "tcp",
+    "description": "TIA/EIA/IS-99 modem server"
+  },
+  "381": {
+    "service": "HP OpenView",
+    "protocol": "tcp",
+    "description": "HP OpenView"
+  },
+  "382": {
+    "service": "SNA",
+    "protocol": "tcp",
+    "description": "SNA"
+  },
+  "383": {
+    "service": "HP OpenView",
+    "protocol": "tcp",
+    "description": "HP OpenView Agent"
+  },
+  "384": {
+    "service": "A-Remote-Entry",
+    "protocol": "tcp",
+    "description": "A Remote Network Server System"
+  },
+  "385": {
+    "service": "IBM-App",
+    "protocol": "tcp",
+    "description": "IBM Application"
+  },
+  "386": {
+    "service": "ASA-Message",
+    "protocol": "tcp",
+    "description": "ASA Message Router Object Def."
+  },
+  "387": {
+    "service": "AURP",
+    "protocol": "tcp",
+    "description": "Appletalk Update-Based Routing Protocol"
+  },
+  "388": {
+    "service": "Unidata-LDM",
+    "protocol": "tcp",
+    "description": "Unidata LDM"
+  },
+  "389": {
+    "service": "LDAP",
+    "protocol": "tcp",
+    "description": "Lightweight Directory Access Protocol"
+  },
+  "390": {
+    "service": "UIS",
+    "protocol": "tcp",
+    "description": "UIS"
+  },
+  "391": {
+    "service": "SysAtmFW",
+    "protocol": "tcp",
+    "description": "SynOptics SNMP Relay Port"
+  },
+  "392": {
+    "service": "SysAtmFW",
+    "protocol": "tcp",
+    "description": "SynOptics Port Broker Port"
+  },
+  "393": {
+    "service": "Meta5",
+    "protocol": "tcp",
+    "description": "Meta5"
+  },
+  "394": {
+    "service": "EMBL-NDT",
+    "protocol": "tcp",
+    "description": "EMBL Nucleic Data Transfer"
+  },
+  "395": {
+    "service": "NetCP",
+    "protocol": "tcp",
+    "description": "NetScout Control Protocol"
+  },
+  "396": {
+    "service": "NetWare-IP",
+    "protocol": "tcp",
+    "description": "Novell Netware over IP"
+  },
+  "397": {
+    "service": "MPTN",
+    "protocol": "tcp",
+    "description": "Multi Protocol Trans. Net."
+  },
+  "398": {
+    "service": "Kryptolan",
+    "protocol": "tcp",
+    "description": "Kryptolan"
+  },
+  "399": {
+    "service": "ISO-TSAP-C2",
+    "protocol": "tcp",
+    "description": "ISO Transport Class 2 Non-Control over TCP"
+  },
+  "400": {
+    "service": "Workstation-SOL",
+    "protocol": "tcp",
+    "description": "Oracle Secure Backup"
+  },
+  "401": {
+    "service": "UPS",
+    "protocol": "tcp",
+    "description": "Uninterruptible Power Supply"
+  },
+  "402": {
+    "service": "Genie",
+    "protocol": "tcp",
+    "description": "Genie Protocol"
+  },
+  "403": {
+    "service": "decap",
+    "protocol": "tcp",
+    "description": "decap"
+  },
+  "404": {
+    "service": "Nced",
+    "protocol": "tcp",
+    "description": "nced"
+  },
+  "405": {
+    "service": "Ncld",
+    "protocol": "tcp",
+    "description": "ncld"
+  },
+  "406": {
+    "service": "Imsp",
+    "protocol": "tcp",
+    "description": "Interactive Mail Support Protocol"
+  },
+  "407": {
+    "service": "Timbuktu",
+    "protocol": "tcp",
+    "description": "Timbuktu"
+  },
+  "408": {
+    "service": "PRM-SM",
+    "protocol": "tcp",
+    "description": "Prospero Resource Manager Sys. Man."
+  },
+  "409": {
+    "service": "PRM-NM",
+    "protocol": "tcp",
+    "description": "Prospero Resource Manager Node Man."
+  },
+  "410": {
+    "service": "Decladebug",
+    "protocol": "tcp",
+    "description": "DECLadebug Remote Debug Protocol"
+  },
+  "411": {
+    "service": "Direct Connect",
+    "protocol": "tcp",
+    "description": "Direct Connect Hub"
+  },
+  "412": {
+    "service": "Direct Connect",
+    "protocol": "tcp",
+    "description": "Direct Connect Client"
+  },
+  "413": {
+    "service": "Storage-SS",
+    "protocol": "tcp",
+    "description": "Storage Management Services Protocol"
+  },
+  "414": {
+    "service": "InfoReg",
+    "protocol": "tcp",
+    "description": "Information Retrieval"
+  },
+  "415": {
+    "service": "NNSP",
+    "protocol": "tcp",
+    "description": "Net News Sucking Protocol"
+  },
+  "416": {
+    "service": "Silverplatter",
+    "protocol": "tcp",
+    "description": "Silverplatter"
+  },
+  "417": {
+    "service": "Onmux",
+    "protocol": "tcp",
+    "description": "Onmux"
+  },
+  "418": {
+    "service": "Hyper-G",
+    "protocol": "tcp",
+    "description": "Hyper-G"
+  },
+  "419": {
+    "service": "Ariel1",
+    "protocol": "tcp",
+    "description": "Ariel 1"
+  },
+  "420": {
+    "service": "SMPTE",
+    "protocol": "tcp",
+    "description": "SMPTE"
+  },
+  "421": {
+    "service": "Ariel2",
+    "protocol": "tcp",
+    "description": "Ariel 2"
+  },
+  "422": {
+    "service": "Ariel3",
+    "protocol": "tcp",
+    "description": "Ariel 3"
+  },
+  "423": {
+    "service": "OPC-Job-Start",
+    "protocol": "tcp",
+    "description": "IBM Operations Planning and Control Start"
+  },
+  "424": {
+    "service": "OPC-Job-Track",
+    "protocol": "tcp",
+    "description": "IBM Operations Planning and Control Track"
+  },
+  "425": {
+    "service": "ICAD-El",
+    "protocol": "tcp",
+    "description": "ICAD"
+  },
+  "426": {
+    "service": "Smartsdp",
+    "protocol": "tcp",
+    "description": "smartsdp"
+  },
+  "427": {
+    "service": "SVRloc",
+    "protocol": "tcp",
+    "description": "Server Location"
+  },
+  "428": {
+    "service": "OCS-Cmu",
+    "protocol": "tcp",
+    "description": "OCS_CMU"
+  },
+  "429": {
+    "service": "OCS-Amu",
+    "protocol": "tcp",
+    "description": "OCS_AMU"
+  },
+  "430": {
+    "service": "UTMPSD",
+    "protocol": "tcp",
+    "description": "UTMPSD"
+  },
+  "431": {
+    "service": "UTMPCD",
+    "protocol": "tcp",
+    "description": "UTMPCD"
+  },
+  "432": {
+    "service": "IASD",
+    "protocol": "tcp",
+    "description": "IASD"
+  },
+  "433": {
+    "service": "NNSP",
+    "protocol": "tcp",
+    "description": "NNSP"
+  },
+  "434": {
+    "service": "MobileIP-Agent",
+    "protocol": "tcp",
+    "description": "Mobile IP Agent"
+  },
+  "435": {
+    "service": "MobilIP-MN",
+    "protocol": "tcp",
+    "description": "Mobile IP Manager"
+  },
+  "436": {
+    "service": "DNA-CML",
+    "protocol": "tcp",
+    "description": "DNA-CML"
+  },
+  "437": {
+    "service": "Comscm",
+    "protocol": "tcp",
+    "description": "comscm"
+  },
+  "438": {
+    "service": "Dsfgw",
+    "protocol": "tcp",
+    "description": "dsfgw"
+  },
+  "439": {
+    "service": "Dasp",
+    "protocol": "tcp",
+    "description": "dasp Thomas Obermair"
+  },
+  "440": {
+    "service": "Sgcp",
+    "protocol": "tcp",
+    "description": "sgcp"
+  },
+  "441": {
+    "service": "Decvms-Sysmgt",
+    "protocol": "tcp",
+    "description": "decvms-sysmgt"
+  },
+  "442": {
+    "service": "CVC-Hostd",
+    "protocol": "tcp",
+    "description": "cvc_hostd"
+  },
+  "443": {
+    "service": "HTTPS",
+    "protocol": "tcp",
+    "description": "HTTP Secure"
+  },
+  "444": {
+    "service": "SNPP",
+    "protocol": "tcp",
+    "description": "Simple Network Paging Protocol"
+  },
+  "445": {
+    "service": "SMB",
+    "protocol": "tcp",
+    "description": "Server Message Block"
+  },
+  "446": {
+    "service": "DDM-RDB",
+    "protocol": "tcp",
+    "description": "DDM-Remote Relational Database Access"
+  },
+  "447": {
+    "service": "DDM-DFM",
+    "protocol": "tcp",
+    "description": "DDM-Distributed File Management"
+  },
+  "448": {
+    "service": "DDM-SSL",
+    "protocol": "tcp",
+    "description": "DDM-Remote DB Access Using Secure Sockets"
+  },
+  "449": {
+    "service": "AS-Servermap",
+    "protocol": "tcp",
+    "description": "AS Server Mapper"
+  },
+  "450": {
+    "service": "Tserver",
+    "protocol": "tcp",
+    "description": "Computer Supported Telecomunication Applications"
+  },
+  "451": {
+    "service": "SFS-SMP-Net",
+    "protocol": "tcp",
+    "description": "Cray Network Semaphore server"
+  },
+  "452": {
+    "service": "SFS-Config",
+    "protocol": "tcp",
+    "description": "Cray SFS config server"
+  },
+  "453": {
+    "service": "CreativeServer",
+    "protocol": "tcp",
+    "description": "CreativeServer"
+  },
+  "454": {
+    "service": "ContentServer",
+    "protocol": "tcp",
+    "description": "ContentServer"
+  },
+  "455": {
+    "service": "CreativePartnr",
+    "protocol": "tcp",
+    "description": "CreativePartnr"
+  },
+  "456": {
+    "service": "macon-tcp",
+    "protocol": "tcp",
+    "description": "macon-tcp"
+  },
+  "457": {
+    "service": "ScoHelp",
+    "protocol": "tcp",
+    "description": "scohelp"
+  },
+  "458": {
+    "service": "Apple-QuickTime",
+    "protocol": "tcp",
+    "description": "apple quicktime"
+  },
+  "459": {
+    "service": "AMPR-RCMD",
+    "protocol": "tcp",
+    "description": "AMPR RCMD"
+  },
+  "460": {
+    "service": "SKRONK",
+    "protocol": "tcp",
+    "description": "skronk"
+  },
+  "461": {
+    "service": "Datasurfsrv",
+    "protocol": "tcp",
+    "description": "DataRampSrv"
+  },
+  "462": {
+    "service": "Datasurfsrvsec",
+    "protocol": "tcp",
+    "description": "DataRampSrvSec"
+  },
+  "463": {
+    "service": "Alpes",
+    "protocol": "tcp",
+    "description": "alpes"
+  },
+  "464": {
+    "service": "Kerberos",
+    "protocol": "tcp",
+    "description": "Kerberos Change/Set Password"
+  },
+  "465": {
+    "service": "SMTPS",
+    "protocol": "tcp",
+    "description": "SMTP over SSL"
+  },
+  "467": {
+    "service": "Mylex-Mapd",
+    "protocol": "tcp",
+    "description": "mylex-mapd"
+  },
+  "468": {
+    "service": "Photuris",
+    "protocol": "tcp",
+    "description": "proturis"
+  },
+  "469": {
+    "service": "RCP",
+    "protocol": "tcp",
+    "description": "Radio Control Protocol"
+  },
+  "470": {
+    "service": "Scx-Proxy",
+    "protocol": "tcp",
+    "description": "scx-proxy"
+  },
+  "471": {
+    "service": "Mondex",
+    "protocol": "tcp",
+    "description": "Mondex"
+  },
+  "472": {
+    "service": "Ljk-Login",
+    "protocol": "tcp",
+    "description": "ljk-login"
+  },
+  "473": {
+    "service": "Hybrid-Pop",
+    "protocol": "tcp",
+    "description": "hybrid-pop"
+  },
+  "474": {
+    "service": "TN-TL-W1",
+    "protocol": "tcp",
+    "description": "tn-tl-w1"
+  },
+  "475": {
+    "service": "TCP-PCP",
+    "protocol": "tcp",
+    "description": "tcpnethaspsrv"
+  },
+  "476": {
+    "service": "SS7ns",
+    "protocol": "tcp",
+    "description": "ss7ns"
+  },
+  "477": {
+    "service": "Spsc",
+    "protocol": "tcp",
+    "description": "spsc"
+  },
+  "478": {
+    "service": "IPv6-SMIP",
+    "protocol": "tcp",
+    "description": "spsc"
+  },
+  "479": {
+    "service": "TPSs",
+    "protocol": "tcp",
+    "description": "iafserver"
+  },
+  "480": {
+    "service": "IAFDBASE",
+    "protocol": "tcp",
+    "description": "iafdbase"
+  },
+  "481": {
+    "service": "Ph",
+    "protocol": "tcp",
+    "description": "Ph service"
+  },
+  "482": {
+    "service": "Bgs-Nsi",
+    "protocol": "tcp",
+    "description": "bgs-nsi"
+  },
+  "483": {
+    "service": "Ulpnet",
+    "protocol": "tcp",
+    "description": "ulpnet"
+  },
+  "484": {
+    "service": "Integra-Sme",
+    "protocol": "tcp",
+    "description": "Integra Software Management Environment"
+  },
+  "485": {
+    "service": "Powerburst",
+    "protocol": "tcp",
+    "description": "Air Soft Power Burst"
+  },
+  "486": {
+    "service": "AVIAN",
+    "protocol": "tcp",
+    "description": "avian"
+  },
+  "487": {
+    "service": "SAFT",
+    "protocol": "tcp",
+    "description": "saft Simple Asynchronous File Transfer"
+  },
+  "488": {
+    "service": "GSS-HTTP",
+    "protocol": "tcp",
+    "description": "gss-http"
+  },
+  "489": {
+    "service": "Nest-Protocol",
+    "protocol": "tcp",
+    "description": "nest-protocol"
+  },
+  "490": {
+    "service": "Micom-pfs",
+    "protocol": "tcp",
+    "description": "micom-pfs"
+  },
+  "491": {
+    "service": "Go-Login",
+    "protocol": "tcp",
+    "description": "go-login"
+  },
+  "492": {
+    "service": "TICF-1",
+    "protocol": "tcp",
+    "description": "Transport Independent Convergence for FNA"
+  },
+  "493": {
+    "service": "TICF-2",
+    "protocol": "tcp",
+    "description": "Transport Independent Convergence for FNA"
+  },
+  "494": {
+    "service": "POV-Ray",
+    "protocol": "tcp",
+    "description": "POV-Ray"
+  },
+  "495": {
+    "service": "Intecourier",
+    "protocol": "tcp",
+    "description": "intecourier"
+  },
+  "496": {
+    "service": "PIM-RP-Disc",
+    "protocol": "tcp",
+    "description": "PIM-RP-DISC"
+  },
+  "497": {
+    "service": "Retrospect",
+    "protocol": "tcp",
+    "description": "Dantz Retrospect"
+  },
+  "498": {
+    "service": "Siam",
+    "protocol": "tcp",
+    "description": "siam"
+  },
+  "499": {
+    "service": "ISO-ILL",
+    "protocol": "tcp",
+    "description": "ISO ILL Protocol"
+  },
+  "500": {
+    "service": "IKE",
+    "protocol": "udp",
+    "description": "Internet Key Exchange"
+  },
+  "501": {
+    "service": "STMF",
+    "protocol": "tcp",
+    "description": "STMF"
+  },
+  "502": {
+    "service": "Modbus",
+    "protocol": "tcp",
+    "description": "Modbus industrial protocol"
+  },
+  "503": {
+    "service": "Intrinsa",
+    "protocol": "tcp",
+    "description": "Intrinsa"
+  },
+  "504": {
+    "service": "Citadel",
+    "protocol": "tcp",
+    "description": "citadel"
+  },
+  "505": {
+    "service": "MSG-ICP",
+    "protocol": "tcp",
+    "description": "mailbox-lm"
+  },
+  "506": {
+    "service": "OHIMSRV",
+    "protocol": "tcp",
+    "description": "ohimsrv"
+  },
+  "507": {
+    "service": "CRS",
+    "protocol": "tcp",
+    "description": "crs"
+  },
+  "508": {
+    "service": "XVTTP",
+    "protocol": "tcp",
+    "description": "xvttp"
+  },
+  "509": {
+    "service": "SNARE",
+    "protocol": "tcp",
+    "description": "snare"
+  },
+  "510": {
+    "service": "FCP",
+    "protocol": "tcp",
+    "description": "FirstClass Protocol"
+  },
+  "511": {
+    "service": "MyNet-Addr",
+    "protocol": "tcp",
+    "description": "mynet-addr"
+  },
+  "512": {
+    "service": "rexec",
+    "protocol": "tcp",
+    "description": "Remote Process Execution"
+  },
+  "513": {
+    "service": "rlogin",
+    "protocol": "tcp",
+    "description": "Remote Login"
+  },
+  "514": {
+    "service": "Syslog",
+    "protocol": "udp",
+    "description": "Syslog / Remote Shell"
+  },
+  "515": {
+    "service": "LPD",
+    "protocol": "tcp",
+    "description": "Line Printer Daemon"
+  },
+  "516": {
+    "service": "Videotex",
+    "protocol": "tcp",
+    "description": "videotex"
+  },
+  "517": {
+    "service": "Talk",
+    "protocol": "tcp",
+    "description": "like tenex link"
+  },
+  "518": {
+    "service": "NTalk",
+    "protocol": "tcp",
+    "description": "NTalk"
+  },
+  "519": {
+    "service": "UniTime",
+    "protocol": "tcp",
+    "description": "unixtime"
+  },
+  "520": {
+    "service": "RIP",
+    "protocol": "udp",
+    "description": "Routing Information Protocol"
+  },
+  "521": {
+    "service": "RIPng",
+    "protocol": "tcp",
+    "description": "RIPng"
+  },
+  "522": {
+    "service": "ULP",
+    "protocol": "tcp",
+    "description": "ULP"
+  },
+  "523": {
+    "service": "IBM DB2",
+    "protocol": "tcp",
+    "description": "IBM DB2"
+  },
+  "524": {
+    "service": "NCP",
+    "protocol": "tcp",
+    "description": "NCP"
+  },
+  "525": {
+    "service": "Timeserver",
+    "protocol": "tcp",
+    "description": "timeserver"
+  },
+  "526": {
+    "service": "Tempo",
+    "protocol": "tcp",
+    "description": "newdate"
+  },
+  "527": {
+    "service": "STX",
+    "protocol": "tcp",
+    "description": "Stock IXChange"
+  },
+  "528": {
+    "service": "Custix",
+    "protocol": "tcp",
+    "description": "Customer IXChange"
+  },
+  "529": {
+    "service": "IRC-SERV",
+    "protocol": "tcp",
+    "description": "IRC-SERV"
+  },
+  "530": {
+    "service": "COURIER",
+    "protocol": "tcp",
+    "description": "rpc"
+  },
+  "531": {
+    "service": "CONFERENCE",
+    "protocol": "tcp",
+    "description": "chat"
+  },
+  "532": {
+    "service": "NETNEWS",
+    "protocol": "tcp",
+    "description": "readnews"
+  },
+  "533": {
+    "service": "NETWALL",
+    "protocol": "tcp",
+    "description": "for emergency broadcasts"
+  },
+  "534": {
+    "service": "Windream",
+    "protocol": "tcp",
+    "description": "windream Admin"
+  },
+  "535": {
+    "service": "IIOP",
+    "protocol": "tcp",
+    "description": "iiop"
+  },
+  "536": {
+    "service": "OPALIS-SDT",
+    "protocol": "tcp",
+    "description": "opalis-rdv"
+  },
+  "537": {
+    "service": "NMSP",
+    "protocol": "tcp",
+    "description": "Networked Media Streaming Protocol"
+  },
+  "538": {
+    "service": "GDOMAP",
+    "protocol": "tcp",
+    "description": "gdomap"
+  },
+  "539": {
+    "service": "APERTUS-LDP",
+    "protocol": "tcp",
+    "description": "Apertus Technologies Load Determination"
+  },
+  "540": {
+    "service": "UUCP",
+    "protocol": "tcp",
+    "description": "uucpd"
+  },
+  "541": {
+    "service": "uucp-rlogin",
+    "protocol": "tcp",
+    "description": "UUCP over TCP"
+  },
+  "542": {
+    "service": "Commerce",
+    "protocol": "tcp",
+    "description": "commerce"
+  },
+  "543": {
+    "service": "Klogin",
+    "protocol": "tcp",
+    "description": "Kerberos login"
+  },
+  "544": {
+    "service": "Kshell",
+    "protocol": "tcp",
+    "description": "Kerberos remote shell"
+  },
+  "545": {
+    "service": "EKSHELL",
+    "protocol": "tcp",
+    "description": "appleqtcsrvr"
+  },
+  "546": {
+    "service": "DHCPv6-Client",
+    "protocol": "tcp",
+    "description": "DHCPv6 Client"
+  },
+  "547": {
+    "service": "DHCPv6-Server",
+    "protocol": "tcp",
+    "description": "DHCPv6 Server"
+  },
+  "548": {
+    "service": "AFP",
+    "protocol": "tcp",
+    "description": "Apple Filing Protocol"
+  },
+  "549": {
+    "service": "AFPOVERTCP",
+    "protocol": "tcp",
+    "description": "AFP over TCP"
+  },
+  "550": {
+    "service": "New-RWHO",
+    "protocol": "tcp",
+    "description": "new-who"
+  },
+  "551": {
+    "service": "CYBERCASH",
+    "protocol": "tcp",
+    "description": "cybercash"
+  },
+  "552": {
+    "service": "DeviceShare",
+    "protocol": "tcp",
+    "description": "deviceshare"
+  },
+  "553": {
+    "service": "PIRP",
+    "protocol": "tcp",
+    "description": "pirp"
+  },
+  "554": {
+    "service": "RTSP",
+    "protocol": "tcp",
+    "description": "Real Time Streaming Protocol"
+  },
+  "555": {
+    "service": "DSPUR",
+    "protocol": "tcp",
+    "description": "dspur"
+  },
+  "556": {
+    "service": "Remotefs",
+    "protocol": "tcp",
+    "description": "rfs server"
+  },
+  "557": {
+    "service": "OPENVMS-SYSIPC",
+    "protocol": "tcp",
+    "description": "openvms-sysipc"
+  },
+  "558": {
+    "service": "SDNSKMP",
+    "protocol": "tcp",
+    "description": "SDNSKMP"
+  },
+  "559": {
+    "service": "TEEDTAP",
+    "protocol": "tcp",
+    "description": "TEEDTAP"
+  },
+  "560": {
+    "service": "RMONITOR",
+    "protocol": "tcp",
+    "description": "rmonitor"
+  },
+  "561": {
+    "service": "MONITOR",
+    "protocol": "tcp",
+    "description": "monitor"
+  },
+  "562": {
+    "service": "CHSHELL",
+    "protocol": "tcp",
+    "description": "chshell"
+  },
+  "563": {
+    "service": "NNTPS",
+    "protocol": "tcp",
+    "description": "NNTP over TLS/SSL"
+  },
+  "564": {
+    "service": "9PFS",
+    "protocol": "tcp",
+    "description": "plan 9 file service"
+  },
+  "565": {
+    "service": "WHOAMI",
+    "protocol": "tcp",
+    "description": "whoami"
+  },
+  "566": {
+    "service": "STREETTALK",
+    "protocol": "tcp",
+    "description": "streettalk"
+  },
+  "567": {
+    "service": "BANYAN-RPC",
+    "protocol": "tcp",
+    "description": "banyan-rpc"
+  },
+  "568": {
+    "service": "MS-Shuttle",
+    "protocol": "tcp",
+    "description": "microsoft shuttle"
+  },
+  "569": {
+    "service": "MS-Rome",
+    "protocol": "tcp",
+    "description": "microsoft rome"
+  },
+  "570": {
+    "service": "METER",
+    "protocol": "tcp",
+    "description": "demon"
+  },
+  "571": {
+    "service": "METER",
+    "protocol": "tcp",
+    "description": "udemon"
+  },
+  "572": {
+    "service": "SONAR",
+    "protocol": "tcp",
+    "description": "sonar"
+  },
+  "573": {
+    "service": "BANYAN-VIP",
+    "protocol": "tcp",
+    "description": "banyan-vip"
+  },
+  "574": {
+    "service": "FTP-Agent",
+    "protocol": "tcp",
+    "description": "FTP Software Agent System"
+  },
+  "575": {
+    "service": "VEMMI",
+    "protocol": "tcp",
+    "description": "VEMMI"
+  },
+  "576": {
+    "service": "IPCD",
+    "protocol": "tcp",
+    "description": "ipcd"
+  },
+  "577": {
+    "service": "VNAS",
+    "protocol": "tcp",
+    "description": "vnas"
+  },
+  "578": {
+    "service": "IPDD",
+    "protocol": "tcp",
+    "description": "ipdd"
+  },
+  "579": {
+    "service": "DECBSRV",
+    "protocol": "tcp",
+    "description": "decbsrv"
+  },
+  "580": {
+    "service": "SNTP-HEARTBEAT",
+    "protocol": "tcp",
+    "description": "SNTP HEARTBEAT"
+  },
+  "581": {
+    "service": "BDP",
+    "protocol": "tcp",
+    "description": "Bundle Discovery Protocol"
+  },
+  "582": {
+    "service": "SCC-Security",
+    "protocol": "tcp",
+    "description": "SCC Security"
+  },
+  "583": {
+    "service": "Philips-VC",
+    "protocol": "tcp",
+    "description": "Philips Video-Conferencing"
+  },
+  "584": {
+    "service": "KEY-SERVER",
+    "protocol": "tcp",
+    "description": "Key Server"
+  },
+  "585": {
+    "service": "Password-Chg",
+    "protocol": "tcp",
+    "description": "Password Change"
+  },
+  "586": {
+    "service": "Submission",
+    "protocol": "tcp",
+    "description": "Password Change"
+  },
+  "587": {
+    "service": "SMTP-Submission",
+    "protocol": "tcp",
+    "description": "SMTP Mail Submission"
+  },
+  "588": {
+    "service": "CAL",
+    "protocol": "tcp",
+    "description": "CAL"
+  },
+  "589": {
+    "service": "EYBLink",
+    "protocol": "tcp",
+    "description": "EyeLink"
+  },
+  "590": {
+    "service": "TPIP",
+    "protocol": "tcp",
+    "description": "TPIP"
+  },
+  "591": {
+    "service": "Filemaker",
+    "protocol": "tcp",
+    "description": "FileMaker 6.0 (and later) Web Sharing"
+  },
+  "592": {
+    "service": "EUDORA",
+    "protocol": "tcp",
+    "description": "Eudora Set"
+  },
+  "593": {
+    "service": "HTTP-RPC",
+    "protocol": "tcp",
+    "description": "HTTP RPC Endpoint Mapper"
+  },
+  "594": {
+    "service": "TPIP",
+    "protocol": "tcp",
+    "description": "TPIP"
+  },
+  "595": {
+    "service": "CABShared",
+    "protocol": "tcp",
+    "description": "CAB Protocol"
+  },
+  "596": {
+    "service": "SMSD",
+    "protocol": "tcp",
+    "description": "SMSD IDP"
+  },
+  "597": {
+    "service": "PTCNAMESERVICE",
+    "protocol": "tcp",
+    "description": "PTC Name Service"
+  },
+  "598": {
+    "service": "SCO-WEBSRVRMG3",
+    "protocol": "tcp",
+    "description": "SCO Web Server Manager 3"
+  },
+  "599": {
+    "service": "ACP",
+    "protocol": "tcp",
+    "description": "Aeolon Core Protocol"
+  },
+  "600": {
+    "service": "IPCServer",
+    "protocol": "tcp",
+    "description": "Sun IPC server"
+  },
+  "601": {
+    "service": "Syslog-CONN",
+    "protocol": "tcp",
+    "description": "Reliable Syslog Service"
+  },
+  "602": {
+    "service": "XML-RPC-BEEP",
+    "protocol": "tcp",
+    "description": "XML-RPC over BEEP"
+  },
+  "603": {
+    "service": "IDXP",
+    "protocol": "tcp",
+    "description": "IDXP"
+  },
+  "604": {
+    "service": "TUNNEL",
+    "protocol": "tcp",
+    "description": "TUNNEL"
+  },
+  "605": {
+    "service": "SOAP-BEEP",
+    "protocol": "tcp",
+    "description": "SOAP over BEEP"
+  },
+  "606": {
+    "service": "URM",
+    "protocol": "tcp",
+    "description": "Cray Unified Resource Manager"
+  },
+  "607": {
+    "service": "NQS",
+    "protocol": "tcp",
+    "description": "nqs"
+  },
+  "608": {
+    "service": "SIFT-UFT",
+    "protocol": "tcp",
+    "description": "Sender-Initiated/Unsolicited File Transfer"
+  },
+  "609": {
+    "service": "NPMP-TRAP",
+    "protocol": "tcp",
+    "description": "npmp-trap"
+  },
+  "610": {
+    "service": "NPMP-LOCAL",
+    "protocol": "tcp",
+    "description": "npmp-local"
+  },
+  "611": {
+    "service": "NPMP-GUI",
+    "protocol": "tcp",
+    "description": "npmp-gui"
+  },
+  "612": {
+    "service": "HMMP-IND",
+    "protocol": "tcp",
+    "description": "HMMP Indication"
+  },
+  "613": {
+    "service": "HMMP-OP",
+    "protocol": "tcp",
+    "description": "HMMP Operation"
+  },
+  "614": {
+    "service": "SSHELL",
+    "protocol": "tcp",
+    "description": "SSLshell"
+  },
+  "615": {
+    "service": "SCO-INETMGR",
+    "protocol": "tcp",
+    "description": "Internet Configuration Manager"
+  },
+  "616": {
+    "service": "SCO-SYSMGR",
+    "protocol": "tcp",
+    "description": "SCO System Administration Server"
+  },
+  "617": {
+    "service": "SCO-DTMGR",
+    "protocol": "tcp",
+    "description": "SCO Desktop Administration Server"
+  },
+  "618": {
+    "service": "DEI-ICDA",
+    "protocol": "tcp",
+    "description": "DEI-ICDA"
+  },
+  "619": {
+    "service": "Compaq-EVM",
+    "protocol": "tcp",
+    "description": "Compaq EVM"
+  },
+  "620": {
+    "service": "SCO-WebSrvMgr",
+    "protocol": "tcp",
+    "description": "SCO WebServer Manager"
+  },
+  "621": {
+    "service": "ESCP-IP",
+    "protocol": "tcp",
+    "description": "ESCP"
+  },
+  "622": {
+    "service": "COLLABORATOR",
+    "protocol": "tcp",
+    "description": "Collaborator"
+  },
+  "623": {
+    "service": "OOBM",
+    "protocol": "tcp",
+    "description": "DMTF out-of-band web services management protocol"
+  },
+  "624": {
+    "service": "Cryptoadmin",
+    "protocol": "tcp",
+    "description": "Crypto Admin"
+  },
+  "625": {
+    "service": "DEC-DLM",
+    "protocol": "tcp",
+    "description": "DEC DLM"
+  },
+  "626": {
+    "service": "ASIA",
+    "protocol": "tcp",
+    "description": "ASIA"
+  },
+  "627": {
+    "service": "Passgo-Tivoli",
+    "protocol": "tcp",
+    "description": "PassGo Tivoli"
+  },
+  "628": {
+    "service": "QMQP",
+    "protocol": "tcp",
+    "description": "QMQP"
+  },
+  "629": {
+    "service": "3COM-AMP3",
+    "protocol": "tcp",
+    "description": "3COM AMP3"
+  },
+  "630": {
+    "service": "RDA",
+    "protocol": "tcp",
+    "description": "RDA"
+  },
+  "631": {
+    "service": "IPP",
+    "protocol": "tcp",
+    "description": "Internet Printing Protocol"
+  },
+  "632": {
+    "service": "BMPP",
+    "protocol": "tcp",
+    "description": "bmpp"
+  },
+  "633": {
+    "service": "Servstat",
+    "protocol": "tcp",
+    "description": "Service Status update (Sterling Software)"
+  },
+  "634": {
+    "service": "GINAD",
+    "protocol": "tcp",
+    "description": "ginad"
+  },
+  "635": {
+    "service": "RLZDBASE",
+    "protocol": "tcp",
+    "description": "RLZ DBase"
+  },
+  "636": {
+    "service": "LDAPS",
+    "protocol": "tcp",
+    "description": "LDAP over SSL"
+  },
+  "637": {
+    "service": "Lanserver",
+    "protocol": "tcp",
+    "description": "lanserver"
+  },
+  "638": {
+    "service": "MCns-SEC",
+    "protocol": "tcp",
+    "description": "mcns-sec"
+  },
+  "639": {
+    "service": "MSDP",
+    "protocol": "tcp",
+    "description": "MSDP"
+  },
+  "640": {
+    "service": "Entrust-SPS",
+    "protocol": "tcp",
+    "description": "entrust-sps"
+  },
+  "641": {
+    "service": "Repcmd",
+    "protocol": "tcp",
+    "description": "repcmd"
+  },
+  "642": {
+    "service": "ESRO-EMSDP",
+    "protocol": "tcp",
+    "description": "ESRO-EMSDP V1.3"
+  },
+  "643": {
+    "service": "SANity",
+    "protocol": "tcp",
+    "description": "SANity"
+  },
+  "644": {
+    "service": "DWR",
+    "protocol": "tcp",
+    "description": "dwr"
+  },
+  "645": {
+    "service": "PSSC",
+    "protocol": "tcp",
+    "description": "PSSC"
+  },
+  "646": {
+    "service": "LDP",
+    "protocol": "tcp",
+    "description": "Label Distribution Protocol"
+  },
+  "647": {
+    "service": "DHCP-Failover",
+    "protocol": "tcp",
+    "description": "DHCP Failover Protocol"
+  },
+  "648": {
+    "service": "RRP",
+    "protocol": "tcp",
+    "description": "Registry Registrar Protocol"
+  },
+  "649": {
+    "service": "Cadview-3d",
+    "protocol": "tcp",
+    "description": "Cadview-3d - streaming 3d models over the internet"
+  },
+  "650": {
+    "service": "OBEX",
+    "protocol": "tcp",
+    "description": "OBEX"
+  },
+  "651": {
+    "service": "IEEE-MMS",
+    "protocol": "tcp",
+    "description": "IEEE MMS"
+  },
+  "652": {
+    "service": "HELLO-PORT",
+    "protocol": "tcp",
+    "description": "HELLO_PORT"
+  },
+  "653": {
+    "service": "REPSCMD",
+    "protocol": "tcp",
+    "description": "RepCmd"
+  },
+  "654": {
+    "service": "AODV",
+    "protocol": "tcp",
+    "description": "AODV"
+  },
+  "655": {
+    "service": "TINC",
+    "protocol": "tcp",
+    "description": "TINC"
+  },
+  "656": {
+    "service": "SPMP",
+    "protocol": "tcp",
+    "description": "SPMP"
+  },
+  "657": {
+    "service": "RMC",
+    "protocol": "tcp",
+    "description": "RMC"
+  },
+  "658": {
+    "service": "TenFold",
+    "protocol": "tcp",
+    "description": "TenFold"
+  },
+  "660": {
+    "service": "Mac-Srvr-Admin",
+    "protocol": "tcp",
+    "description": "Mac OS X Server Admin"
+  },
+  "661": {
+    "service": "HAP",
+    "protocol": "tcp",
+    "description": "HAP"
+  },
+  "662": {
+    "service": "PFTP",
+    "protocol": "tcp",
+    "description": "PFTP"
+  },
+  "663": {
+    "service": "PUP",
+    "protocol": "tcp",
+    "description": "PUP"
+  },
+  "664": {
+    "service": "Secure-Aux-Bus",
+    "protocol": "tcp",
+    "description": "Secure Aux Bus"
+  },
+  "665": {
+    "service": "Sun-DR",
+    "protocol": "tcp",
+    "description": "Sun DR"
+  },
+  "666": {
+    "service": "Doom",
+    "protocol": "tcp",
+    "description": "Doom game server"
+  },
+  "667": {
+    "service": "Disclose",
+    "protocol": "tcp",
+    "description": "campaign contribution disclosures"
+  },
+  "668": {
+    "service": "MeComm",
+    "protocol": "tcp",
+    "description": "MeComm"
+  },
+  "669": {
+    "service": "MeRegister",
+    "protocol": "tcp",
+    "description": "MeRegister"
+  },
+  "670": {
+    "service": "VACDSM-SWS",
+    "protocol": "tcp",
+    "description": "VACDSM-SWS"
+  },
+  "671": {
+    "service": "VACDSM-APP",
+    "protocol": "tcp",
+    "description": "VACDSM-APP"
+  },
+  "672": {
+    "service": "VPPS-QUA",
+    "protocol": "tcp",
+    "description": "VPPS-QUA"
+  },
+  "673": {
+    "service": "CIMPLEX",
+    "protocol": "tcp",
+    "description": "CIMPLEX"
+  },
+  "674": {
+    "service": "ACAP",
+    "protocol": "tcp",
+    "description": "ACAP"
+  },
+  "675": {
+    "service": "DCTP",
+    "protocol": "tcp",
+    "description": "DCTP"
+  },
+  "676": {
+    "service": "VPPS-Via",
+    "protocol": "tcp",
+    "description": "VPPS Via"
+  },
+  "677": {
+    "service": "VPP",
+    "protocol": "tcp",
+    "description": "Virtual Presence Protocol"
+  },
+  "678": {
+    "service": "GGF-NCP",
+    "protocol": "tcp",
+    "description": "GNU Generation Foundation NCP"
+  },
+  "679": {
+    "service": "MRM",
+    "protocol": "tcp",
+    "description": "MRM"
+  },
+  "680": {
+    "service": "ENTRUST-AAA",
+    "protocol": "tcp",
+    "description": "entrust-aaas"
+  },
+  "681": {
+    "service": "ENTRUST-AAMS",
+    "protocol": "tcp",
+    "description": "entrust-aams"
+  },
+  "682": {
+    "service": "XFR",
+    "protocol": "tcp",
+    "description": "XFR"
+  },
+  "683": {
+    "service": "CORBA-IIOP",
+    "protocol": "tcp",
+    "description": "CORBA IIOP"
+  },
+  "684": {
+    "service": "CORBA-IIOP-SSL",
+    "protocol": "tcp",
+    "description": "CORBA IIOP SSL"
+  },
+  "685": {
+    "service": "MDL-HBP",
+    "protocol": "tcp",
+    "description": "MDL Help Browser"
+  },
+  "686": {
+    "service": "Hardware-Mgmt-Agt",
+    "protocol": "tcp",
+    "description": "Hardware Management Agent"
+  },
+  "687": {
+    "service": "Hardware-Mgmt-Agt",
+    "protocol": "tcp",
+    "description": "Hardware Management Proxy"
+  },
+  "688": {
+    "service": "REALM-RUSD",
+    "protocol": "tcp",
+    "description": "REALM-RUSD"
+  },
+  "689": {
+    "service": "NMAP",
+    "protocol": "tcp",
+    "description": "NMAP"
+  },
+  "690": {
+    "service": "VATP",
+    "protocol": "tcp",
+    "description": "Velazquez Application Transfer Protocol"
+  },
+  "691": {
+    "service": "MS-Exchange",
+    "protocol": "tcp",
+    "description": "MS Exchange Routing"
+  },
+  "692": {
+    "service": "Hyperwave-ISP",
+    "protocol": "tcp",
+    "description": "Hyperwave-ISP"
+  },
+  "693": {
+    "service": "ConnEndp",
+    "protocol": "tcp",
+    "description": "almanid Connection Endpoint"
+  },
+  "694": {
+    "service": "HA-Cluster",
+    "protocol": "tcp",
+    "description": "Linux-HA High-Availability Cluster"
+  },
+  "695": {
+    "service": "IEEE-MMS-SSL",
+    "protocol": "tcp",
+    "description": "IEEE-MMS-SSL"
+  },
+  "696": {
+    "service": "RUSHD",
+    "protocol": "tcp",
+    "description": "RUSHD"
+  },
+  "697": {
+    "service": "UUIDGEN",
+    "protocol": "tcp",
+    "description": "UUIDGEN"
+  },
+  "698": {
+    "service": "OLSR",
+    "protocol": "tcp",
+    "description": "OLSR"
+  },
+  "699": {
+    "service": "Accessnetwork",
+    "protocol": "tcp",
+    "description": "Access Network"
+  },
+  "700": {
+    "service": "EPP",
+    "protocol": "tcp",
+    "description": "Extensible Provisioning Protocol"
+  },
+  "701": {
+    "service": "LMP",
+    "protocol": "tcp",
+    "description": "Link Management Protocol"
+  },
+  "702": {
+    "service": "IRIS-BEEP",
+    "protocol": "tcp",
+    "description": "IRIS over BEEP"
+  },
+  "704": {
+    "service": "ELCSD",
+    "protocol": "tcp",
+    "description": "errlog copy/server daemon"
+  },
+  "705": {
+    "service": "AgentX",
+    "protocol": "tcp",
+    "description": "AgentX"
+  },
+  "706": {
+    "service": "SILC",
+    "protocol": "tcp",
+    "description": "SILC"
+  },
+  "707": {
+    "service": "Borland-DSJ",
+    "protocol": "tcp",
+    "description": "Borland DSJ"
+  },
+  "709": {
+    "service": "Entrust-KM",
+    "protocol": "tcp",
+    "description": "Entrust Key Management Service Handler"
+  },
+  "710": {
+    "service": "Entrust-Ash",
+    "protocol": "tcp",
+    "description": "Entrust Administration Service Handler"
+  },
+  "711": {
+    "service": "Cisco-TDP",
+    "protocol": "tcp",
+    "description": "Cisco TDP"
+  },
+  "712": {
+    "service": "TBRPF",
+    "protocol": "tcp",
+    "description": "TBRPF"
+  },
+  "713": {
+    "service": "IRIS-XPC",
+    "protocol": "tcp",
+    "description": "IRIS over XPC"
+  },
+  "714": {
+    "service": "IRIS-XPCS",
+    "protocol": "tcp",
+    "description": "IRIS over XPCS"
+  },
+  "715": {
+    "service": "IRIS-LWZ",
+    "protocol": "tcp",
+    "description": "IRIS-LWZ"
+  },
+  "716": {
+    "service": "PANA",
+    "protocol": "tcp",
+    "description": "PANA Messages"
+  },
+  "729": {
+    "service": "IBM-RPC",
+    "protocol": "tcp",
+    "description": "IBM NetView DM/6000 Server/Client"
+  },
+  "730": {
+    "service": "IBM-RPC",
+    "protocol": "tcp",
+    "description": "IBM NetView DM/6000 send/tcp"
+  },
+  "731": {
+    "service": "IBM-RPC",
+    "protocol": "tcp",
+    "description": "IBM NetView DM/6000 recv/tcp"
+  },
+  "741": {
+    "service": "Netgw",
+    "protocol": "tcp",
+    "description": "netGW"
+  },
+  "742": {
+    "service": "Netrcs",
+    "protocol": "tcp",
+    "description": "Network based Rev. Cont. Sys."
+  },
+  "744": {
+    "service": "Flexlm",
+    "protocol": "tcp",
+    "description": "Flexible License Manager"
+  },
+  "747": {
+    "service": "Fujitsu-Dev",
+    "protocol": "tcp",
+    "description": "Fujitsu Device Control"
+  },
+  "748": {
+    "service": "RSS-RVS",
+    "protocol": "tcp",
+    "description": "Russell Info Sci Calendar Manager"
+  },
+  "749": {
+    "service": "Kerberos-Adm",
+    "protocol": "tcp",
+    "description": "Kerberos administration"
+  },
+  "750": {
+    "service": "Kerberos",
+    "protocol": "udp",
+    "description": "Kerberos kdc"
+  },
+  "751": {
+    "service": "Kerberos-Master",
+    "protocol": "tcp",
+    "description": "Kerberos authentication"
+  },
+  "752": {
+    "service": "Passwd-Server",
+    "protocol": "tcp",
+    "description": "Kerberos Password Server"
+  },
+  "753": {
+    "service": "Reverse-GT",
+    "protocol": "tcp",
+    "description": "Reverse Routing Header"
+  },
+  "754": {
+    "service": "Send",
+    "protocol": "tcp",
+    "description": "send"
+  },
+  "758": {
+    "service": "NLorb",
+    "protocol": "tcp",
+    "description": "nlogin"
+  },
+  "759": {
+    "service": "Con",
+    "protocol": "tcp",
+    "description": "con"
+  },
+  "760": {
+    "service": "Ns",
+    "protocol": "tcp",
+    "description": "ns"
+  },
+  "761": {
+    "service": "Rxe",
+    "protocol": "tcp",
+    "description": "rxe"
+  },
+  "762": {
+    "service": "Quotad",
+    "protocol": "tcp",
+    "description": "quotad"
+  },
+  "763": {
+    "service": "Cycleserv",
+    "protocol": "tcp",
+    "description": "cycleserv"
+  },
+  "764": {
+    "service": "Omserv",
+    "protocol": "tcp",
+    "description": "omserv"
+  },
+  "765": {
+    "service": "Webster",
+    "protocol": "tcp",
+    "description": "webster"
+  },
+  "767": {
+    "service": "Phonebook",
+    "protocol": "tcp",
+    "description": "phone"
+  },
+  "769": {
+    "service": "Vid",
+    "protocol": "tcp",
+    "description": "vid"
+  },
+  "770": {
+    "service": "Cadlock",
+    "protocol": "tcp",
+    "description": "cadlock"
+  },
+  "771": {
+    "service": "Rtip",
+    "protocol": "tcp",
+    "description": "rtip"
+  },
+  "772": {
+    "service": "Cycleserv2",
+    "protocol": "tcp",
+    "description": "cycleserv2"
+  },
+  "773": {
+    "service": "Submit",
+    "protocol": "tcp",
+    "description": "submit"
+  },
+  "774": {
+    "service": "Rpasswd",
+    "protocol": "tcp",
+    "description": "rpasswd"
+  },
+  "775": {
+    "service": "Entomb",
+    "protocol": "tcp",
+    "description": "entomb"
+  },
+  "776": {
+    "service": "Wpages",
+    "protocol": "tcp",
+    "description": "wpages"
+  },
+  "777": {
+    "service": "Multiling-HTTP",
+    "protocol": "tcp",
+    "description": "Multiling HTTP"
+  },
+  "780": {
+    "service": "Wpgs",
+    "protocol": "tcp",
+    "description": "wpgs"
+  },
+  "787": {
+    "service": "QSC",
+    "protocol": "tcp",
+    "description": "QSC"
+  },
+  "800": {
+    "service": "mdbs-daemon",
+    "protocol": "tcp",
+    "description": "mdbs_daemon"
+  },
+  "801": {
+    "service": "Device",
+    "protocol": "tcp",
+    "description": "device"
+  },
+  "808": {
+    "service": "CCProxy-HTTP",
+    "protocol": "tcp",
+    "description": "CCProxy HTTP/Telnet"
+  },
+  "828": {
+    "service": "ITM-MCELL-S",
+    "protocol": "tcp",
+    "description": "itm-mcell-s"
+  },
+  "829": {
+    "service": "PKIX-3-CA-RA",
+    "protocol": "tcp",
+    "description": "PKIX-3 CA/RA"
+  },
+  "830": {
+    "service": "NETCONF-SSH",
+    "protocol": "tcp",
+    "description": "NETCONF over SSH"
+  },
+  "831": {
+    "service": "NETCONF-BEEP",
+    "protocol": "tcp",
+    "description": "NETCONF over BEEP"
+  },
+  "832": {
+    "service": "NETCONFSOAPHTTP",
+    "protocol": "tcp",
+    "description": "NETCONF for SOAP over HTTPS"
+  },
+  "833": {
+    "service": "NETCONFSOAPBEEP",
+    "protocol": "tcp",
+    "description": "NETCONF for SOAP over BEEP"
+  },
+  "847": {
+    "service": "DHCP-Failover-2",
+    "protocol": "tcp",
+    "description": "DHCP Failover Protocol"
+  },
+  "848": {
+    "service": "GDOI",
+    "protocol": "tcp",
+    "description": "GDOI"
+  },
+  "860": {
+    "service": "iSCSI",
+    "protocol": "tcp",
+    "description": "iSCSI"
+  },
+  "861": {
+    "service": "OWAMP-Control",
+    "protocol": "tcp",
+    "description": "OWAMP-Control"
+  },
+  "862": {
+    "service": "TWAMP-Control",
+    "protocol": "tcp",
+    "description": "TWAMP-Control"
+  },
+  "873": {
+    "service": "rsync",
+    "protocol": "tcp",
+    "description": "rsync file synchronization"
+  },
+  "886": {
+    "service": "ICL-TWOBASE1",
+    "protocol": "tcp",
+    "description": "ICL coNETion locate server"
+  },
+  "887": {
+    "service": "ICL-TWOBASE2",
+    "protocol": "tcp",
+    "description": "ICL coNETion server info"
+  },
+  "888": {
+    "service": "AccessBuilder",
+    "protocol": "tcp",
+    "description": "AccessBuilder"
+  },
+  "900": {
+    "service": "OMG-INITIAL-REFS",
+    "protocol": "tcp",
+    "description": "OMG Initial Refs"
+  },
+  "901": {
+    "service": "SAMBA-SWAT",
+    "protocol": "tcp",
+    "description": "SAMBA Web Administration Tool"
+  },
+  "902": {
+    "service": "VMware",
+    "protocol": "tcp",
+    "description": "VMware Server Management"
+  },
+  "911": {
+    "service": "xact-backup",
+    "protocol": "tcp",
+    "description": "xact-backup"
+  },
+  "953": {
+    "service": "RNDC",
+    "protocol": "tcp",
+    "description": "BIND remote name daemon control"
+  },
+  "989": {
+    "service": "FTPS-Data",
+    "protocol": "tcp",
+    "description": "FTP over SSL (Data)"
+  },
+  "990": {
+    "service": "FTPS",
+    "protocol": "tcp",
+    "description": "FTP over SSL (Control)"
+  },
+  "991": {
+    "service": "NAS",
+    "protocol": "tcp",
+    "description": "NAS (Netnews Administration System)"
+  },
+  "992": {
+    "service": "Telnets",
+    "protocol": "tcp",
+    "description": "Telnet over SSL"
+  },
+  "993": {
+    "service": "IMAPS",
+    "protocol": "tcp",
+    "description": "IMAP over SSL"
+  },
+  "995": {
+    "service": "POP3S",
+    "protocol": "tcp",
+    "description": "POP3 over SSL"
+  },
+  "999": {
+    "service": "Garcon",
+    "protocol": "tcp",
+    "description": "Garcon"
+  },
+  "1000": {
+    "service": "Cadlock2",
+    "protocol": "tcp",
+    "description": "cadlock2"
+  },
+  "1010": {
+    "service": "surf",
+    "protocol": "tcp",
+    "description": "surf"
+  },
+  "1023": {
+    "service": "Reserved",
+    "protocol": "tcp",
+    "description": "Reserved"
+  },
+  "1024": {
+    "service": "Reserved",
+    "protocol": "tcp",
+    "description": "Reserved"
+  },
+  "1025": {
+    "service": "NFS/IIS",
+    "protocol": "tcp",
+    "description": "Microsoft RPC / NFS"
+  },
+  "1026": {
+    "service": "Windows Messenger",
+    "protocol": "tcp",
+    "description": "Windows Messenger"
+  },
+  "1027": {
+    "service": "IIS",
+    "protocol": "tcp",
+    "description": "Microsoft IIS"
+  },
+  "1028": {
+    "service": "Windows",
+    "protocol": "tcp",
+    "description": "Microsoft Windows"
+  },
+  "1029": {
+    "service": "MS DCOM",
+    "protocol": "tcp",
+    "description": "Microsoft DCOM"
+  },
+  "1080": {
+    "service": "SOCKS",
+    "protocol": "tcp",
+    "description": "SOCKS Proxy"
+  },
+  "1099": {
+    "service": "Java RMI",
+    "protocol": "tcp",
+    "description": "Java Remote Method Invocation"
+  },
+  "1110": {
+    "service": "nfsd-status",
+    "protocol": "tcp",
+    "description": "NFS daemon status"
+  },
+  "1194": {
+    "service": "OpenVPN",
+    "protocol": "udp",
+    "description": "OpenVPN"
+  },
+  "1214": {
+    "service": "Kazaa",
+    "protocol": "tcp",
+    "description": "Kazaa P2P"
+  },
+  "1241": {
+    "service": "Nessus",
+    "protocol": "tcp",
+    "description": "Nessus Security Scanner"
+  },
+  "1311": {
+    "service": "Dell OpenManage",
+    "protocol": "tcp",
+    "description": "Dell OpenManage HTTPS"
+  },
+  "1433": {
+    "service": "MSSQL",
+    "protocol": "tcp",
+    "description": "Microsoft SQL Server"
+  },
+  "1434": {
+    "service": "MSSQL-Monitor",
+    "protocol": "udp",
+    "description": "Microsoft SQL Server Monitor"
+  },
+  "1512": {
+    "service": "WINS",
+    "protocol": "tcp",
+    "description": "Windows Internet Name Service"
+  },
+  "1521": {
+    "service": "Oracle",
+    "protocol": "tcp",
+    "description": "Oracle Database"
+  },
+  "1589": {
+    "service": "Cisco VQP",
+    "protocol": "udp",
+    "description": "Cisco VLAN Query Protocol"
+  },
+  "1701": {
+    "service": "L2TP",
+    "protocol": "udp",
+    "description": "Layer 2 Tunneling Protocol"
+  },
+  "1720": {
+    "service": "H.323",
+    "protocol": "tcp",
+    "description": "H.323 VoIP"
+  },
+  "1723": {
+    "service": "PPTP",
+    "protocol": "tcp",
+    "description": "Point-to-Point Tunneling Protocol"
+  },
+  "1725": {
+    "service": "Steam",
+    "protocol": "udp",
+    "description": "Steam game client"
+  },
+  "1741": {
+    "service": "CiscoWorks",
+    "protocol": "tcp",
+    "description": "CiscoWorks Management"
+  },
+  "1755": {
+    "service": "MMS",
+    "protocol": "tcp",
+    "description": "Microsoft Media Server"
+  },
+  "1812": {
+    "service": "RADIUS",
+    "protocol": "udp",
+    "description": "RADIUS Authentication"
+  },
+  "1813": {
+    "service": "RADIUS-Acct",
+    "protocol": "udp",
+    "description": "RADIUS Accounting"
+  },
+  "1863": {
+    "service": "MSN",
+    "protocol": "tcp",
+    "description": "MSN Messenger"
+  },
+  "1883": {
+    "service": "MQTT",
+    "protocol": "tcp",
+    "description": "Message Queuing Telemetry Transport"
+  },
+  "1900": {
+    "service": "UPnP",
+    "protocol": "udp",
+    "description": "Universal Plug and Play"
+  },
+  "2000": {
+    "service": "Cisco SCCP",
+    "protocol": "tcp",
+    "description": "Cisco Skinny Client Control Protocol"
+  },
+  "2001": {
+    "service": "DC",
+    "protocol": "tcp",
+    "description": "Alternate dc"
+  },
+  "2049": {
+    "service": "NFS",
+    "protocol": "tcp",
+    "description": "Network File System"
+  },
+  "2082": {
+    "service": "cPanel",
+    "protocol": "tcp",
+    "description": "cPanel HTTP"
+  },
+  "2083": {
+    "service": "cPanel-SSL",
+    "protocol": "tcp",
+    "description": "cPanel HTTPS"
+  },
+  "2086": {
+    "service": "WHM",
+    "protocol": "tcp",
+    "description": "Web Host Manager HTTP"
+  },
+  "2087": {
+    "service": "WHM-SSL",
+    "protocol": "tcp",
+    "description": "Web Host Manager HTTPS"
+  },
+  "2095": {
+    "service": "cPanel-Webmail",
+    "protocol": "tcp",
+    "description": "cPanel Webmail HTTP"
+  },
+  "2096": {
+    "service": "cPanel-Webmail-SSL",
+    "protocol": "tcp",
+    "description": "cPanel Webmail HTTPS"
+  },
+  "2121": {
+    "service": "FTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate FTP"
+  },
+  "2181": {
+    "service": "Zookeeper",
+    "protocol": "tcp",
+    "description": "Apache ZooKeeper"
+  },
+  "2375": {
+    "service": "Docker",
+    "protocol": "tcp",
+    "description": "Docker REST API (unencrypted)"
+  },
+  "2376": {
+    "service": "Docker-TLS",
+    "protocol": "tcp",
+    "description": "Docker REST API (TLS)"
+  },
+  "2483": {
+    "service": "Oracle-TTC",
+    "protocol": "tcp",
+    "description": "Oracle TTC"
+  },
+  "2484": {
+    "service": "Oracle-TTC-SSL",
+    "protocol": "tcp",
+    "description": "Oracle TTC over SSL"
+  },
+  "2717": {
+    "service": "pn-requester",
+    "protocol": "tcp",
+    "description": "PN Requester"
+  },
+  "3000": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP / Node.js / Grafana"
+  },
+  "3128": {
+    "service": "HTTP-Proxy",
+    "protocol": "tcp",
+    "description": "Squid HTTP Proxy"
+  },
+  "3268": {
+    "service": "LDAP-GC",
+    "protocol": "tcp",
+    "description": "Microsoft Global Catalog LDAP"
+  },
+  "3269": {
+    "service": "LDAP-GC-SSL",
+    "protocol": "tcp",
+    "description": "Microsoft Global Catalog LDAP over SSL"
+  },
+  "3306": {
+    "service": "MySQL",
+    "protocol": "tcp",
+    "description": "MySQL Database"
+  },
+  "3389": {
+    "service": "RDP",
+    "protocol": "tcp",
+    "description": "Remote Desktop Protocol"
+  },
+  "3443": {
+    "service": "HTTPS-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTPS"
+  },
+  "3690": {
+    "service": "SVN",
+    "protocol": "tcp",
+    "description": "Subversion version control"
+  },
+  "3986": {
+    "service": "mapper-ws-ethd",
+    "protocol": "tcp",
+    "description": "MAPPER workstation server"
+  },
+  "4000": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP"
+  },
+  "4369": {
+    "service": "EPMD",
+    "protocol": "tcp",
+    "description": "Erlang Port Mapper Daemon"
+  },
+  "4443": {
+    "service": "HTTPS-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTPS"
+  },
+  "4444": {
+    "service": "Metasploit",
+    "protocol": "tcp",
+    "description": "Metasploit default shell / Krb524"
+  },
+  "4848": {
+    "service": "GlassFish",
+    "protocol": "tcp",
+    "description": "GlassFish Application Server"
+  },
+  "4899": {
+    "service": "Radmin",
+    "protocol": "tcp",
+    "description": "Radmin Remote Administrator"
+  },
+  "5000": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP / Flask / UPnP"
+  },
+  "5001": {
+    "service": "iperf",
+    "protocol": "tcp",
+    "description": "iPerf network testing"
+  },
+  "5009": {
+    "service": "Airport-Admin",
+    "protocol": "tcp",
+    "description": "Apple Airport Administration"
+  },
+  "5051": {
+    "service": "ita-agent",
+    "protocol": "tcp",
+    "description": "ITA Agent"
+  },
+  "5060": {
+    "service": "SIP",
+    "protocol": "tcp",
+    "description": "Session Initiation Protocol"
+  },
+  "5061": {
+    "service": "SIP-TLS",
+    "protocol": "tcp",
+    "description": "SIP over TLS"
+  },
+  "5101": {
+    "service": "admdog",
+    "protocol": "tcp",
+    "description": "admdog"
+  },
+  "5190": {
+    "service": "AIM",
+    "protocol": "tcp",
+    "description": "AOL Instant Messenger"
+  },
+  "5357": {
+    "service": "WSDAPI",
+    "protocol": "tcp",
+    "description": "Web Services for Devices"
+  },
+  "5432": {
+    "service": "PostgreSQL",
+    "protocol": "tcp",
+    "description": "PostgreSQL Database"
+  },
+  "5601": {
+    "service": "Kibana",
+    "protocol": "tcp",
+    "description": "Kibana web interface"
+  },
+  "5631": {
+    "service": "PCAnywhere",
+    "protocol": "tcp",
+    "description": "Symantec pcAnywhere"
+  },
+  "5666": {
+    "service": "NRPE",
+    "protocol": "tcp",
+    "description": "Nagios Remote Plugin Executor"
+  },
+  "5672": {
+    "service": "AMQP",
+    "protocol": "tcp",
+    "description": "RabbitMQ / Advanced Message Queuing Protocol"
+  },
+  "5800": {
+    "service": "VNC-HTTP",
+    "protocol": "tcp",
+    "description": "VNC over HTTP"
+  },
+  "5900": {
+    "service": "VNC",
+    "protocol": "tcp",
+    "description": "Virtual Network Computing"
+  },
+  "5984": {
+    "service": "CouchDB",
+    "protocol": "tcp",
+    "description": "Apache CouchDB"
+  },
+  "6000": {
+    "service": "X11",
+    "protocol": "tcp",
+    "description": "X Window System"
+  },
+  "6001": {
+    "service": "X11-1",
+    "protocol": "tcp",
+    "description": "X Window System display 1"
+  },
+  "6379": {
+    "service": "Redis",
+    "protocol": "tcp",
+    "description": "Redis in-memory data store"
+  },
+  "6443": {
+    "service": "Kubernetes-API",
+    "protocol": "tcp",
+    "description": "Kubernetes API server"
+  },
+  "6646": {
+    "service": "unknown",
+    "protocol": "tcp",
+    "description": "Unknown service"
+  },
+  "7001": {
+    "service": "WebLogic",
+    "protocol": "tcp",
+    "description": "Oracle WebLogic Server"
+  },
+  "7002": {
+    "service": "WebLogic-SSL",
+    "protocol": "tcp",
+    "description": "Oracle WebLogic Server HTTPS"
+  },
+  "7070": {
+    "service": "RTSP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate RTSP"
+  },
+  "7443": {
+    "service": "HTTPS-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTPS"
+  },
+  "7474": {
+    "service": "Neo4j",
+    "protocol": "tcp",
+    "description": "Neo4j Graph Database"
+  },
+  "8000": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP"
+  },
+  "8008": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP"
+  },
+  "8009": {
+    "service": "AJP",
+    "protocol": "tcp",
+    "description": "Apache JServ Protocol"
+  },
+  "8080": {
+    "service": "HTTP-Proxy",
+    "protocol": "tcp",
+    "description": "HTTP Proxy / Alternate HTTP"
+  },
+  "8081": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP"
+  },
+  "8082": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP"
+  },
+  "8083": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP"
+  },
+  "8084": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP"
+  },
+  "8085": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP"
+  },
+  "8086": {
+    "service": "InfluxDB",
+    "protocol": "tcp",
+    "description": "InfluxDB HTTP API"
+  },
+  "8087": {
+    "service": "Riak",
+    "protocol": "tcp",
+    "description": "Riak Protocol Buffers"
+  },
+  "8088": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP"
+  },
+  "8089": {
+    "service": "Splunk",
+    "protocol": "tcp",
+    "description": "Splunk Management"
+  },
+  "8090": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP"
+  },
+  "8091": {
+    "service": "Couchbase",
+    "protocol": "tcp",
+    "description": "Couchbase Web Console"
+  },
+  "8181": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP"
+  },
+  "8280": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP"
+  },
+  "8443": {
+    "service": "HTTPS-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTPS"
+  },
+  "8529": {
+    "service": "ArangoDB",
+    "protocol": "tcp",
+    "description": "ArangoDB Web Interface"
+  },
+  "8880": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP / cPanel"
+  },
+  "8888": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP / Jupyter"
+  },
+  "9000": {
+    "service": "SonarQube",
+    "protocol": "tcp",
+    "description": "SonarQube / PHP-FPM"
+  },
+  "9001": {
+    "service": "Tor",
+    "protocol": "tcp",
+    "description": "Tor network / Supervisord"
+  },
+  "9042": {
+    "service": "Cassandra",
+    "protocol": "tcp",
+    "description": "Apache Cassandra native transport"
+  },
+  "9080": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP"
+  },
+  "9090": {
+    "service": "Prometheus",
+    "protocol": "tcp",
+    "description": "Prometheus / Cockpit"
+  },
+  "9100": {
+    "service": "Printer",
+    "protocol": "tcp",
+    "description": "JetDirect / PDL Data Stream"
+  },
+  "9200": {
+    "service": "Elasticsearch",
+    "protocol": "tcp",
+    "description": "Elasticsearch REST API"
+  },
+  "9300": {
+    "service": "Elasticsearch",
+    "protocol": "tcp",
+    "description": "Elasticsearch node communication"
+  },
+  "9418": {
+    "service": "Git",
+    "protocol": "tcp",
+    "description": "Git version control"
+  },
+  "9443": {
+    "service": "HTTPS-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTPS"
+  },
+  "9999": {
+    "service": "HTTP-Alt",
+    "protocol": "tcp",
+    "description": "Alternate HTTP"
+  },
+  "10000": {
+    "service": "Webmin",
+    "protocol": "tcp",
+    "description": "Webmin administration"
+  },
+  "11211": {
+    "service": "Memcached",
+    "protocol": "tcp",
+    "description": "Memcached distributed cache"
+  },
+  "15672": {
+    "service": "RabbitMQ-Mgmt",
+    "protocol": "tcp",
+    "description": "RabbitMQ Management Plugin"
+  },
+  "20000": {
+    "service": "Webmin-Alt",
+    "protocol": "tcp",
+    "description": "DNP / Webmin"
+  },
+  "27017": {
+    "service": "MongoDB",
+    "protocol": "tcp",
+    "description": "MongoDB Database"
+  },
+  "27018": {
+    "service": "MongoDB-Shard",
+    "protocol": "tcp",
+    "description": "MongoDB Shard"
+  },
+  "27019": {
+    "service": "MongoDB-Config",
+    "protocol": "tcp",
+    "description": "MongoDB Config Server"
+  },
+  "28017": {
+    "service": "MongoDB-Web",
+    "protocol": "tcp",
+    "description": "MongoDB Web Interface"
+  },
+  "32768": {
+    "service": "Filenet",
+    "protocol": "tcp",
+    "description": "Filenet / RPC ephemeral"
+  },
+  "49151": {
+    "service": "Reserved",
+    "protocol": "tcp",
+    "description": "IANA Reserved"
+  },
+  "49152": {
+    "service": "Dynamic",
+    "protocol": "tcp",
+    "description": "Dynamic / Private port"
+  },
+  "49153": {
+    "service": "Dynamic",
+    "protocol": "tcp",
+    "description": "Dynamic / Private port"
+  },
+  "49154": {
+    "service": "Dynamic",
+    "protocol": "tcp",
+    "description": "Dynamic / Private port"
+  },
+  "49155": {
+    "service": "Dynamic",
+    "protocol": "tcp",
+    "description": "Dynamic / Private port"
+  },
+  "49156": {
+    "service": "Dynamic",
+    "protocol": "tcp",
+    "description": "Dynamic / Private port"
+  },
+  "49157": {
+    "service": "Dynamic",
+    "protocol": "tcp",
+    "description": "Dynamic / Private port"
+  },
+  "50000": {
+    "service": "SAP",
+    "protocol": "tcp",
+    "description": "SAP Application Server"
+  },
+  "50070": {
+    "service": "Hadoop",
+    "protocol": "tcp",
+    "description": "Hadoop HDFS NameNode Web UI"
+  },
+  "61616": {
+    "service": "ActiveMQ",
+    "protocol": "tcp",
+    "description": "Apache ActiveMQ"
+  }
+}
