@@ -1,31 +1,15 @@
-version: "3.9"
+version: "3.8"
 
 services:
   godrecon:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: godrecon:latest
+    build: .
     container_name: godrecon
     volumes:
       - ./output:/app/output
-      - ./config.yaml:/app/config.yaml:ro
-    environment:
-      - PYTHONUNBUFFERED=1
-    command: ["scan", "--help"]
-
-  godrecon-api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: godrecon:latest
-    container_name: godrecon-api
+      - ./config.yaml:/app/config.yaml
     ports:
-      - "8080:8080"
-    volumes:
-      - ./output:/app/output
-      - ./config.yaml:/app/config.yaml:ro
+      - "8000:8000"
     environment:
       - PYTHONUNBUFFERED=1
-    command: ["python", "-c", "from godrecon.api.server import run_server; run_server()"]
-    restart: unless-stopped
+    entrypoint: ["python", "main.py"]
+    command: ["--help"]

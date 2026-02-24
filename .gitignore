@@ -65,4 +65,3 @@ secrets.yaml
 .DS_Store
 
 # Docker
-.dockerignore
