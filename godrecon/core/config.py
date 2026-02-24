@@ -59,6 +59,27 @@ class SubdomainModuleConfig(BaseModel):
     timeout_per_source: int = 30
 
 
+class DNSModuleConfig(BaseModel):
+    """Configuration for the DNS intelligence module."""
+
+    enabled: bool = True
+    resolve_all_types: bool = True
+    check_dnssec: bool = True
+    attempt_zone_transfer: bool = True
+    check_security: bool = True
+    email_security: bool = True
+    passive_dns: bool = True
+    dkim_selectors: List[str] = Field(
+        default_factory=lambda: [
+            "default", "google", "selector1", "selector2", "k1", "k2",
+            "dkim", "mail", "email", "s1", "s2", "mandrill", "amazonses",
+            "cm", "protonmail", "zoho",
+        ]
+    )
+    doh_enabled: bool = False
+    doh_server: str = "https://cloudflare-dns.com/dns-query"
+
+
 class ModulesConfig(BaseModel):
     """Enable/disable individual scan modules."""
 
@@ -127,6 +148,7 @@ class Config(BaseModel):
     dns: DNSConfig = Field(default_factory=DNSConfig)
     modules: ModulesConfig = Field(default_factory=ModulesConfig)
     subdomains: SubdomainModuleConfig = Field(default_factory=SubdomainModuleConfig)
+    dns_module: DNSModuleConfig = Field(default_factory=DNSModuleConfig)
     api_keys: APIKeysConfig = Field(default_factory=APIKeysConfig)
     reporting: ReportingConfig = Field(default_factory=ReportingConfig)
 
