@@ -1,45 +1,156 @@
-"""Subdomain aggregator module — merges results from all enumeration sources."""
+"""Subdomain aggregator module — merges results from all enumeration sources.
+
+This module auto-discovers all source modules under ``sources/``, runs them
+concurrently, and merges/deduplicates the results.  It also integrates the
+DNS brute-force module and permutation scanner.
+"""
 
 from __future__ import annotations
 
-from typing import List
+import asyncio
+import importlib
+import inspect
+import pkgutil
+import time
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 from godrecon.core.config import Config
 from godrecon.modules.base import BaseModule, Finding, ModuleResult
+from godrecon.modules.subdomains.sources.base import SubdomainSource
 from godrecon.utils.dns_resolver import AsyncDNSResolver
-from godrecon.utils.helpers import deduplicate
+from godrecon.utils.helpers import deduplicate, is_valid_domain
 from godrecon.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
+# ---------------------------------------------------------------------------
+# Source loader
+# ---------------------------------------------------------------------------
+
+_SOURCES_PKG = "godrecon.modules.subdomains.sources"
+
+
+def _discover_source_classes() -> List[type]:
+    """Auto-discover all :class:`SubdomainSource` subclasses in the sources package.
+
+    Returns:
+        List of concrete :class:`SubdomainSource` subclass types.
+    """
+    import godrecon.modules.subdomains.sources as sources_pkg
+
+    classes: List[type] = []
+    sources_path = Path(sources_pkg.__file__).parent  # type: ignore[arg-type]
+
+    for module_info in pkgutil.iter_modules([str(sources_path)]):
+        if module_info.name in ("__init__", "base"):
+            continue
+        try:
+            mod = importlib.import_module(f"{_SOURCES_PKG}.{module_info.name}")
+        except Exception as exc:  # noqa: BLE001
+            logger.debug("Failed to import source module %s: %s", module_info.name, exc)
+            continue
+        for _name, obj in inspect.getmembers(mod, inspect.isclass):
+            if (
+                issubclass(obj, SubdomainSource)
+                and obj is not SubdomainSource
+                and obj.__module__ == mod.__name__
+            ):
+                classes.append(obj)
+    return classes
+
+
+def _build_sources(config: Config) -> List[SubdomainSource]:
+    """Instantiate all source objects, injecting API keys where needed.
+
+    Sources whose required API keys are empty/absent are skipped with a
+    debug log message.
+
+    Args:
+        config: Global scan configuration.
+
+    Returns:
+        List of ready-to-use :class:`SubdomainSource` instances.
+    """
+    api = config.api_keys
+    sources: List[SubdomainSource] = []
+
+    # Map api_key_name → constructor kwargs
+    _API_KEY_CONSTRUCTORS: Dict[str, Any] = {
+        "virustotal": lambda: __import__(
+            "godrecon.modules.subdomains.sources.virustotal", fromlist=["VirusTotalSource"]
+        ).VirusTotalSource(api.virustotal),
+        "securitytrails": lambda: __import__(
+            "godrecon.modules.subdomains.sources.securitytrails",
+            fromlist=["SecurityTrailsSource"],
+        ).SecurityTrailsSource(api.securitytrails),
+        "shodan": lambda: __import__(
+            "godrecon.modules.subdomains.sources.shodan", fromlist=["ShodanSource"]
+        ).ShodanSource(api.shodan),
+        "censys_id": lambda: __import__(
+            "godrecon.modules.subdomains.sources.censys", fromlist=["CensysSource"]
+        ).CensysSource(api.censys_id, api.censys_secret),
+        "binaryedge": lambda: __import__(
+            "godrecon.modules.subdomains.sources.binaryedge", fromlist=["BinaryEdgeSource"]
+        ).BinaryEdgeSource(api.binaryedge),
+        "hunter": lambda: __import__(
+            "godrecon.modules.subdomains.sources.hunter", fromlist=["HunterSource"]
+        ).HunterSource(api.hunter),
+        "fullhunt": lambda: __import__(
+            "godrecon.modules.subdomains.sources.fullhunt", fromlist=["FullHuntSource"]
+        ).FullHuntSource(api.fullhunt),
+        "github": lambda: __import__(
+            "godrecon.modules.subdomains.sources.github_search",
+            fromlist=["GitHubSearchSource"],
+        ).GitHubSearchSource(api.github),
+    }
+
+    source_classes = _discover_source_classes()
+    for cls in source_classes:
+        if not cls.requires_api_key:
+            try:
+                sources.append(cls())
+            except Exception as exc:  # noqa: BLE001
+                logger.debug("Failed to instantiate %s: %s", cls.__name__, exc)
+        else:
+            key_name = cls.api_key_name
+            key_value = getattr(api, key_name, "") if hasattr(api, key_name) else ""
+            if not key_value:
+                logger.debug(
+                    "Skipping %s — API key '%s' not configured", cls.name, key_name
+                )
+                continue
+            constructor = _API_KEY_CONSTRUCTORS.get(key_name)
+            if constructor:
+                try:
+                    sources.append(constructor())
+                except Exception as exc:  # noqa: BLE001
+                    logger.debug("Failed to instantiate %s: %s", cls.__name__, exc)
+
+    return sources
+
+
+# ---------------------------------------------------------------------------
+# Main aggregator
+# ---------------------------------------------------------------------------
+
 
 class SubdomainAggregator(BaseModule):
-    """Aggregate subdomains from passive DNS, certificate transparency, and brute-force.
+    """Aggregate subdomains from 40+ passive sources, brute-force, and permutations.
 
-    This is the Phase 1 stub that performs basic DNS-based subdomain discovery.
-    Additional sources (crt.sh, VirusTotal, Shodan, etc.) will be added in later phases.
+    Sources are run concurrently with individual timeouts.  Results are
+    merged, deduplicated, validated, and optionally enriched with resolved
+    IP addresses.
     """
 
     name = "subdomains"
-    description = "Subdomain enumeration and aggregation"
+    description = "Subdomain enumeration and aggregation (40+ sources)"
     author = "GODRECON Team"
-    version = "0.1.0"
+    version = "0.2.0"
     category = "discovery"
 
-    # Common subdomain prefixes to probe
-    _COMMON_SUBS: List[str] = [
-        "www", "mail", "ftp", "localhost", "webmail", "smtp", "pop", "ns1", "ns2",
-        "vpn", "ssh", "admin", "api", "dev", "test", "staging", "app", "mobile",
-        "portal", "remote", "blog", "cdn", "static", "media", "assets", "img",
-        "m", "shop", "store", "support", "help", "docs", "git", "gitlab", "github",
-        "jenkins", "jira", "confluence", "wiki", "monitor", "status", "health",
-        "grafana", "prometheus", "kibana", "elastic", "redis", "db", "database",
-        "mysql", "postgres", "mongo", "kafka", "rabbit", "queue", "cache",
-        "auth", "sso", "oauth", "login", "register", "signup",
-    ]
-
     async def _execute(self, target: str, config: Config) -> ModuleResult:
-        """Enumerate subdomains for *target*.
+        """Run all subdomain enumeration phases for *target*.
 
         Args:
             target: Primary domain to enumerate.
@@ -49,51 +160,237 @@ class SubdomainAggregator(BaseModule):
             :class:`ModuleResult` with discovered subdomains as findings.
         """
         result = ModuleResult(module_name=self.name, target=target)
-        discovered: List[str] = []
+        sub_cfg = config.subdomains
+        timeout_per_source = sub_cfg.timeout_per_source
 
-        # Use configured resolvers from config
-        resolvers = config.dns.resolvers
-        dns_timeout = config.dns.timeout
+        # Phase 1: passive sources
+        all_subdomains: Dict[str, List[str]] = {}  # subdomain -> [sources]
+        source_stats: Dict[str, int] = {}
 
-        async with AsyncDNSResolver(
-            nameservers=resolvers,
-            timeout=dns_timeout,
-            concurrency=50,
-        ) as resolver:
-            # Wildcard check
-            is_wildcard = await resolver.detect_wildcard(target)
-            if is_wildcard:
+        sources = _build_sources(config)
+        logger.info(
+            "Running %d subdomain sources for %s", len(sources), target
+        )
+
+        async def _run_source(src: SubdomainSource) -> Tuple[str, Set[str]]:
+            t0 = time.monotonic()
+            found = await src.fetch_safe(target, timeout=float(timeout_per_source))
+            elapsed = time.monotonic() - t0
+            logger.info(
+                "Source %-20s → %3d subdomains in %.1fs",
+                src.name,
+                len(found),
+                elapsed,
+            )
+            return src.name, found
+
+        tasks = [asyncio.create_task(_run_source(src)) for src in sources]
+        gathered = await asyncio.gather(*tasks, return_exceptions=True)
+
+        for item in gathered:
+            if isinstance(item, Exception):
+                logger.debug("Source task exception: %s", item)
+                continue
+            src_name, found = item
+            source_stats[src_name] = len(found)
+            for sub in found:
+                sub = sub.lower().strip().rstrip(".")
+                if not is_valid_domain(sub):
+                    continue
+                if not (sub.endswith(f".{target}") or sub == target):
+                    continue
+                if sub not in all_subdomains:
+                    all_subdomains[sub] = []
+                if src_name not in all_subdomains[sub]:
+                    all_subdomains[sub].append(src_name)
+
+        # Phase 2: DNS brute-force
+        if sub_cfg.bruteforce.enabled:
+            logger.info("Starting DNS brute-force for %s", target)
+            from godrecon.modules.subdomains.bruteforce import BruteForceModule
+
+            try:
+                async with BruteForceModule(
+                    wordlist_path=sub_cfg.bruteforce.wordlist,
+                    concurrency=sub_cfg.bruteforce.concurrency,
+                    nameservers=config.dns.resolvers,
+                    timeout=config.dns.timeout,
+                ) as bf:
+                    bf_results = await bf.run(target)
+                source_stats["bruteforce"] = len(bf_results)
+                for sub, ips in bf_results.items():
+                    sub = sub.lower()
+                    if sub not in all_subdomains:
+                        all_subdomains[sub] = ["bruteforce"]
+                    elif "bruteforce" not in all_subdomains[sub]:
+                        all_subdomains[sub].append("bruteforce")
                 logger.info(
-                    "Wildcard DNS detected for %s — results may include false positives",
+                    "Brute-force found %d subdomains for %s", len(bf_results), target
+                )
+            except Exception as exc:  # noqa: BLE001
+                logger.warning("Brute-force error: %s", exc)
+
+        # Phase 3: permutation scanning
+        if sub_cfg.permutation.enabled and all_subdomains:
+            logger.info("Starting permutation scan for %s", target)
+            from godrecon.modules.subdomains.permutation import PermutationScanner
+
+            try:
+                async with PermutationScanner(
+                    nameservers=config.dns.resolvers,
+                    timeout=config.dns.timeout,
+                ) as scanner:
+                    perm_results = await scanner.run(
+                        domain=target,
+                        known=set(all_subdomains.keys()),
+                    )
+                source_stats["permutation"] = len(perm_results)
+                for sub, ips in perm_results.items():
+                    sub = sub.lower()
+                    if sub not in all_subdomains:
+                        all_subdomains[sub] = ["permutation"]
+                    elif "permutation" not in all_subdomains[sub]:
+                        all_subdomains[sub].append("permutation")
+                logger.info(
+                    "Permutation scanner found %d new subdomains for %s",
+                    len(perm_results),
                     target,
                 )
+            except Exception as exc:  # noqa: BLE001
+                logger.warning("Permutation scanner error: %s", exc)
 
-            # Brute-force common subdomains
-            candidates = [f"{sub}.{target}" for sub in self._COMMON_SUBS]
-            resolved = await resolver.bulk_resolve(candidates, "A")
+        # Phase 4: resolve all discovered subdomains
+        discovered_list = list(all_subdomains.keys())
+        resolved_ips: Dict[str, List[str]] = {}
+        is_wildcard: bool = False
 
-            for subdomain, records in resolved.items():
-                if records:
-                    discovered.append(subdomain)
-                    result.findings.append(
-                        Finding(
-                            title=f"Subdomain: {subdomain}",
-                            description=f"Resolves to: {', '.join(records)}",
-                            severity="info",
-                            data={"subdomain": subdomain, "ip_addresses": records},
-                            tags=["subdomain", "dns"],
+        if discovered_list:
+            logger.info(
+                "Resolving %d unique subdomains for %s", len(discovered_list), target
+            )
+            try:
+                async with AsyncDNSResolver(
+                    nameservers=config.dns.resolvers,
+                    timeout=config.dns.timeout,
+                    concurrency=200,
+                ) as resolver:
+                    # Wildcard check
+                    is_wildcard = await resolver.detect_wildcard(target)
+                    if is_wildcard:
+                        logger.info(
+                            "Wildcard DNS detected for %s — results may include false positives",
+                            target,
                         )
-                    )
+                    resolved_ips = await resolver.bulk_resolve(discovered_list, "A")
+            except Exception as exc:  # noqa: BLE001
+                logger.warning("DNS resolution error: %s", exc)
 
-        discovered = deduplicate(discovered)
+        # Phase 5: recursive enumeration (optional)
+        if sub_cfg.recursive.enabled:
+            await self._recursive_enum(
+                target=target,
+                known=all_subdomains,
+                resolved_ips=resolved_ips,
+                config=config,
+                depth=sub_cfg.recursive.depth,
+            )
+
+        # Phase 6: build findings
+        confidence_map: Dict[int, str] = {1: "low", 2: "medium"}
+        for sub, srcs in all_subdomains.items():
+            ips = resolved_ips.get(sub, [])
+            # Only include subdomains that resolve (or were found by many sources)
+            if not ips and len(srcs) < 2:
+                continue
+            confidence = min(len(srcs), 3)
+            result.findings.append(
+                Finding(
+                    title=f"Subdomain: {sub}",
+                    description=(
+                        f"Discovered via: {', '.join(srcs)}\n"
+                        f"Resolves to: {', '.join(ips) if ips else 'unresolved'}"
+                    ),
+                    severity="info",
+                    data={
+                        "subdomain": sub,
+                        "ip_addresses": ips,
+                        "sources": srcs,
+                        "confidence": confidence,
+                    },
+                    tags=["subdomain", "dns"],
+                )
+            )
+
+        discovered = deduplicate(list(all_subdomains.keys()))
         result.raw = {
             "subdomains": discovered,
             "count": len(discovered),
+            "source_stats": source_stats,
             "wildcard_detected": is_wildcard,
         }
         logger.info(
-            "Subdomain aggregator found %d subdomains for %s",
+            "Subdomain aggregator found %d unique subdomains for %s "
+            "(findings with IPs or multi-source: %d)",
             len(discovered),
             target,
+            len(result.findings),
         )
         return result
+
+    async def _recursive_enum(
+        self,
+        target: str,
+        known: Dict[str, List[str]],
+        resolved_ips: Dict[str, List[str]],
+        config: Config,
+        depth: int,
+    ) -> None:
+        """Recursively enumerate subdomains of already-discovered subdomains.
+
+        Args:
+            target: Original root domain.
+            known: Mutable dict of known subdomains to add into.
+            resolved_ips: Resolved IPs dict (will be updated in-place).
+            config: Scan configuration.
+            depth: Remaining recursion depth.
+        """
+        if depth <= 0:
+            return
+
+        # Find "interesting" subdomains for recursion (those that resolved)
+        interesting = [
+            sub for sub, ips in resolved_ips.items()
+            if ips and sub.count(".") == 1 + target.count(".")
+        ]
+        if not interesting:
+            return
+
+        logger.info(
+            "Recursive enumeration: depth=%d, %d candidates for %s",
+            depth,
+            len(interesting),
+            target,
+        )
+
+        from godrecon.modules.subdomains.bruteforce import BruteForceModule
+
+        _COMMON_SUBS = [
+            "www", "mail", "api", "dev", "test", "staging", "admin", "portal",
+            "app", "beta", "cdn", "static", "media", "internal", "vpn",
+        ]
+
+        try:
+            async with AsyncDNSResolver(
+                nameservers=config.dns.resolvers,
+                timeout=config.dns.timeout,
+                concurrency=100,
+            ) as resolver:
+                for sub_domain in interesting[:10]:  # Limit recursion targets
+                    candidates = [f"{s}.{sub_domain}" for s in _COMMON_SUBS]
+                    resolved = await resolver.bulk_resolve(candidates, "A")
+                    for full_sub, ips in resolved.items():
+                        if ips and full_sub not in known:
+                            known[full_sub] = ["recursive"]
+                            resolved_ips[full_sub] = ips
+        except Exception as exc:  # noqa: BLE001
+            logger.debug("Recursive enum error: %s", exc)

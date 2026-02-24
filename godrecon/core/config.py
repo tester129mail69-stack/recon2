@@ -21,6 +21,44 @@ class DNSConfig(BaseModel):
     timeout: int = 5
 
 
+class SubdomainBruteforceConfig(BaseModel):
+    """Brute-force configuration for subdomain enumeration."""
+
+    enabled: bool = True
+    wordlist: str = "wordlists/subdomains-medium.txt"
+    concurrency: int = 500
+
+
+class SubdomainPermutationConfig(BaseModel):
+    """Permutation scanner configuration."""
+
+    enabled: bool = True
+
+
+class SubdomainRecursiveConfig(BaseModel):
+    """Recursive enumeration configuration."""
+
+    enabled: bool = False
+    depth: int = 2
+
+
+class SubdomainModuleConfig(BaseModel):
+    """Detailed configuration for the subdomain enumeration module."""
+
+    enabled: bool = True
+    sources: List[str] = Field(default_factory=lambda: ["all"])
+    bruteforce: SubdomainBruteforceConfig = Field(
+        default_factory=SubdomainBruteforceConfig
+    )
+    permutation: SubdomainPermutationConfig = Field(
+        default_factory=SubdomainPermutationConfig
+    )
+    recursive: SubdomainRecursiveConfig = Field(
+        default_factory=SubdomainRecursiveConfig
+    )
+    timeout_per_source: int = 30
+
+
 class ModulesConfig(BaseModel):
     """Enable/disable individual scan modules."""
 
@@ -51,6 +89,7 @@ class APIKeysConfig(BaseModel):
     binaryedge: str = ""
     hunter: str = ""
     github: str = ""
+    fullhunt: str = ""
 
 
 class ReportingConfig(BaseModel):
@@ -87,6 +126,7 @@ class Config(BaseModel):
     general: GeneralConfig = Field(default_factory=GeneralConfig)
     dns: DNSConfig = Field(default_factory=DNSConfig)
     modules: ModulesConfig = Field(default_factory=ModulesConfig)
+    subdomains: SubdomainModuleConfig = Field(default_factory=SubdomainModuleConfig)
     api_keys: APIKeysConfig = Field(default_factory=APIKeysConfig)
     reporting: ReportingConfig = Field(default_factory=ReportingConfig)
 
