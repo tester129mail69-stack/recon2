@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
+import json
 import time
 from typing import Any, Dict, List, Optional, Set, Tuple
 
@@ -17,6 +18,12 @@ try:
     _AIODNS_AVAILABLE = True
 except ImportError:
     _AIODNS_AVAILABLE = False
+
+try:
+    import aiohttp as _aiohttp
+    _AIOHTTP_AVAILABLE = True
+except ImportError:
+    _AIOHTTP_AVAILABLE = False
 
 from godrecon.utils.logger import get_logger
 
@@ -62,6 +69,8 @@ class AsyncDNSResolver:
         retries: int = 3,
         cache_ttl: int = 300,
         concurrency: int = 100,
+        doh_enabled: bool = False,
+        doh_server: str = "https://cloudflare-dns.com/dns-query",
     ) -> None:
         """Initialise the resolver.
 
@@ -71,27 +80,43 @@ class AsyncDNSResolver:
             retries: Number of retry attempts per query.
             cache_ttl: Default cache TTL in seconds.
             concurrency: Max simultaneous DNS queries.
+            doh_enabled: Use DNS-over-HTTPS instead of traditional DNS.
+            doh_server: DoH server URL (e.g. Cloudflare or Google endpoint).
         """
         self._nameservers = nameservers or ["8.8.8.8", "8.8.4.4", "1.1.1.1"]
         self._timeout = timeout
         self._retries = retries
         self._cache_ttl = cache_ttl
         self._concurrency = concurrency
+        self._doh_enabled = doh_enabled
+        self._doh_server = doh_server
         self._resolver: Optional[Any] = None
         self._cache: Dict[str, DNSCacheEntry] = {}
         self._sem: Optional[asyncio.Semaphore] = None
+        self._doh_session: Optional[Any] = None
 
     async def __aenter__(self) -> "AsyncDNSResolver":
         await self._init()
         return self
 
     async def __aexit__(self, *_: Any) -> None:
-        pass
+        if self._doh_session is not None:
+            try:
+                await self._doh_session.close()
+            except Exception:  # noqa: BLE001
+                pass
+            self._doh_session = None
 
     async def _init(self) -> None:
-        """Initialise the underlying aiodns resolver and semaphore."""
+        """Initialise the underlying aiodns resolver, DoH session, and semaphore."""
         self._sem = asyncio.Semaphore(self._concurrency)
-        if _AIODNS_AVAILABLE:
+        if self._doh_enabled and _AIOHTTP_AVAILABLE:
+            import aiohttp
+            self._doh_session = aiohttp.ClientSession(
+                timeout=aiohttp.ClientTimeout(total=self._timeout)
+            )
+            logger.debug("DNS-over-HTTPS enabled: %s", self._doh_server)
+        elif not self._doh_enabled and _AIODNS_AVAILABLE:
             loop = asyncio.get_event_loop()
             self._resolver = aiodns.DNSResolver(
                 loop=loop,
@@ -208,6 +233,9 @@ class AsyncDNSResolver:
     async def _do_resolve(self, domain: str, record_type: str) -> List[str]:
         """Perform the actual DNS query.
 
+        Routes to DoH when ``doh_enabled`` is set, otherwise uses aiodns or
+        the asyncio socket fallback.
+
         Args:
             domain: Domain to query.
             record_type: Record type string.
@@ -215,6 +243,8 @@ class AsyncDNSResolver:
         Returns:
             List of string DNS records.
         """
+        if self._doh_enabled and self._doh_session is not None:
+            return await self._doh_resolve(domain, record_type)
         if _AIODNS_AVAILABLE and self._resolver:
             return await self._aiodns_resolve(domain, record_type)
         return await self._socket_resolve(domain)
@@ -224,6 +254,34 @@ class AsyncDNSResolver:
         assert self._resolver is not None
         result = await self._resolver.query(domain, record_type)
         return self._format_records(result, record_type)
+
+    async def _doh_resolve(self, domain: str, record_type: str) -> List[str]:
+        """Resolve *domain* using DNS-over-HTTPS.
+
+        Sends a JSON-format DoH query to the configured DoH server.
+
+        Args:
+            domain: Domain name to query.
+            record_type: DNS record type string.
+
+        Returns:
+            List of answer strings from the DoH response.
+        """
+        assert self._doh_session is not None
+        params = {"name": domain, "type": record_type}
+        headers = {"Accept": "application/dns-json"}
+        try:
+            async with self._doh_session.get(
+                self._doh_server, params=params, headers=headers
+            ) as resp:
+                if resp.status != 200:
+                    return []
+                data = await resp.json(content_type=None)
+                answers = data.get("Answer", [])
+                return [str(ans.get("data", "")) for ans in answers if ans.get("data")]
+        except Exception as exc:  # noqa: BLE001
+            logger.debug("DoH query %s %s failed: %s", record_type, domain, exc)
+            return []
 
     async def _socket_resolve(self, domain: str) -> List[str]:
         """Fallback resolver using :func:`asyncio.get_event_loop().getaddrinfo`."""
