@@ -254,6 +254,18 @@ class APIIntelConfig(BaseModel):
     check_graphql: bool = True
 
 
+class VulnsConfig(BaseModel):
+    """Configuration for the vulnerability detection module."""
+
+    enabled: bool = True
+    cve_lookup: bool = True
+    pattern_matching: bool = True
+    posture_scoring: bool = True
+    max_cve_results: int = 20
+    safe_mode: bool = True
+    severity_threshold: str = "info"
+
+
 class Config(BaseModel):
     """Top-level GODRECON configuration."""
 
@@ -274,6 +286,7 @@ class Config(BaseModel):
     cloud_config: CloudConfig = Field(default_factory=CloudConfig)
     crawl: CrawlConfig = Field(default_factory=CrawlConfig)
     api_intel: APIIntelConfig = Field(default_factory=APIIntelConfig)
+    vulns: VulnsConfig = Field(default_factory=VulnsConfig)
 
 
 def load_config(config_path: Optional[str] = None) -> Config:

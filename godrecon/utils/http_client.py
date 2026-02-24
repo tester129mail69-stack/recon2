@@ -149,6 +149,19 @@ class AsyncHTTPClient:
         """Perform an HTTP DELETE request."""
         return await self._request("DELETE", url, **kwargs)
 
+    async def request(self, method: str, url: str, **kwargs: Any) -> Dict[str, Any]:
+        """Perform an HTTP request with the given method.
+
+        Args:
+            method: HTTP method string (e.g. ``"GET"``, ``"POST"``).
+            url: Target URL.
+            **kwargs: Extra arguments forwarded to :meth:`_request`.
+
+        Returns:
+            Response dict with ``status``, ``headers``, ``body``, ``url``.
+        """
+        return await self._request(method.upper(), url, **kwargs)
+
     # ------------------------------------------------------------------
     # Bulk helpers
     # ------------------------------------------------------------------
