@@ -271,6 +271,54 @@ def version() -> None:
     console.print(f"[bold red]GODRECON[/] version [bold]{__version__}[/]")
 
 
+# ---------------------------------------------------------------------------
+# api command
+# ---------------------------------------------------------------------------
+
+
+@app.command()
+def api(
+    host: str = typer.Option("127.0.0.1", "--host", help="Bind address for the API server"),
+    port: int = typer.Option(8000, "--port", "-p", help="TCP port for the API server"),
+    api_key: Optional[str] = typer.Option(None, "--api-key", help="API key for authentication (overrides config)"),
+    config_file: Optional[str] = typer.Option(None, "--config", help="Custom config file"),
+) -> None:
+    """[bold]Start the GODRECON REST API server.[/]
+
+    Examples:
+
+        godrecon api
+
+        godrecon api --host 0.0.0.0 --port 8080
+
+        godrecon api --api-key mysecretkey
+    """
+    _print_banner()
+    cfg = load_config(config_file)
+
+    effective_key = api_key if api_key is not None else cfg.api.api_key
+    effective_host = host if host != "127.0.0.1" else cfg.api.host
+    effective_port = port if port != 8000 else cfg.api.port
+
+    console.print(
+        f"[bold green]►[/] Starting GODRECON API server at "
+        f"[bold]http://{effective_host}:{effective_port}[/]"
+    )
+    if effective_key:
+        console.print("[dim]  API key authentication enabled.[/]")
+    else:
+        console.print("[yellow]  ⚠ No API key configured — server is open to all.[/]")
+
+    from godrecon.api.server import run_server
+    run_server(
+        host=effective_host,
+        port=effective_port,
+        api_key=effective_key,
+        cors_origins=cfg.api.cors_origins,
+        max_concurrent_scans=cfg.api.max_concurrent_scans,
+    )
+
+
 def main() -> None:
     """Entry point registered in setup.py / pyproject.toml."""
     app()
