@@ -1,0 +1,818 @@
+[
+  {
+    "service": "GitHub Pages",
+    "cnames": ["*.github.io"],
+    "fingerprints": ["There isn't a GitHub Pages site here."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/37"
+  },
+  {
+    "service": "Heroku",
+    "cnames": ["*.herokuapp.com", "*.herokussl.com", "*.herokudns.com"],
+    "fingerprints": ["No such app", "herokucdn.com/error-pages/no-such-app.html"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/46"
+  },
+  {
+    "service": "AWS S3",
+    "cnames": ["*.s3.amazonaws.com", "*.s3-website-*.amazonaws.com", "*.s3-website.*.amazonaws.com"],
+    "fingerprints": ["NoSuchBucket", "The specified bucket does not exist"],
+    "nxdomain": false,
+    "severity": "critical",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/4"
+  },
+  {
+    "service": "AWS CloudFront",
+    "cnames": ["*.cloudfront.net"],
+    "fingerprints": ["The request could not be satisfied", "ERROR: The request could not be satisfied"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/29"
+  },
+  {
+    "service": "AWS Elastic Beanstalk",
+    "cnames": ["*.elasticbeanstalk.com"],
+    "fingerprints": ["404 Not Found"],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/6"
+  },
+  {
+    "service": "Azure App Service",
+    "cnames": ["*.azurewebsites.net", "*.cloudapp.net", "*.cloudapp.azure.com"],
+    "fingerprints": ["404 Web Site not found."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/89"
+  },
+  {
+    "service": "Azure Traffic Manager",
+    "cnames": ["*.trafficmanager.net"],
+    "fingerprints": [""],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/14"
+  },
+  {
+    "service": "Azure CDN",
+    "cnames": ["*.vo.msecnd.net", "*.azureedge.net"],
+    "fingerprints": [""],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/34"
+  },
+  {
+    "service": "Azure Blob Storage",
+    "cnames": ["*.blob.core.windows.net"],
+    "fingerprints": ["No web site was found for the web address"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/35"
+  },
+  {
+    "service": "Google Cloud Storage",
+    "cnames": ["*.storage.googleapis.com", "*.storage.cloud.google.com"],
+    "fingerprints": ["NoSuchBucket", "The specified bucket does not exist"],
+    "nxdomain": false,
+    "severity": "critical",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/36"
+  },
+  {
+    "service": "Firebase",
+    "cnames": ["*.firebaseapp.com", "*.web.app"],
+    "fingerprints": ["The domain has not been configured on Firebase Hosting"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/26"
+  },
+  {
+    "service": "Shopify",
+    "cnames": ["*.myshopify.com", "shops.myshopify.com"],
+    "fingerprints": ["Sorry, this shop is currently unavailable."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/32"
+  },
+  {
+    "service": "Fastly",
+    "cnames": ["*.fastly.net", "*.fastlylb.net"],
+    "fingerprints": ["Fastly error: unknown domain", "Please check that this domain has been added to a service"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/22"
+  },
+  {
+    "service": "Pantheon",
+    "cnames": ["*.pantheon.io", "*.pantheonsite.io"],
+    "fingerprints": ["The gods are wise, but do not know of the site which you seek."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/24"
+  },
+  {
+    "service": "Tumblr",
+    "cnames": ["domains.tumblr.com"],
+    "fingerprints": ["There's nothing here.", "Whatever you were looking for doesn't currently exist at this address."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/20"
+  },
+  {
+    "service": "WordPress.com",
+    "cnames": ["*.wordpress.com"],
+    "fingerprints": ["Do you want to register"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/2"
+  },
+  {
+    "service": "Ghost",
+    "cnames": ["*.ghost.io"],
+    "fingerprints": ["The thing you were looking for is no longer here"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/93"
+  },
+  {
+    "service": "Surge.sh",
+    "cnames": ["*.surge.sh"],
+    "fingerprints": ["project not found"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/21"
+  },
+  {
+    "service": "Bitbucket",
+    "cnames": ["*.bitbucket.io"],
+    "fingerprints": ["Repository not found"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/1"
+  },
+  {
+    "service": "Squarespace",
+    "cnames": ["*.squarespace.com", "*.sqsp.net"],
+    "fingerprints": ["No Such Account", "You may have mistyped the address"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/49"
+  },
+  {
+    "service": "Statuspage",
+    "cnames": ["*.statuspage.io"],
+    "fingerprints": ["Status page pushed its brains out. Check back soon!"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/13"
+  },
+  {
+    "service": "Readme.io",
+    "cnames": ["*.readme.io"],
+    "fingerprints": ["Project doesnt exist... yet!"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/41"
+  },
+  {
+    "service": "Cargo Collective",
+    "cnames": ["*.cargo.site", "cargocollective.com"],
+    "fingerprints": ["404 Not Found"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/16"
+  },
+  {
+    "service": "Help Scout",
+    "cnames": ["*.helpscoutdocs.com"],
+    "fingerprints": ["No settings were found for this company"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/27"
+  },
+  {
+    "service": "Campaign Monitor",
+    "cnames": ["*.createsend.com"],
+    "fingerprints": ["Double-check that you have the right URL"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/12"
+  },
+  {
+    "service": "Unbounce",
+    "cnames": ["*.unbouncepages.com", "*.unbounce.com"],
+    "fingerprints": ["The requested URL / was not found on this server."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/11"
+  },
+  {
+    "service": "Tilda",
+    "cnames": ["*.tilda.ws"],
+    "fingerprints": ["Please renew your subscription"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/155"
+  },
+  {
+    "service": "Acquia",
+    "cnames": ["*.acquia-sites.com"],
+    "fingerprints": ["If you are an Acquia Cloud customer"],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/195"
+  },
+  {
+    "service": "Zendesk",
+    "cnames": ["*.zendesk.com"],
+    "fingerprints": ["Help Center Closed"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/23"
+  },
+  {
+    "service": "TeamWork",
+    "cnames": ["*.teamwork.com"],
+    "fingerprints": ["Looks like you've traveled too far into cyberspace."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/52"
+  },
+  {
+    "service": "Helpjuice",
+    "cnames": ["*.helpjuice.com"],
+    "fingerprints": ["We could not find what you're looking for."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/152"
+  },
+  {
+    "service": "Freshdesk",
+    "cnames": ["*.freshdesk.com"],
+    "fingerprints": ["There is no helpdesk here with that URL"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/60"
+  },
+  {
+    "service": "UserVoice",
+    "cnames": ["*.uservoice.com"],
+    "fingerprints": ["This UserVoice subdomain is currently available!"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/40"
+  },
+  {
+    "service": "Desk.com",
+    "cnames": ["*.desk.com"],
+    "fingerprints": ["Sorry, We Couldn't Find That Page"],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/9"
+  },
+  {
+    "service": "Intercom",
+    "cnames": ["*.custom.intercom.help"],
+    "fingerprints": ["This page doesn't exist."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/171"
+  },
+  {
+    "service": "Webflow",
+    "cnames": ["*.webflow.io"],
+    "fingerprints": ["The page you are looking for doesn't exist or has been moved."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/68"
+  },
+  {
+    "service": "Kajabi",
+    "cnames": ["*.kajabi.com", "*.kajabi-cdn.com"],
+    "fingerprints": ["The page you were looking for doesn't exist"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/162"
+  },
+  {
+    "service": "Thinkific",
+    "cnames": ["*.thinkific.com"],
+    "fingerprints": ["You may have mistyped the address"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/168"
+  },
+  {
+    "service": "Teachable",
+    "cnames": ["*.teachable.com"],
+    "fingerprints": ["Teachable", "This school doesn't exist anymore."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/170"
+  },
+  {
+    "service": "GetResponse",
+    "cnames": ["*.gr8.com"],
+    "fingerprints": ["With GetResponse Landing Pages, lead generation"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/117"
+  },
+  {
+    "service": "MailChimp",
+    "cnames": ["*.mcsv.net", "*.list-manage.com"],
+    "fingerprints": ["Oops! We can't find that page."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/192"
+  },
+  {
+    "service": "Brightcove",
+    "cnames": ["*.brightcovegallery.com"],
+    "fingerprints": [""],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/180"
+  },
+  {
+    "service": "BigCartel",
+    "cnames": ["*.bigcartel.com"],
+    "fingerprints": ["Oops! We couldn't find that address."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/122"
+  },
+  {
+    "service": "ActiveCampaign",
+    "cnames": ["*.activehosted.com"],
+    "fingerprints": ["alt=\"LIGHTTPD\""],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/202"
+  },
+  {
+    "service": "Gemfury",
+    "cnames": ["*.furyns.com"],
+    "fingerprints": ["404: This page could not be found."],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/106"
+  },
+  {
+    "service": "JetBrains YouTrack",
+    "cnames": ["*.myjetbrains.com"],
+    "fingerprints": ["is not a registered InCloud YouTrack"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/112"
+  },
+  {
+    "service": "Kinsta",
+    "cnames": ["*.kinsta.cloud"],
+    "fingerprints": ["No Site For This Domain"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/277"
+  },
+  {
+    "service": "LaunchRock",
+    "cnames": ["*.launchrock.com"],
+    "fingerprints": ["It looks like you may have taken a wrong turn somewhere."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/8"
+  },
+  {
+    "service": "Ngrok",
+    "cnames": ["*.ngrok.io"],
+    "fingerprints": ["Tunnel *.ngrok.io not found"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/92"
+  },
+  {
+    "service": "Pingdom",
+    "cnames": ["*.pingdom.com"],
+    "fingerprints": ["This public report page has not been activated."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/151"
+  },
+  {
+    "service": "Proposify",
+    "cnames": ["*.proposify.biz"],
+    "fingerprints": ["If you need immediate assistance, please contact"],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/116"
+  },
+  {
+    "service": "SmartJobBoard",
+    "cnames": ["*.smartjobboard.com"],
+    "fingerprints": ["This job board website is either expired or its domain name is invalid."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/139"
+  },
+  {
+    "service": "Strikingly",
+    "cnames": ["*.strikinglydns.com"],
+    "fingerprints": ["But if you're looking to build your own website"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/58"
+  },
+  {
+    "service": "UptimeRobot",
+    "cnames": ["*.uptimerobot.com"],
+    "fingerprints": ["This public status page is not activated."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/109"
+  },
+  {
+    "service": "Vercel",
+    "cnames": ["*.vercel.app", "*.now.sh"],
+    "fingerprints": ["The deployment you are looking for does not exist."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/198"
+  },
+  {
+    "service": "Netlify",
+    "cnames": ["*.netlify.app", "*.netlify.com"],
+    "fingerprints": ["Not Found - Request ID:"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/80"
+  },
+  {
+    "service": "Wix",
+    "cnames": ["*.wixdns.net", "*.wix.com"],
+    "fingerprints": ["Looks Like This Domain Isn't Connected To A Website Yet!"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/97"
+  },
+  {
+    "service": "Weebly",
+    "cnames": ["*.weebly.com", "*.weeblysite.com"],
+    "fingerprints": ["doesn't exist", "This page is no longer available."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/57"
+  },
+  {
+    "service": "Sendgrid",
+    "cnames": ["*.sendgrid.net"],
+    "fingerprints": ["The domain you are looking for is not configured for SendGrid"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/173"
+  },
+  {
+    "service": "Mailgun",
+    "cnames": ["*.mailgun.org"],
+    "fingerprints": [""],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/47"
+  },
+  {
+    "service": "Anima",
+    "cnames": ["*.animaapp.io"],
+    "fingerprints": ["It looks like this website has not been claimed yet."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/246"
+  },
+  {
+    "service": "Flywheel",
+    "cnames": ["*.getflywheel.com", "*.flywheelsites.com"],
+    "fingerprints": ["We're sorry, you've landed on a page that is hosted by Flywheel"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/176"
+  },
+  {
+    "service": "Airee",
+    "cnames": ["*.airee.ru"],
+    "fingerprints": ["Ошибка: Сервис Айри.рф не оплачен"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/231"
+  },
+  {
+    "service": "Tave",
+    "cnames": ["*.tave.com"],
+    "fingerprints": [""],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/240"
+  },
+  {
+    "service": "HubSpot",
+    "cnames": ["*.hs-sites.com", "*.hubspotpagebuilder.com"],
+    "fingerprints": ["Domain not found"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/205"
+  },
+  {
+    "service": "Pagecloud",
+    "cnames": ["*.pagecloud.com"],
+    "fingerprints": ["Looks like this page doesn't exist."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/257"
+  },
+  {
+    "service": "Contentful",
+    "cnames": ["*.contentful.com"],
+    "fingerprints": ["The page you are looking for was not found."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/267"
+  },
+  {
+    "service": "Readme",
+    "cnames": ["*.readme.io"],
+    "fingerprints": ["Project doesnt exist... yet!"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/41"
+  },
+  {
+    "service": "Fly.io",
+    "cnames": ["*.fly.dev"],
+    "fingerprints": ["404 Not Found"],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/291"
+  },
+  {
+    "service": "Render",
+    "cnames": ["*.onrender.com"],
+    "fingerprints": ["No such app"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/290"
+  },
+  {
+    "service": "Railway",
+    "cnames": ["*.up.railway.app"],
+    "fingerprints": ["Application not found"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/299"
+  },
+  {
+    "service": "Supabase",
+    "cnames": ["*.supabase.co"],
+    "fingerprints": [""],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/305"
+  },
+  {
+    "service": "PlanetScale",
+    "cnames": ["*.psdb.cloud"],
+    "fingerprints": [""],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/307"
+  },
+  {
+    "service": "Cloudflare Pages",
+    "cnames": ["*.pages.dev"],
+    "fingerprints": ["This page doesn't exist."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/289"
+  },
+  {
+    "service": "GitLab Pages",
+    "cnames": ["*.gitlab.io"],
+    "fingerprints": ["The page you're looking for could not be found"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/207"
+  },
+  {
+    "service": "Netlify CMS",
+    "cnames": ["*.netlify.com"],
+    "fingerprints": ["Not Found - Request ID:"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/80"
+  },
+  {
+    "service": "Wufoo",
+    "cnames": ["*.wufoo.com"],
+    "fingerprints": ["Wufoo · Login"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/30"
+  },
+  {
+    "service": "SurveyMonkey",
+    "cnames": ["*.smfeedback.com"],
+    "fingerprints": [""],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/155"
+  },
+  {
+    "service": "Hotjar",
+    "cnames": ["*.hotjar.com"],
+    "fingerprints": [""],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/222"
+  },
+  {
+    "service": "Apigee",
+    "cnames": ["*.apigee.net"],
+    "fingerprints": [""],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/195"
+  },
+  {
+    "service": "Amazon SES",
+    "cnames": ["*.dkim.amazonses.com", "*.amazonses.com"],
+    "fingerprints": [""],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/155"
+  },
+  {
+    "service": "WordPress VIP",
+    "cnames": ["*.go-vip.co", "*.go-vip.net"],
+    "fingerprints": [""],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/282"
+  },
+  {
+    "service": "Dokku",
+    "cnames": ["*.dokku.me"],
+    "fingerprints": [""],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/175"
+  },
+  {
+    "service": "Leadpages",
+    "cnames": ["*.lpages.co", "*.leadpages.net"],
+    "fingerprints": ["Page not found."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/86"
+  },
+  {
+    "service": "Instapage",
+    "cnames": ["*.pageserve.co", "*.instapage.com"],
+    "fingerprints": ["You've Discovered A Missing Link. Our Apologies!"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/50"
+  },
+  {
+    "service": "Clickfunnels",
+    "cnames": ["*.clickfunnels.com"],
+    "fingerprints": ["Build funnels that convert visitors into leads"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/206"
+  },
+  {
+    "service": "Sprintful",
+    "cnames": ["*.sprintful.com"],
+    "fingerprints": ["Page Not Found"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/239"
+  },
+  {
+    "service": "Canny",
+    "cnames": ["*.canny.io"],
+    "fingerprints": ["Company Not Found"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/239"
+  },
+  {
+    "service": "Gitbook",
+    "cnames": ["*.gitbook.io"],
+    "fingerprints": ["If you need help"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/97"
+  },
+  {
+    "service": "Readthedocs",
+    "cnames": ["*.readthedocs.io"],
+    "fingerprints": ["unknown to Read the Docs"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/227"
+  },
+  {
+    "service": "Moonfruit",
+    "cnames": ["*.moonfruit.com"],
+    "fingerprints": ["Coming Soon"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/192"
+  },
+  {
+    "service": "Hubspot CMS",
+    "cnames": ["*.hubspot.net"],
+    "fingerprints": ["The HubSpot page couldn't be found."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/205"
+  },
+  {
+    "service": "Stitch Data",
+    "cnames": ["*.stitchdata.com"],
+    "fingerprints": [""],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/252"
+  },
+  {
+    "service": "Desk.com Legacy",
+    "cnames": ["*.desk.com"],
+    "fingerprints": ["Please try again or try Desk.com free for 14 days."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/9"
+  },
+  {
+    "service": "Divio",
+    "cnames": ["*.aldryn.io"],
+    "fingerprints": [""],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/251"
+  },
+  {
+    "service": "Hatenablog",
+    "cnames": ["*.hatenablog.com", "*.hatenadiary.com"],
+    "fingerprints": [""],
+    "nxdomain": true,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/95"
+  },
+  {
+    "service": "Wordpress Hosted",
+    "cnames": ["*.wp.com"],
+    "fingerprints": ["Do you want to register"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/2"
+  },
+  {
+    "service": "Typeform",
+    "cnames": ["*.typeform.com"],
+    "fingerprints": ["Try creating your own beautiful, engaging"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/264"
+  },
+  {
+    "service": "Jazzhr",
+    "cnames": ["*.applytojob.com"],
+    "fingerprints": ["This account no longer active"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/232"
+  },
+  {
+    "service": "Format",
+    "cnames": ["*.format.com"],
+    "fingerprints": ["If you're an artist or a photographer"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/237"
+  },
+  {
+    "service": "Aftership",
+    "cnames": ["*.aftership.com"],
+    "fingerprints": ["Oops."],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/250"
+  },
+  {
+    "service": "Aha!",
+    "cnames": ["*.ideas.aha.io"],
+    "fingerprints": ["There is no portal here"],
+    "nxdomain": false,
+    "severity": "high",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/217"
+  }
+]
