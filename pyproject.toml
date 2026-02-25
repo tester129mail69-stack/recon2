@@ -64,3 +64,6 @@ line-length = 120
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+
+[tool.setuptools.packages.find]
+include = ["godrecon*"]
