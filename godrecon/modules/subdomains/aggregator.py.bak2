@@ -197,18 +197,13 @@ class SubdomainAggregator(BaseModule):
             logger.info("Starting permutation scan for %s", target)
             from godrecon.modules.subdomains.permutation import PermutationScanner
             try:
-                # Cap known subs fed to permutation to avoid 200k+ candidate explosion
-                known_capped = set(list(all_subdomains.keys())[:2000])
                 async with PermutationScanner(
                     nameservers=config.dns.resolvers,
                     timeout=config.dns.timeout,
                 ) as scanner:
-                    perm_results = await asyncio.wait_for(
-                        scanner.run(
-                            domain=target,
-                            known=known_capped,
-                        ),
-                        timeout=60,
+                    perm_results = await scanner.run(
+                        domain=target,
+                        known=set(all_subdomains.keys()),
                     )
                 source_stats["permutation"] = len(perm_results)
                 for sub in perm_results:
@@ -221,8 +216,6 @@ class SubdomainAggregator(BaseModule):
                     "Permutation scanner found %d new subdomains for %s",
                     len(perm_results), target,
                 )
-            except asyncio.TimeoutError:
-                logger.warning("Permutation scan timed out after 60s — skipping")
             except Exception as exc:
                 logger.warning("Permutation scanner error: %s", exc)
 
@@ -241,20 +234,13 @@ class SubdomainAggregator(BaseModule):
                     timeout=config.dns.timeout,
                     concurrency=200,
                 ) as resolver:
-                    is_wildcard = await asyncio.wait_for(
-                        resolver.detect_wildcard(target), timeout=30
-                    )
+                    is_wildcard = await resolver.detect_wildcard(target)
                     if is_wildcard:
                         logger.info(
                             "Wildcard DNS detected for %s — results may include false positives",
                             target,
                         )
-                    resolved_ips = await asyncio.wait_for(
-                        resolver.bulk_resolve(discovered_list, "A"), timeout=120
-                    )
-            except asyncio.TimeoutError:
-                logger.warning("DNS resolution timed out for %s — continuing with unresolved subdomains", target)
-                resolved_ips = {}
+                    resolved_ips = await resolver.bulk_resolve(discovered_list, "A")
             except Exception as exc:
                 logger.warning("DNS resolution error: %s", exc)
 
@@ -286,8 +272,10 @@ class SubdomainAggregator(BaseModule):
         )
 
         # ── Telegram: subdomain discovery alert ─────────────────────
+        print(f'DEBUG SUBDOMAIN ALERT: live={len(live_subdomains)} discovered={len(discovered_list)}', flush=True)
         try:
             notifier = get_notifier_from_config(config)
+            print(f'DEBUG NOTIFIER: {notifier}', flush=True)
             if notifier:
                 await notifier.alert_subdomains_found(
                     target=target,

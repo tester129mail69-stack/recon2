@@ -15,6 +15,16 @@ from godrecon.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
+_LABEL_RE = re.compile(r'^[a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?$')
+
+
+def _is_valid_hostname(hostname: str) -> bool:
+    if not hostname or len(hostname) > 253:
+        return False
+    labels = hostname.rstrip('.').split('.')
+    return all(label and _LABEL_RE.match(label) for label in labels)
+
+
 _PREFIXES = [
     "dev", "staging", "test", "api", "admin", "internal", "prod", "beta",
     "alpha", "pre", "post", "old", "new", "backup", "temp", "tmp", "uat",
@@ -172,7 +182,7 @@ class PermutationScanner:
         if not all_candidates:
             return {}
 
-        candidate_list = sorted(all_candidates)
+        candidate_list = sorted(c for c in all_candidates if _is_valid_hostname(c))
         logger.info(
             "Permutation scanner: resolving %d candidates for %s",
             len(candidate_list),

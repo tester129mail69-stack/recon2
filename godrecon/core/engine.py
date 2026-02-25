@@ -118,7 +118,22 @@ class ScanEngine:
         )
         await scheduler.start()
 
-        for module in modules:
+        # Subdomains first so alert fires before vuln scanning begins
+        subdomain_modules = [m for m in modules if m.name == "subdomains"]
+        other_modules = [m for m in modules if m.name != "subdomains"]
+
+        for module in subdomain_modules:
+            task = Task(
+                priority=int(Priority.HIGH),
+                name=module.name,
+                coro_factory=lambda m=module: self._run_module(m, result),
+                max_retries=self.config.general.retries,
+            )
+            await scheduler.submit(task)
+
+        await scheduler.run_all()
+
+        for module in other_modules:
             task = Task(
                 priority=int(Priority.NORMAL),
                 name=module.name,

@@ -25,7 +25,7 @@ class SubdomainBruteforceConfig(BaseModel):
     """Brute-force configuration for subdomain enumeration."""
 
     enabled: bool = True
-    wordlist: str = "wordlists/subdomains-medium.txt"
+    wordlist: str = "wordlists/subdomains-large.txt"
     concurrency: int = 500
 
 
@@ -86,20 +86,20 @@ class ModulesConfig(BaseModel):
     subdomains: bool = True
     dns: bool = True
     http_probe: bool = True
-    ports: bool = False
+    ports: bool = True
     tech: bool = True
     osint: bool = True
     takeover: bool = True
     cloud: bool = True
     vulns: bool = True
-    crawl: bool = False
+    crawl: bool = True
     ssl: bool = True
     email_sec: bool = True
-    screenshots: bool = False
+    screenshots: bool = True
     api_intel: bool = True
     content_discovery: bool = True
     network: bool = True
-    visual: bool = False
+    visual: bool = True
 
 
 class HttpProbeConfig(BaseModel):

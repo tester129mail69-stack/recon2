@@ -21,7 +21,6 @@ from godrecon.modules.subdomains.sources.base import SubdomainSource
 from godrecon.utils.dns_resolver import AsyncDNSResolver
 from godrecon.utils.helpers import deduplicate, is_valid_domain
 from godrecon.utils.logger import get_logger
-from godrecon.utils.telegram_notifier import get_notifier_from_config
 
 logger = get_logger(__name__)
 
@@ -126,9 +125,6 @@ class SubdomainAggregator(BaseModule):
     async def _execute(self, target: str, config: Config) -> ModuleResult:
         result  = ModuleResult(module_name=self.name, target=target)
         sub_cfg = config.subdomains
-
-
-
         timeout_per_source = sub_cfg.timeout_per_source
 
         # ── Phase 1: passive sources ────────────────────────────────────
@@ -197,18 +193,13 @@ class SubdomainAggregator(BaseModule):
             logger.info("Starting permutation scan for %s", target)
             from godrecon.modules.subdomains.permutation import PermutationScanner
             try:
-                # Cap known subs fed to permutation to avoid 200k+ candidate explosion
-                known_capped = set(list(all_subdomains.keys())[:2000])
                 async with PermutationScanner(
                     nameservers=config.dns.resolvers,
                     timeout=config.dns.timeout,
                 ) as scanner:
-                    perm_results = await asyncio.wait_for(
-                        scanner.run(
-                            domain=target,
-                            known=known_capped,
-                        ),
-                        timeout=60,
+                    perm_results = await scanner.run(
+                        domain=target,
+                        known=set(all_subdomains.keys()),
                     )
                 source_stats["permutation"] = len(perm_results)
                 for sub in perm_results:
@@ -221,8 +212,6 @@ class SubdomainAggregator(BaseModule):
                     "Permutation scanner found %d new subdomains for %s",
                     len(perm_results), target,
                 )
-            except asyncio.TimeoutError:
-                logger.warning("Permutation scan timed out after 60s — skipping")
             except Exception as exc:
                 logger.warning("Permutation scanner error: %s", exc)
 
@@ -241,20 +230,13 @@ class SubdomainAggregator(BaseModule):
                     timeout=config.dns.timeout,
                     concurrency=200,
                 ) as resolver:
-                    is_wildcard = await asyncio.wait_for(
-                        resolver.detect_wildcard(target), timeout=30
-                    )
+                    is_wildcard = await resolver.detect_wildcard(target)
                     if is_wildcard:
                         logger.info(
                             "Wildcard DNS detected for %s — results may include false positives",
                             target,
                         )
-                    resolved_ips = await asyncio.wait_for(
-                        resolver.bulk_resolve(discovered_list, "A"), timeout=120
-                    )
-            except asyncio.TimeoutError:
-                logger.warning("DNS resolution timed out for %s — continuing with unresolved subdomains", target)
-                resolved_ips = {}
+                    resolved_ips = await resolver.bulk_resolve(discovered_list, "A")
             except Exception as exc:
                 logger.warning("DNS resolution error: %s", exc)
 
@@ -284,20 +266,6 @@ class SubdomainAggregator(BaseModule):
             "Published %d live subdomains to shared store for vuln scanning",
             len(live_subdomains),
         )
-
-        # ── Telegram: subdomain discovery alert ─────────────────────
-        try:
-            notifier = get_notifier_from_config(config)
-            if notifier:
-                await notifier.alert_subdomains_found(
-                    target=target,
-                    live_subdomains=live_subdomains,
-                    total_discovered=len(discovered_list),
-                    source_stats=source_stats,
-                    wildcard=is_wildcard,
-                )
-        except Exception as _tg_exc:
-            logger.error("Telegram subdomain alert failed: %s", _tg_exc)
 
         # ── Phase 7: build findings ──────────────────────────────────────
         for sub, srcs in all_subdomains.items():

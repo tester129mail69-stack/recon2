@@ -60,7 +60,6 @@ class VulnerabilityModule(BaseModule):
         user_agents = general.user_agents
 
         notifier: Optional[TelegramNotifier] = get_notifier_from_config(config)
-        _scan_monotonic_start = time.monotonic()
         if notifier:
             await notifier.alert_scan_started(target)
 
@@ -137,14 +136,7 @@ class VulnerabilityModule(BaseModule):
         # ── Telegram alerts ─────────────────────────────────────────────
         if notifier:
             await self._send_telegram_alerts(
-                notifier=notifier,
-                target=target,
-                cve_findings=all_cve_findings,
-                pattern_findings=all_pattern_findings,
-                config=config,
-                scan_start_time=_scan_monotonic_start,
-                all_targets=all_targets,
-                posture=posture,
+                notifier, target, all_cve_findings, all_pattern_findings, config
             )
 
         result.raw = {
@@ -398,42 +390,23 @@ class VulnerabilityModule(BaseModule):
         cve_findings: List[Dict[str, Any]],
         pattern_findings: List[Dict[str, Any]],
         config: Config,
-        scan_start_time: Optional[float] = None,
-        all_targets: Optional[List[str]] = None,
-        posture: Optional[Dict[str, Any]] = None,
     ) -> None:
-        # CVE bulk summary first
         if cve_findings:
             await notifier.alert_bulk_cves(cve_findings, target)
 
-        # Individual CVE alerts (critical + high)
         for cve in cve_findings:
             if cve.get("severity") in ("critical", "high"):
                 await notifier.alert_cve_found(cve, target)
+                await asyncio.sleep(0.3)
 
-        # Individual vuln alerts (all alertable severities)
         for match in pattern_findings:
-            await notifier.alert_vuln_found(match, target)
+            if match.get("severity") in ("critical", "high"):
+                await notifier.alert_vuln_found(match, target)
+                await asyncio.sleep(0.3)
 
-        # Final master summary
-        import time as _time
-        duration = int(_time.monotonic() - scan_start_time) if scan_start_time else 0
-        total    = len(cve_findings) + len(pattern_findings)
-
-        posture_score = posture.get("overall_score") if posture else None
-        posture_grade = posture.get("grade")          if posture else None
-
+        total = len(cve_findings) + len(pattern_findings)
         await notifier.alert_scan_finished(
-            target=target,
-            total_findings=total,
-            stats={
-                "duration_seconds": duration,
-                "targets_scanned":  len(all_targets) if all_targets else 1,
-                "total_cves":       len(cve_findings),
-                "total_vulns":      len(pattern_findings),
-                "posture_score":    posture_score,
-                "posture_grade":    posture_grade,
-            },
+            target, total, {"modules_run": 1, "duration_seconds": 0}
         )
 
     # ──────────────────────────────────────────────────────────────────────

@@ -22,45 +22,16 @@ try:
 
     router = APIRouter(prefix="/dashboard", tags=["dashboard"])
 
-    # ---------------------------------------------------------------------------
-    # Helpers
-    # ---------------------------------------------------------------------------
-
     def _get_scan_manager(request: Request) -> Any:
-        """Extract the ScanManager instance from the FastAPI app state.
-
-        Args:
-            request: The incoming HTTP request.
-
-        Returns:
-            :class:`~godrecon.api.scan_manager.ScanManager` instance or a
-            lightweight stub if not available.
-        """
         return getattr(request.app.state, "scan_manager", None)
 
     def _get_all_scans(scan_manager: Any) -> List[Dict[str, Any]]:
-        """Return all scan records as plain dicts.
-
-        Args:
-            scan_manager: The :class:`~godrecon.api.scan_manager.ScanManager`.
-
-        Returns:
-            List of scan dicts, most recent first.
-        """
         if scan_manager is None:
             return []
         records = scan_manager.list_scans()
         return [_record_to_dict(r) for r in records]
 
     def _record_to_dict(record: Any) -> Dict[str, Any]:
-        """Convert a ScanRecord to a plain dict for template rendering.
-
-        Args:
-            record: Internal scan record object.
-
-        Returns:
-            Dict with all display-relevant fields.
-        """
         resp = record.to_response()
         findings_count = 0
         risk_score = 0.0
@@ -69,7 +40,7 @@ try:
             try:
                 result = record.to_result()
                 findings_count = len(result.findings)
-            except Exception:  # noqa: BLE001
+            except Exception:
                 pass
         return {
             "scan_id": resp.scan_id,
@@ -85,15 +56,6 @@ try:
         }
 
     def _get_findings_for_scan(scan_manager: Any, scan_id: str) -> List[Dict[str, Any]]:
-        """Return findings for a single scan as dicts.
-
-        Args:
-            scan_manager: The scan manager.
-            scan_id: UUID string.
-
-        Returns:
-            List of finding dicts.
-        """
         if scan_manager is None:
             return []
         record = scan_manager.get(scan_id)
@@ -114,15 +76,10 @@ try:
                 }
                 for f in result.findings
             ]
-        except Exception:  # noqa: BLE001
+        except Exception:
             return []
 
     def _load_config_for_display() -> Dict[str, Any]:
-        """Load and redact the current config for display in settings.
-
-        Returns:
-            Dict with API keys redacted.
-        """
         try:
             from godrecon.core.config import load_config
             cfg = load_config()
@@ -130,23 +87,11 @@ try:
             if "api_keys" in data:
                 data["api_keys"] = {k: "***" if v else "" for k, v in data["api_keys"].items()}
             return data
-        except Exception:  # noqa: BLE001
+        except Exception:
             return {}
-
-    # ---------------------------------------------------------------------------
-    # Routes
-    # ---------------------------------------------------------------------------
 
     @router.get("/", response_class=HTMLResponse, summary="Dashboard home")
     async def dashboard_home(request: Request) -> HTMLResponse:
-        """Render the dashboard home/overview page.
-
-        Args:
-            request: Incoming HTTP request.
-
-        Returns:
-            HTML response.
-        """
         scan_manager = _get_scan_manager(request)
         scans = _get_all_scans(scan_manager)
         recent = scans[:5]
@@ -166,14 +111,6 @@ try:
 
     @router.get("/scans", response_class=HTMLResponse, summary="Scan history")
     async def dashboard_scans(request: Request) -> HTMLResponse:
-        """Render the scan history page.
-
-        Args:
-            request: Incoming HTTP request.
-
-        Returns:
-            HTML response.
-        """
         scan_manager = _get_scan_manager(request)
         scans = _get_all_scans(scan_manager)
         return templates.TemplateResponse(
@@ -183,18 +120,6 @@ try:
 
     @router.get("/scans/{scan_id}", response_class=HTMLResponse, summary="Scan detail")
     async def dashboard_scan_detail(request: Request, scan_id: str) -> HTMLResponse:
-        """Render the detail page for a single scan.
-
-        Args:
-            request: Incoming HTTP request.
-            scan_id: UUID string identifying the scan.
-
-        Returns:
-            HTML response.
-
-        Raises:
-            HTTPException: 404 if the scan is not found.
-        """
         scan_manager = _get_scan_manager(request)
         if scan_manager is None:
             raise HTTPException(status_code=404, detail="Scan not found")
@@ -203,18 +128,19 @@ try:
             raise HTTPException(status_code=404, detail=f"Scan {scan_id!r} not found")
         scan = _record_to_dict(record)
         findings = _get_findings_for_scan(scan_manager, scan_id)
-        # Module breakdown
         module_breakdown: List[Dict[str, Any]] = []
         try:
             result = record.to_result()
             for mod_name, mod_result in (result.module_results or {}).items():
                 count = 0
-                if hasattr(mod_result, "findings"):
+                if isinstance(mod_result, dict):
+                    count = mod_result.get("findings_count", 0)
+                elif hasattr(mod_result, "findings_count"):
+                    count = mod_result.findings_count or 0
+                elif hasattr(mod_result, "findings"):
                     count = len(mod_result.findings or [])
-                elif isinstance(mod_result, dict):
-                    count = len(mod_result.get("findings", []))
                 module_breakdown.append({"module": mod_name, "findings": count})
-        except Exception:  # noqa: BLE001
+        except Exception:
             pass
         return templates.TemplateResponse(
             "scan_detail.html",
@@ -234,18 +160,6 @@ try:
         module: Optional[str] = None,
         target: Optional[str] = None,
     ) -> HTMLResponse:
-        """Render the findings browser page.
-
-        Args:
-            request: Incoming HTTP request.
-            severity: Optional severity filter.
-            category: Optional category filter.
-            module: Optional module filter.
-            target: Optional target filter.
-
-        Returns:
-            HTML response.
-        """
         scan_manager = _get_scan_manager(request)
         all_findings: List[Dict[str, Any]] = []
         if scan_manager is not None:
@@ -255,8 +169,6 @@ try:
                     f["scan_id"] = record.scan_id
                     f["scan_target"] = record.target
                 all_findings.extend(scan_findings)
-
-        # Apply filters
         if severity:
             all_findings = [f for f in all_findings if f["severity"].lower() == severity.lower()]
         if category:
@@ -265,7 +177,6 @@ try:
             all_findings = [f for f in all_findings if f["module"].lower() == module.lower()]
         if target:
             all_findings = [f for f in all_findings if target.lower() in f.get("scan_target", "").lower()]
-
         return templates.TemplateResponse(
             "findings.html",
             {
@@ -282,14 +193,6 @@ try:
 
     @router.get("/surface", response_class=HTMLResponse, summary="Attack surface map")
     async def dashboard_surface(request: Request) -> HTMLResponse:
-        """Render the attack surface visualisation page.
-
-        Args:
-            request: Incoming HTTP request.
-
-        Returns:
-            HTML response.
-        """
         scan_manager = _get_scan_manager(request)
         surface_data: Dict[str, Any] = {
             "subdomains": [],
@@ -305,7 +208,6 @@ try:
                 try:
                     result = record.to_result()
                     mod_results = result.module_results or {}
-                    # Subdomains
                     sub_res = mod_results.get("subdomains")
                     if sub_res:
                         data = getattr(sub_res, "data", None) or (sub_res.get("data") if isinstance(sub_res, dict) else None) or {}
@@ -313,7 +215,6 @@ try:
                         for s in subs:
                             if s not in surface_data["subdomains"]:
                                 surface_data["subdomains"].append(s)
-                    # Technologies
                     tech_res = mod_results.get("tech")
                     if tech_res:
                         data = getattr(tech_res, "data", None) or (tech_res.get("data") if isinstance(tech_res, dict) else None) or {}
@@ -323,9 +224,8 @@ try:
                                     for tech in url_data.get("technologies", []):
                                         if tech not in surface_data["technologies"]:
                                             surface_data["technologies"].append(tech)
-                except Exception:  # noqa: BLE001
+                except Exception:
                     pass
-
         return templates.TemplateResponse(
             "surface.html",
             {"request": request, "surface_data": surface_data},
@@ -333,14 +233,6 @@ try:
 
     @router.get("/settings", response_class=HTMLResponse, summary="Settings page")
     async def dashboard_settings(request: Request) -> HTMLResponse:
-        """Render the settings configuration page.
-
-        Args:
-            request: Incoming HTTP request.
-
-        Returns:
-            HTML response.
-        """
         config_data = _load_config_for_display()
         return templates.TemplateResponse(
             "settings.html",
@@ -348,19 +240,7 @@ try:
         )
 
     @router.post("/settings", response_class=HTMLResponse, summary="Save settings")
-    async def dashboard_settings_save(
-        request: Request,
-    ) -> HTMLResponse:
-        """Handle settings form submission.
-
-        Args:
-            request: Incoming HTTP request with form data.
-
-        Returns:
-            Redirect to settings page with a success message.
-        """
-        # Settings persistence is limited to what can be changed via env vars
-        # or config file; this endpoint accepts the form and shows confirmation.
+    async def dashboard_settings_save(request: Request) -> HTMLResponse:
         config_data = _load_config_for_display()
         return templates.TemplateResponse(
             "settings.html",

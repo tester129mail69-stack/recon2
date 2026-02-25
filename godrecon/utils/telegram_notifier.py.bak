@@ -1,0 +1,284 @@
+"""Telegram notification utility for GODRECON.
+
+Sends real-time alerts to a Telegram chat when critical/high
+vulnerabilities or CVEs are found during a scan.
+
+Setup:
+  1. Create a bot via @BotFather on Telegram → get bot_token
+  2. Send any message to your bot, then get your chat_id:
+     https://api.telegram.org/bot<TOKEN>/getUpdates
+  3. Add to config.yaml:
+       notifications:
+         telegram:
+           enabled: true
+           bot_token: "1234567890:ABC..."
+           chat_id: "987654321"
+"""
+
+from __future__ import annotations
+
+import asyncio
+import json
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+import aiohttp
+from godrecon.utils.logger import get_logger
+
+logger = get_logger(__name__)
+
+_TELEGRAM_API = "https://api.telegram.org/bot{token}/sendMessage"
+_MAX_MESSAGE_LEN = 4096  # Telegram limit
+
+# Severity emoji map
+_SEV_EMOJI = {
+    "critical": "🔴",
+    "high":     "🟠",
+    "medium":   "🟡",
+    "low":      "🟢",
+    "info":     "🔵",
+}
+
+
+class TelegramNotifier:
+    """Send scan alerts to Telegram.
+
+    Args:
+        bot_token: Telegram bot token from @BotFather.
+        chat_id: Target chat or channel ID.
+        min_severity: Minimum severity to alert on (critical/high/medium/low/info).
+    """
+
+    _SEVERITY_ORDER = ["info", "low", "medium", "high", "critical"]
+
+    def __init__(
+        self,
+        bot_token: str,
+        chat_id: str,
+        min_severity: str = "high",
+    ) -> None:
+        self._token       = bot_token
+        self._chat_id     = chat_id
+        self._min_sev_idx = self._SEVERITY_ORDER.index(
+            min_severity if min_severity in self._SEVERITY_ORDER else "high"
+        )
+        self._url = _TELEGRAM_API.format(token=bot_token)
+
+    def _is_alertable(self, severity: str) -> bool:
+        idx = self._SEVERITY_ORDER.index(severity) if severity in self._SEVERITY_ORDER else 0
+        return idx >= self._min_sev_idx
+
+    async def send_message(self, text: str) -> bool:
+        """Send a raw message to Telegram.
+
+        Args:
+            text: Message text (Markdown supported).
+
+        Returns:
+            True if sent successfully.
+        """
+        if not self._token or not self._chat_id:
+            logger.debug("Telegram not configured — skipping notification")
+            return False
+
+        # Truncate if too long
+        if len(text) > _MAX_MESSAGE_LEN:
+            text = text[:_MAX_MESSAGE_LEN - 20] + "\n\n... (truncated)"
+
+        payload = {
+            "chat_id":    self._chat_id,
+            "text":       text,
+            "parse_mode": "Markdown",
+            "disable_web_page_preview": True,
+        }
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(
+                    self._url,
+                    json=payload,
+                    timeout=aiohttp.ClientTimeout(total=10),
+                ) as resp:
+                    if resp.status == 200:
+                        logger.debug("Telegram alert sent successfully")
+                        return True
+                    else:
+                        body = await resp.text()
+                        logger.warning("Telegram API error %d: %s", resp.status, body[:200])
+                        return False
+        except Exception as exc:
+            logger.warning("Telegram send failed: %s", exc)
+            return False
+
+    async def alert_scan_started(self, target: str) -> None:
+        """Send scan started notification.
+
+        Args:
+            target: Scan target domain.
+        """
+        msg = (
+            f"🚀 *GODRECON Scan Started*\n"
+            f"━━━━━━━━━━━━━━━━\n"
+            f"🎯 Target: `{target}`\n"
+            f"🕐 Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+        )
+        await self.send_message(msg)
+
+    async def alert_scan_finished(
+        self, target: str, total_findings: int, stats: Dict[str, Any]
+    ) -> None:
+        """Send scan completed summary notification.
+
+        Args:
+            target: Scan target.
+            total_findings: Total number of findings.
+            stats: Scan stats dict.
+        """
+        duration = stats.get("duration_seconds", 0)
+        modules  = stats.get("modules_run", 0)
+        msg = (
+            f"✅ *GODRECON Scan Complete*\n"
+            f"━━━━━━━━━━━━━━━━\n"
+            f"🎯 Target: `{target}`\n"
+            f"📊 Total Findings: *{total_findings}*\n"
+            f"🔧 Modules Run: {modules}\n"
+            f"⏱ Duration: {duration}s\n"
+            f"🕐 Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+        )
+        await self.send_message(msg)
+
+    async def alert_cve_found(
+        self, cve: Dict[str, Any], target: str
+    ) -> None:
+        """Send alert for a single CVE finding.
+
+        Args:
+            cve: CVE dict with id, severity, cvss, technology, summary etc.
+            target: Scan target.
+        """
+        severity = cve.get("severity", "info")
+        if not self._is_alertable(severity):
+            return
+
+        cve_id   = cve.get("id", "Unknown")
+        tech     = cve.get("technology", "unknown")
+        version  = cve.get("detected_version", "")
+        cvss     = cve.get("cvss", 0.0)
+        summary  = cve.get("summary", "")[:300]
+        source   = cve.get("source", "")
+        emoji    = _SEV_EMOJI.get(severity, "⚪")
+
+        version_str = f" v{version}" if version and version != "unknown" else ""
+
+        msg = (
+            f"{emoji} *CVE FOUND — {severity.upper()}*\n"
+            f"━━━━━━━━━━━━━━━━\n"
+            f"🆔 CVE ID: `{cve_id}`\n"
+            f"🎯 Target: `{target}`\n"
+            f"🔧 Technology: {tech}{version_str}\n"
+            f"📊 CVSS Score: *{cvss}*\n"
+            f"📡 Source: {source}\n"
+        )
+        if summary:
+            msg += f"📝 Summary: {summary}\n"
+
+        refs = cve.get("references", [])
+        if refs:
+            msg += f"🔗 Ref: {refs[0]}\n"
+
+        await self.send_message(msg)
+
+    async def alert_vuln_found(
+        self, match: Dict[str, Any], target: str
+    ) -> None:
+        """Send alert for a pattern-match vulnerability finding.
+
+        Args:
+            match: Pattern match dict.
+            target: Scan target.
+        """
+        severity = match.get("severity", "info")
+        if not self._is_alertable(severity):
+            return
+
+        name        = match.get("name", "Unknown")
+        url         = match.get("url", target)
+        category    = match.get("category", "")
+        remediation = match.get("remediation", "")
+        emoji       = _SEV_EMOJI.get(severity, "⚪")
+
+        msg = (
+            f"{emoji} *VULNERABILITY FOUND — {severity.upper()}*\n"
+            f"━━━━━━━━━━━━━━━━\n"
+            f"🔍 Name: {name}\n"
+            f"🎯 URL: `{url}`\n"
+            f"📂 Category: {category}\n"
+        )
+        if remediation:
+            msg += f"🛠 Fix: {remediation}\n"
+
+        await self.send_message(msg)
+
+    async def alert_bulk_cves(
+        self, cves: List[Dict[str, Any]], target: str
+    ) -> None:
+        """Send a summary alert for multiple CVEs found.
+
+        Args:
+            cves: List of CVE dicts.
+            target: Scan target.
+        """
+        alertable = [c for c in cves if self._is_alertable(c.get("severity", "info"))]
+        if not alertable:
+            return
+
+        critical = [c for c in alertable if c.get("severity") == "critical"]
+        high     = [c for c in alertable if c.get("severity") == "high"]
+        medium   = [c for c in alertable if c.get("severity") == "medium"]
+
+        msg = (
+            f"⚠️ *CVE SUMMARY for `{target}`*\n"
+            f"━━━━━━━━━━━━━━━━\n"
+            f"🔴 Critical: *{len(critical)}*\n"
+            f"🟠 High: *{len(high)}*\n"
+            f"🟡 Medium: *{len(medium)}*\n"
+            f"📊 Total Alertable: *{len(alertable)}*\n\n"
+        )
+
+        # List top 10 critical/high CVEs
+        top = (critical + high)[:10]
+        if top:
+            msg += "*Top CVEs:*\n"
+            for cve in top:
+                emoji  = _SEV_EMOJI.get(cve.get("severity", "info"), "⚪")
+                cve_id = cve.get("id", "?")
+                tech   = cve.get("technology", "?")
+                cvss   = cve.get("cvss", 0)
+                msg   += f"{emoji} `{cve_id}` — {tech} (CVSS {cvss})\n"
+
+        await self.send_message(msg)
+
+
+def get_notifier_from_config(config: Any) -> Optional[TelegramNotifier]:
+    """Build a TelegramNotifier from the scan config if enabled.
+
+    Args:
+        config: GODRECON Config object.
+
+    Returns:
+        TelegramNotifier instance or None if disabled/unconfigured.
+    """
+    try:
+        tg_cfg = config.notifications.telegram
+        if not tg_cfg.enabled:
+            return None
+        token   = tg_cfg.bot_token
+        chat_id = tg_cfg.chat_id
+        if not token or not chat_id:
+            logger.warning("Telegram enabled but bot_token or chat_id is empty")
+            return None
+        logger.info("Telegram notifications enabled for chat %s", chat_id)
+        return TelegramNotifier(bot_token=token, chat_id=chat_id, min_severity="high")
+    except Exception as exc:
+        logger.debug("Could not init Telegram notifier: %s", exc)
+        return None
