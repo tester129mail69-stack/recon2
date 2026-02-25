@@ -10,6 +10,10 @@ from __future__ import annotations
 import time
 from typing import Any, Dict, List, Optional
 
+from godrecon.utils.logger import get_logger
+
+logger = get_logger(__name__)
+
 _SERVER_START_TIME = time.time()
 
 try:
@@ -55,6 +59,10 @@ try:
             description="REST API for the GODRECON reconnaissance tool",
             version=__version__,
         )
+
+        # Security: warn when no API key is set
+        if not api_key:
+            logger.warning("No API key configured — the API server is accessible without authentication!")
 
         # CORS
         origins = cors_origins if cors_origins is not None else ["*"]
