@@ -12,7 +12,7 @@ import importlib
 import pkgutil
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 from godrecon.core.config import Config, load_config
 from godrecon.core.scheduler import Priority, Scheduler, Task
@@ -82,13 +82,13 @@ class ScanEngine:
         self.config: Config = config or load_config(config_path)
         self.scope = ScopeManager()
         self.scope.add_target(target)
-        self._event_handlers: List[Any] = []
+        self._event_handlers: List[Callable] = []
 
     # ------------------------------------------------------------------
     # Public API
     # ------------------------------------------------------------------
 
-    def on_event(self, handler: Any) -> None:
+    def on_event(self, handler: Callable) -> None:
         """Register a callable to receive real-time scan events.
 
         Args:
@@ -160,7 +160,7 @@ class ScanEngine:
     # Internal helpers
     # ------------------------------------------------------------------
 
-    def _load_modules(self) -> List[Any]:
+    def _load_modules(self) -> List["BaseModule"]:
         """Discover and instantiate all enabled scan modules.
 
         Returns:
@@ -192,7 +192,7 @@ class ScanEngine:
         return enabled_modules
 
     @staticmethod
-    def _instantiate_module(pkg: Any, modname: str) -> Optional[Any]:
+    def _instantiate_module(pkg: Any, modname: str) -> Optional["BaseModule"]:
         """Try to instantiate a module from its package.
 
         Looks for a sub-module called ``runner`` or the first exported class
@@ -234,7 +234,7 @@ class ScanEngine:
 
         return None
 
-    async def _run_module(self, module: Any, result: ScanResult) -> None:
+    async def _run_module(self, module: "BaseModule", result: ScanResult) -> None:
         """Execute a single module and store its result.
 
         Args:

@@ -308,6 +308,7 @@ def api(
         console.print("[dim]  API key authentication enabled.[/]")
     else:
         console.print("[yellow]  ⚠ No API key configured — server is open to all.[/]")
+        logger.warning("API server starting without authentication. Set an API key via --api-key or config.yaml")
 
     from godrecon.api.server import run_server
     run_server(
