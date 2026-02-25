@@ -1,8 +1,9 @@
 # GODRECON — The Ultimate Cybersecurity Reconnaissance Tool
 
-[![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://python.org)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-beta-blue.svg)]()
+[![CI](https://github.com/tester129mail69-stack/recon2/actions/workflows/ci.yml/badge.svg)](https://github.com/tester129mail69-stack/recon2/actions/workflows/ci.yml)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 
 ```
  ██████╗  ██████╗ ██████╗ ██████╗ ███████╗ ██████╗ ██████╗ ███╗   ██╗
@@ -304,27 +305,52 @@ export GODRECON__API_KEYS__SHODAN=your-key-here
 
 ---
 
-## Module List
+## 🔧 Modules
 
-| Module | Category | Status |
-|--------|----------|--------|
-| `subdomains` | Discovery | ✅ Active |
-| `dns` | DNS Intelligence | ✅ Active |
-| `http_probe` | HTTP Probing | ✅ Active |
-| `ports` | Port Scanning | ✅ Active |
-| `tech` | Tech Detection | ✅ Active |
-| `osint` | OSINT | ✅ Active |
-| `takeover` | Subdomain Takeover | ✅ Active |
-| `cloud` | Cloud Security | ✅ Active |
-| `vulns` | Vulnerability Detection | ✅ Active |
-| `ssl` | SSL/TLS Analysis | ✅ Active |
-| `email_sec` | Email Security | ✅ Active |
-| `screenshots` | Visual Recon | ✅ Active |
-| `api_intel` | API Intelligence | ✅ Active |
-| `crawl` | Web Crawling | ✅ Active |
-| `content_discovery` | Content Discovery | ✅ Active |
-| `network` | Network Intelligence | ✅ Active |
-| `visual` | Visual Recon | ✅ Active |
+| Module | Category | Description |
+|--------|----------|-------------|
+| `subdomains` | Recon | Subdomain enumeration via multiple sources |
+| `dns` | Recon | DNS record analysis and intelligence |
+| `http` | HTTP | HTTP probing and header analysis |
+| `ssl` | Security | SSL/TLS certificate analysis |
+| `ports` | Network | Port scanning and service detection |
+| `vulns` | Security | Vulnerability pattern matching |
+| `crawl` | Web | Web crawling, form extraction, JS analysis |
+| `tech` | Recon | Technology stack detection |
+| `cloud` | Cloud | Cloud infrastructure detection |
+| `osint` | OSINT | Open-source intelligence gathering |
+| `visual` | Recon | Visual similarity and page classification |
+| `email_sec` | Security | Email security (SPF/DKIM/DMARC) |
+| `screenshots` | Visual | Website screenshot capture |
+| `takeover` | Security | Subdomain takeover detection (30+ services) |
+| `api_intel` | API | API endpoint discovery |
+| `content_discovery` | Web | Hidden content and directory brute-forcing |
+| `network` | Network | Network reconnaissance |
+| `whois` | OSINT | Domain WHOIS registration lookup |
+| `wayback` | OSINT | Wayback Machine URL history |
+| `github_dork` | OSINT | GitHub code search for leaked secrets |
+| `waf` | HTTP | WAF detection and fingerprinting |
+| `cors` | Security | CORS misconfiguration detection |
+| `graphql` | API | GraphQL introspection scanning |
+| `jwt` | Security | JWT vulnerability detection |
+| `favicon` | Recon | Favicon hash fingerprinting |
+
+---
+
+## Shell Completions
+
+GODRECON supports auto-completion for bash, zsh, and fish shells:
+
+```bash
+# Bash
+godrecon --install-completion bash
+
+# Zsh
+godrecon --install-completion zsh
+
+# Fish
+godrecon --install-completion fish
+```
 
 ---
 
