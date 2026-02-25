@@ -41,9 +41,10 @@ def test_module_discovery_finds_packages():
         if ispkg
     ]
     expected = [
-        "api_intel", "cloud", "content_discovery", "crawl", "dns",
-        "email_sec", "http", "network", "osint", "ports",
-        "screenshots", "ssl", "subdomains", "takeover", "tech", "visual", "vulns",
+        "api_intel", "cloud", "content_discovery", "cors", "crawl", "dns",
+        "email_sec", "favicon", "github_dork", "graphql", "http", "jwt",
+        "network", "osint", "ports", "screenshots", "ssl", "subdomains",
+        "takeover", "tech", "visual", "vulns", "waf", "wayback", "whois",
     ]
     for mod in expected:
         assert mod in discovered, f"Module '{mod}' not found in modules package"

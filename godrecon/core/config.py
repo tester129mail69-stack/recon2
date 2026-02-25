@@ -100,6 +100,14 @@ class ModulesConfig(BaseModel):
     content_discovery: bool = True
     network: bool = True
     visual: bool = True
+    whois: bool = True
+    wayback: bool = True
+    github_dork: bool = True
+    waf: bool = True
+    cors: bool = True
+    graphql: bool = True
+    jwt: bool = True
+    favicon: bool = True
 
 
 class HttpProbeConfig(BaseModel):
