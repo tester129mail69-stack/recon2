@@ -1,0 +1,1 @@
+"""Favicon hash fingerprinting module."""

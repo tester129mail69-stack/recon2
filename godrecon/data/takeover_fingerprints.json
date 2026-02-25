@@ -814,5 +814,13 @@
     "nxdomain": false,
     "severity": "high",
     "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/217"
+  },
+  {
+    "service": "Smugmug",
+    "cnames": ["*.smugmug.com"],
+    "fingerprints": ["Page Not Found"],
+    "nxdomain": false,
+    "severity": "medium",
+    "documentation": "https://github.com/EdOverflow/can-i-take-over-xyz/issues/60"
   }
 ]
