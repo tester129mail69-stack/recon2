@@ -73,9 +73,13 @@ def scan(
     fmt: str = typer.Option("json", "--format", "-f", help="Output format: json/csv/html/pdf/md"),
     threads: int = typer.Option(50, "--threads", help="Concurrency level"),
     timeout: int = typer.Option(10, "--timeout", help="Request timeout in seconds"),
+    global_timeout: Optional[int] = typer.Option(None, "--global-timeout", help="Global scan timeout in seconds"),
     proxy: Optional[str] = typer.Option(None, "--proxy", help="Proxy URL (http/socks5)"),
+    quiet: bool = typer.Option(False, "--quiet", "-q", help="Suppress banner and progress; only print final summary"),
+    json_output: bool = typer.Option(False, "--json-output", help="Output results as raw JSON to stdout (implies --quiet)"),
     silent: bool = typer.Option(False, "--silent", help="Minimal output"),
-    verbose: bool = typer.Option(False, "--verbose", "-v", help="Verbose output"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Sets logging to INFO"),
+    debug: bool = typer.Option(False, "--debug", help="Sets logging to DEBUG"),
     config_file: Optional[str] = typer.Option(None, "--config", help="Custom config file"),
 ) -> None:
     """[bold]Run a reconnaissance scan against a target.[/]
@@ -88,10 +92,18 @@ def scan(
 
         godrecon scan --target 192.168.1.0/24 --ports --threads 100
     """
-    if not silent:
+    # --quiet and --json-output both suppress banner/progress
+    _quiet = quiet or json_output or silent
+
+    if not _quiet:
         _print_banner()
 
-    configure_logging(verbose=verbose)
+    if debug:
+        configure_logging(verbose=False, level=10)  # logging.DEBUG = 10
+    elif verbose:
+        configure_logging(verbose=False, level=20)  # logging.INFO = 20
+    else:
+        configure_logging(verbose=False, level=30)  # logging.WARNING = 30
 
     # Load and patch config
     cfg = load_config(config_file)
@@ -116,14 +128,14 @@ def scan(
     if screenshots:
         cfg.modules.screenshots = True
 
-    if not silent:
+    if not _quiet:
         console.print(
             f"[bold green]►[/] Scanning [bold]{target}[/] "
             f"(threads={threads}, timeout={timeout}s)"
         )
 
     # Run the async scan
-    asyncio.run(_run_scan(target, cfg, output, fmt, silent))
+    asyncio.run(_run_scan(target, cfg, output, fmt, _quiet, json_output, global_timeout))
 
 
 async def _run_scan(
@@ -132,6 +144,8 @@ async def _run_scan(
     output: Optional[str],
     fmt: str,
     silent: bool,
+    json_output: bool = False,
+    global_timeout: Optional[int] = None,
 ) -> None:
     """Internal async wrapper for the scan engine."""
     from godrecon.core.engine import ScanEngine
@@ -166,10 +180,54 @@ async def _run_scan(
         disable=silent,
     ) as progress:
         task_id = progress.add_task(f"Scanning {target}…", total=None)
-        result = await engine.run()
+        if global_timeout is not None:
+            try:
+                result = await asyncio.wait_for(engine.run(), timeout=float(global_timeout))
+            except asyncio.TimeoutError:
+                progress.update(task_id, completed=True)
+                err_console.print(
+                    f"[yellow]⚠ Global timeout of {global_timeout}s reached — "
+                    "returning partial results.[/]"
+                )
+                # Retrieve whatever partial result the engine has
+                result = getattr(engine, "_partial_result", None)
+                if result is None:
+                    from godrecon.core.engine import ScanResult
+                    import time as _time
+                    result = ScanResult(target=target, started_at=_time.time())
+        else:
+            result = await engine.run()
         progress.update(task_id, completed=True)
 
-    if not silent:
+    if json_output:
+        import json as _json
+        from godrecon.core.engine import ScanResult
+        assert isinstance(result, ScanResult)
+        data = {
+            "target": result.target,
+            "stats": result.stats,
+            "module_results": {
+                k: (
+                    {
+                        "module_name": v.module_name,
+                        "target": v.target,
+                        "findings": [
+                            {"title": f.title, "description": f.description,
+                             "severity": f.severity, "data": f.data, "tags": f.tags}
+                            for f in v.findings
+                        ],
+                        "raw": v.raw,
+                        "duration": v.duration,
+                        "error": v.error,
+                    }
+                    if v else None
+                )
+                for k, v in result.module_results.items()
+            },
+            "errors": result.errors,
+        }
+        sys.stdout.write(_json.dumps(data, indent=2, default=str) + "\n")
+    elif not silent:
         _display_results(result)
 
     # Write output file
@@ -456,6 +514,94 @@ def schedules(
     else:
         err_console.print(f"[red]Unknown action: {action!r}. Use list, add, or remove.[/]")
         raise typer.Exit(1)
+
+
+# ---------------------------------------------------------------------------
+# diff command
+# ---------------------------------------------------------------------------
+
+
+@app.command()
+def diff(
+    scan_id_1: str = typer.Argument(..., help="First (baseline) scan ID"),
+    scan_id_2: str = typer.Argument(..., help="Second (comparison) scan ID"),
+    config_file: Optional[str] = typer.Option(None, "--config", help="Custom config file"),
+) -> None:
+    """[bold]Compare two stored scans and display what changed.[/]
+
+    Loads both scans from the SQLite database, runs the diff engine, and
+    displays a Rich table showing new, removed, and unchanged findings.
+
+    Examples:
+
+        godrecon diff <scan_id_1> <scan_id_2>
+    """
+    import json as _json
+
+    from godrecon.core.database import ScanStore
+    from godrecon.core.diff import diff_scans
+
+    store = ScanStore()
+    row_a = store.get_scan(scan_id_1)
+    row_b = store.get_scan(scan_id_2)
+    store.close()
+
+    if row_a is None:
+        err_console.print(f"[red]Scan '{scan_id_1}' not found in the database.[/]")
+        raise typer.Exit(1)
+    if row_b is None:
+        err_console.print(f"[red]Scan '{scan_id_2}' not found in the database.[/]")
+        raise typer.Exit(1)
+
+    def _load_result(row: dict) -> dict:
+        raw = row.get("result_json") or "{}"
+        try:
+            return _json.loads(raw)
+        except Exception:  # noqa: BLE001
+            return {}
+
+    scan_a = _load_result(row_a)
+    scan_b = _load_result(row_b)
+    result = diff_scans(scan_a, scan_b)
+
+    console.print(f"\n[bold]Diff:[/] [dim]{scan_id_1[:8]}…[/] → [dim]{scan_id_2[:8]}…[/]\n")
+
+    # Findings table
+    table = Table(
+        title="Finding Changes",
+        show_header=True,
+        header_style="bold magenta",
+        border_style="dim",
+    )
+    table.add_column("Change", style="bold", no_wrap=True)
+    table.add_column("Title")
+    table.add_column("Severity", justify="center")
+
+    for f in result.new_findings:
+        table.add_row("[green]+[/]", f.get("title", ""), f.get("severity", "info"))
+    for f in result.removed_findings:
+        table.add_row("[red]-[/]", f.get("title", ""), f.get("severity", "info"))
+    for f in result.unchanged_findings:
+        table.add_row("[dim]=[/]", f.get("title", ""), f.get("severity", "info"))
+
+    if result.new_findings or result.removed_findings or result.unchanged_findings:
+        console.print(table)
+
+    s = result.summary
+    console.print(
+        f"\n[bold]Subdomains:[/] "
+        f"[green]+{s.get('new_subdomains', 0)}[/]  "
+        f"[red]-{s.get('removed_subdomains', 0)}[/]    "
+        f"[bold]Ports:[/] "
+        f"[green]+{s.get('new_ports', 0)}[/]  "
+        f"[red]-{s.get('removed_ports', 0)}[/]"
+    )
+    console.print(
+        f"[bold]Findings:[/] "
+        f"[green]+{s.get('new_findings', 0)} new[/]  "
+        f"[red]-{s.get('removed_findings', 0)} removed[/]  "
+        f"[dim]={s.get('unchanged_findings', 0)} unchanged[/]"
+    )
 
 
 if __name__ == "__main__":

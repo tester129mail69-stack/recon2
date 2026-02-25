@@ -54,6 +54,9 @@ Issues = "https://github.com/tester129mail69-stack/recon2/issues"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
+markers = [
+    "integration: marks tests as integration tests (run separately with -m integration)",
+]
 
 [tool.ruff]
 target-version = "py310"
