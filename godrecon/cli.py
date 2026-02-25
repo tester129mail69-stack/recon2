@@ -70,7 +70,7 @@ def scan(
     ports: bool = typer.Option(False, "--ports", help="Enable port scanning"),
     screenshots: bool = typer.Option(False, "--screenshots", help="Enable screenshots"),
     output: Optional[str] = typer.Option(None, "--output", "-o", help="Output file path"),
-    fmt: str = typer.Option("json", "--format", "-f", help="Output format: json/csv/html/pdf/md"),
+    fmt: str = typer.Option("json", "--format", "-f", help="Output format: json/csv/html/pdf/md/sarif"),
     threads: int = typer.Option(50, "--threads", help="Concurrency level"),
     timeout: int = typer.Option(10, "--timeout", help="Request timeout in seconds"),
     global_timeout: Optional[int] = typer.Option(None, "--global-timeout", help="Global scan timeout in seconds"),
@@ -82,6 +82,11 @@ def scan(
     debug: bool = typer.Option(False, "--debug", help="Sets logging to DEBUG"),
     config_file: Optional[str] = typer.Option(None, "--config", help="Custom config file"),
     profile: Optional[str] = typer.Option(None, "--profile", "-p", help="Scan profile: quick, full, stealth, web-app, infrastructure, osint"),
+    stealth: bool = typer.Option(False, "--stealth", help="Enable stealth mode with randomized delays and UA rotation"),
+    min_delay: float = typer.Option(1.0, "--min-delay", help="Minimum delay between requests (stealth mode)"),
+    max_delay: float = typer.Option(5.0, "--max-delay", help="Maximum delay between requests (stealth mode)"),
+    scope_file: Optional[str] = typer.Option(None, "--scope", help="Scope definition file (YAML)"),
+    force: bool = typer.Option(False, "--force", help="Bypass scope check and scan anyway"),
 ) -> None:
     """[bold]Run a reconnaissance scan against a target.[/]
 
@@ -92,6 +97,10 @@ def scan(
         godrecon scan --target example.com --full --format html -o report.html
 
         godrecon scan --target 192.168.1.0/24 --ports --threads 100
+
+        godrecon scan --target example.com --stealth --min-delay 2 --max-delay 8
+
+        godrecon scan --target example.com --scope scope.yaml
     """
     # --quiet and --json-output both suppress banner/progress
     _quiet = quiet or json_output or silent
@@ -105,6 +114,23 @@ def scan(
         configure_logging(verbose=False, level=20)  # logging.INFO = 20
     else:
         configure_logging(verbose=False, level=30)  # logging.WARNING = 30
+
+    # Scope check
+    if scope_file:
+        from godrecon.core.scope_config import ScopeConfig
+        scope = ScopeConfig()
+        try:
+            scope.load_from_file(scope_file)
+        except FileNotFoundError as exc:
+            err_console.print(f"[red]{exc}[/]")
+            raise typer.Exit(1) from exc
+        allowed, reason = scope.validate_target(target)
+        if not allowed:
+            err_console.print(f"[yellow]⚠ Scope check: {reason}[/]")
+            if not force:
+                err_console.print("[red]Target is out of scope. Use --force to override.[/]")
+                raise typer.Exit(1)
+            err_console.print("[yellow]--force flag set — proceeding anyway.[/]")
 
     # Load and patch config
     cfg = load_config(config_file)
@@ -141,6 +167,11 @@ def scan(
         cfg.modules.ports = True
     if screenshots:
         cfg.modules.screenshots = True
+
+    if stealth and not _quiet:
+        console.print(
+            f"[dim]Stealth mode enabled (delay {min_delay}–{max_delay}s, UA rotation)[/]"
+        )
 
     if not _quiet:
         console.print(
@@ -312,6 +343,9 @@ def _write_output(result: object, output: str, fmt: str) -> None:  # type: ignor
     elif fmt == "pdf":
         from godrecon.reporting.pdf import PDFReporter
         PDFReporter().generate(data, output)
+    elif fmt == "sarif":
+        from godrecon.reporting.sarif import SARIFReporter
+        SARIFReporter().generate(data, output)
     else:
         err_console.print(f"[red]Unknown output format: {fmt}[/]")
 
@@ -676,6 +710,224 @@ def create_module(
     console.print(f"[bold green]✓[/] Module scaffold created at [bold]{module_path}[/]")
     console.print(f"  [dim]{module_path}/__init__.py[/]")
     console.print(f"  [dim]{module_path}/scanner.py[/]")
+
+
+# ---------------------------------------------------------------------------
+# analyze command
+# ---------------------------------------------------------------------------
+
+
+@app.command()
+def analyze(
+    scan_id: str = typer.Argument(..., help="Scan ID to analyze"),
+    provider: str = typer.Option("local", "--provider", help="Analysis provider: local, openai"),
+    api_key: Optional[str] = typer.Option(None, "--api-key", help="API key for the chosen provider"),
+    config_file: Optional[str] = typer.Option(None, "--config", help="Custom config file"),
+) -> None:
+    """[bold]Generate AI-powered analysis of scan results.[/]"""
+    import json as _json
+
+    from godrecon.ai.analyzer import ScanAnalyzer
+    from godrecon.core.database import ScanStore
+
+    _print_banner()
+
+    store = ScanStore()
+    row = store.get_scan(scan_id)
+    store.close()
+
+    if row is None:
+        err_console.print(f"[red]Scan '{scan_id}' not found in the database.[/]")
+        raise typer.Exit(1)
+
+    raw = row.get("result_json") or "{}"
+    try:
+        scan_result = _json.loads(raw)
+    except Exception:  # noqa: BLE001
+        scan_result = {}
+    scan_result.setdefault("target", row.get("target", "unknown"))
+
+    effective_key = api_key or ""
+    analyzer = ScanAnalyzer(api_key=effective_key, provider=provider)
+    report = analyzer.analyze(scan_result)
+
+    # Executive summary panel
+    console.print(
+        Panel(
+            report.executive_summary,
+            title=f"[bold]AI Analysis — {scan_result.get('target', 'unknown')}[/]",
+            subtitle=f"Risk: [bold]{report.risk_level.upper()}[/] ({report.risk_score}/100)",
+            border_style="red" if report.risk_level in ("critical", "high") else "yellow",
+        )
+    )
+
+    # Top risks table
+    if report.top_risks:
+        risk_table = Table(title="Top Risks", show_header=True, header_style="bold magenta", border_style="dim")
+        risk_table.add_column("Severity", style="bold", no_wrap=True, justify="center")
+        risk_table.add_column("Title")
+        risk_table.add_column("Explanation")
+        for risk in report.top_risks:
+            sev = risk.get("severity", "info")
+            risk_table.add_row(sev.upper(), risk.get("title", ""), risk.get("explanation", ""))
+        console.print(risk_table)
+
+    # Remediation priorities
+    if report.remediation_priorities:
+        console.print("\n[bold]Remediation Priorities:[/]")
+        for item in report.remediation_priorities[:10]:
+            console.print(
+                f"  [bold]{item.get('priority', '')}.[/] [{item.get('severity', 'info')}] "
+                f"{item.get('title', '')} — {item.get('recommended_action', '')}"
+            )
+
+
+# ---------------------------------------------------------------------------
+# campaign command
+# ---------------------------------------------------------------------------
+
+
+@app.command()
+def campaign(
+    targets_file: str = typer.Argument(..., help="File containing targets (one per line)"),
+    name: str = typer.Option("campaign", "--name", "-n", help="Campaign name"),
+    profile: Optional[str] = typer.Option(None, "--profile", "-p", help="Scan profile to use"),
+    max_concurrent: int = typer.Option(3, "--concurrent", "-c", help="Max concurrent scans"),
+    output: Optional[str] = typer.Option(None, "--output", "-o", help="Output file for campaign report"),
+    fmt: str = typer.Option("json", "--format", "-f", help="Output format: json, html, csv, md"),
+    config_file: Optional[str] = typer.Option(None, "--config", help="Custom config file"),
+) -> None:
+    """[bold]Run a multi-target reconnaissance campaign.[/]"""
+    import json as _json
+
+    from godrecon.core.campaign import Campaign, load_targets_from_file
+
+    _print_banner()
+
+    try:
+        targets = load_targets_from_file(targets_file)
+    except FileNotFoundError as exc:
+        err_console.print(f"[red]{exc}[/]")
+        raise typer.Exit(1) from exc
+
+    if not targets:
+        err_console.print("[red]No targets found in file.[/]")
+        raise typer.Exit(1)
+
+    cfg = load_config(config_file)
+    console.print(
+        f"[bold green]►[/] Starting campaign [bold]{name}[/] "
+        f"with [bold]{len(targets)}[/] target(s), max_concurrent={max_concurrent}"
+    )
+
+    completed: list[str] = []
+    failed: list[str] = []
+
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        BarColumn(),
+        TimeElapsedColumn(),
+        console=console,
+        transient=True,
+    ) as progress:
+        task_id = progress.add_task(f"Campaign: {name}", total=len(targets))
+
+        c = Campaign(name=name, targets=targets, config=cfg, profile=profile)
+
+        def on_event(event: dict) -> None:
+            if event.get("event") == "target_finished":
+                tgt = event.get("target", "")
+                if event.get("status") == "ok":
+                    completed.append(tgt)
+                else:
+                    failed.append(tgt)
+                progress.advance(task_id)
+
+        c.on_event(on_event)
+        campaign_result = asyncio.run(c.run(max_concurrent=max_concurrent))
+
+    # Summary table
+    table = Table(title=f"Campaign Results — {name}", show_header=True, header_style="bold magenta", border_style="dim")
+    table.add_column("Target", style="bold")
+    table.add_column("Findings", justify="right")
+    table.add_column("Status", justify="center")
+
+    for tgt in targets:
+        res = campaign_result.results.get(tgt)
+        if res is None or isinstance(res, dict):
+            count = 0
+            status = "[red]ERROR[/]"
+        else:
+            count = sum(len(getattr(mr, "findings", [])) for mr in getattr(res, "module_results", {}).values() if mr)
+            status = "[green]OK[/]"
+        table.add_row(tgt, str(count), status)
+
+    console.print(table)
+    console.print(
+        f"\n[bold]Completed:[/] {campaign_result.targets_completed}  "
+        f"[bold]Failed:[/] {campaign_result.targets_failed}  "
+        f"[bold]Total findings:[/] {campaign_result.summary.get('total_findings', 0)}"
+    )
+
+    if output:
+        import json as _json2
+        data = {
+            "name": campaign_result.name,
+            "targets_total": campaign_result.targets_total,
+            "targets_completed": campaign_result.targets_completed,
+            "targets_failed": campaign_result.targets_failed,
+            "summary": campaign_result.summary,
+        }
+        Path(output).write_text(_json2.dumps(data, indent=2, default=str), encoding="utf-8")
+        console.print(f"\n[bold green]✓[/] Campaign report saved to [bold]{output}[/]")
+
+
+# ---------------------------------------------------------------------------
+# resume command
+# ---------------------------------------------------------------------------
+
+
+@app.command()
+def resume(
+    scan_id: str = typer.Argument(..., help="Scan ID to resume"),
+    config_file: Optional[str] = typer.Option(None, "--config", help="Custom config file"),
+) -> None:
+    """[bold]Resume an interrupted scan from checkpoint.[/]"""
+    from godrecon.core.checkpoint import CheckpointManager
+
+    _print_banner()
+    mgr = CheckpointManager(scan_id=scan_id)
+
+    if not mgr.exists(scan_id):
+        err_console.print(f"[red]No checkpoint found for scan '{scan_id}'.[/]")
+        raise typer.Exit(1)
+
+    checkpoint = mgr.load(scan_id)
+    if checkpoint is None:
+        err_console.print(f"[red]Failed to load checkpoint for scan '{scan_id}'.[/]")
+        raise typer.Exit(1)
+
+    target = checkpoint.get("target", "")
+    completed_modules = checkpoint.get("completed_modules", [])
+
+    console.print(
+        f"[bold green]►[/] Resuming scan [dim]{scan_id[:8]}…[/] for [bold]{target}[/]"
+    )
+    console.print(
+        f"  [dim]Already completed: {', '.join(completed_modules) or 'none'}[/]"
+    )
+
+    cfg = load_config(config_file)
+
+    # Disable already-completed modules
+    for field_name in type(cfg.modules).model_fields:
+        if field_name in completed_modules:
+            setattr(cfg.modules, field_name, False)
+
+    asyncio.run(_run_scan(target, cfg, None, "json", False, False, None))
+    mgr.delete(scan_id)
+    console.print(f"[bold green]✓[/] Checkpoint [dim]{scan_id[:8]}…[/] deleted after successful completion.")
 
 
 if __name__ == "__main__":

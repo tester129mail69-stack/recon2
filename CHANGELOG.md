@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-02-25
+
+### Added
+- AI-powered scan analysis with executive summaries and risk scoring
+- Multi-target campaign support (`godrecon campaign`)
+- Stealth mode with randomized delays, User-Agent rotation, and proxy support
+- Webhook and SIEM integrations (Slack, Discord, generic webhook, Splunk HEC)
+- SARIF report format for enterprise compliance
+- Scan resume/checkpoint system (`godrecon resume`)
+- Adaptive rate limiter that respects 429/Retry-After
+- Enhanced scope configuration with YAML scope files
+- `godrecon analyze` command for AI-powered analysis
+
 ## [0.3.0] - 2026-02-25
 
 ### Added
