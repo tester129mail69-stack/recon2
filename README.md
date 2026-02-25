@@ -32,11 +32,102 @@
 - **Email Security** — SPF, DKIM, DMARC misconfiguration detection
 - **Screenshots** — Automated web screenshots for discovered assets
 - **OSINT Integration** — Shodan, Censys, VirusTotal, SecurityTrails, BinaryEdge
-- **AI-Powered** — ML-based false positive filtering and risk scoring (Phase 2)
-- **Beautiful Reports** — HTML, PDF, JSON, CSV, Markdown output formats
+- **AI-Powered Analysis** — Rule-based and OpenAI-backed risk scoring, executive summaries, remediation priorities
+- **Multi-Target Campaigns** — Scan multiple targets concurrently with aggregated reporting
+- **Stealth Mode** — Randomized delays, User-Agent rotation, proxy support
+- **Webhook / SIEM** — Push findings to Slack, Discord, generic webhooks, or Splunk HEC
+- **SARIF Export** — SARIF v2.1.0 output for enterprise CI/CD integration
+- **Scan Checkpoints** — Resume interrupted scans from where they left off
+- **Adaptive Rate Limiter** — Automatically backs off on 429/503 responses
+- **Scope Configuration** — YAML-based in-scope / out-of-scope rules (domains, CIDRs, wildcards)
+- **Beautiful Reports** — HTML, PDF, JSON, CSV, Markdown, SARIF output formats
 - **Rich CLI** — Colourised output with progress bars, tables, and ASCII art
 
 ---
+
+## 🤖 AI-Powered Analysis
+
+```bash
+# Analyze a stored scan result
+godrecon analyze <scan_id>
+
+# Use OpenAI GPT for deeper analysis
+godrecon analyze <scan_id> --provider openai --api-key $OPENAI_KEY
+```
+
+---
+
+## 🎯 Multi-Target Campaigns
+
+```bash
+# targets.txt: one target per line, # for comments
+godrecon campaign targets.txt --name "Q1 Audit" --concurrent 5
+
+# Save report and use a scan profile
+godrecon campaign targets.txt --profile quick -o campaign.json
+```
+
+---
+
+## 🥷 Stealth Mode
+
+```bash
+godrecon scan --target example.com --stealth --min-delay 2 --max-delay 10 --proxy socks5://127.0.0.1:9050
+```
+
+---
+
+## 🔔 Webhook / SIEM Integration
+
+Configure in `config.yaml`:
+```yaml
+notifications:
+  slack:
+    enabled: true
+    webhook_url: "https://hooks.slack.com/services/..."
+  discord:
+    enabled: true
+    webhook_url: "https://discord.com/api/webhooks/..."
+```
+
+---
+
+## 📋 SARIF Export
+
+```bash
+godrecon scan --target example.com --format sarif -o results.sarif
+```
+
+---
+
+## ↩️ Scan Resume
+
+```bash
+# Scans save checkpoints automatically; resume with:
+godrecon resume <scan_id>
+```
+
+---
+
+## 🎯 Scope Configuration
+
+```yaml
+# scope.yaml
+scope:
+  in_scope:
+    - "*.example.com"
+    - "10.0.0.0/8"
+  out_of_scope:
+    - "production.example.com"
+    - "10.0.1.0/24"
+```
+
+```bash
+godrecon scan --target api.example.com --scope scope.yaml
+```
+
+---
+
 
 ## Quick Install
 
