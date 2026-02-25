@@ -81,6 +81,7 @@ def scan(
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Sets logging to INFO"),
     debug: bool = typer.Option(False, "--debug", help="Sets logging to DEBUG"),
     config_file: Optional[str] = typer.Option(None, "--config", help="Custom config file"),
+    profile: Optional[str] = typer.Option(None, "--profile", "-p", help="Scan profile: quick, full, stealth, web-app, infrastructure, osint"),
 ) -> None:
     """[bold]Run a reconnaissance scan against a target.[/]
 
@@ -114,14 +115,27 @@ def scan(
     if output:
         cfg.general.output_dir = str(Path(output).parent)
 
-    if subs_only:
-        # Disable everything except subdomains
-        for field_name in cfg.modules.model_fields:
-            setattr(cfg.modules, field_name, field_name == "subdomains")
+    if profile:
+        from godrecon.core.profiles import apply_profile, get_profile
+        try:
+            get_profile(profile)
+        except ValueError as exc:
+            err_console.print(f"[red]{exc}[/]")
+            raise typer.Exit(1) from exc
+        if full or subs_only:
+            err_console.print(
+                "[yellow]⚠ --profile takes precedence over --full / --subs-only flags.[/]"
+            )
+        apply_profile(cfg, profile)
+    else:
+        if subs_only:
+            # Disable everything except subdomains
+            for field_name in type(cfg.modules).model_fields:
+                setattr(cfg.modules, field_name, field_name == "subdomains")
 
-    if full:
-        for field_name in cfg.modules.model_fields:
-            setattr(cfg.modules, field_name, True)
+        if full:
+            for field_name in type(cfg.modules).model_fields:
+                setattr(cfg.modules, field_name, True)
 
     if ports:
         cfg.modules.ports = True
@@ -602,6 +616,66 @@ def diff(
         f"[red]-{s.get('removed_findings', 0)} removed[/]  "
         f"[dim]={s.get('unchanged_findings', 0)} unchanged[/]"
     )
+
+
+
+
+# ---------------------------------------------------------------------------
+# profiles command
+# ---------------------------------------------------------------------------
+
+
+@app.command()
+def profiles() -> None:
+    """[bold]List available scan profiles.[/]"""
+    from godrecon.core.profiles import list_profiles
+
+    table = Table(
+        title="Scan Profiles",
+        show_header=True,
+        header_style="bold magenta",
+        border_style="dim",
+    )
+    table.add_column("Profile Name", style="bold cyan", no_wrap=True)
+    table.add_column("Description")
+    table.add_column("Modules", style="dim")
+
+    for p in list_profiles():
+        table.add_row(p.name, p.description, ", ".join(p.enabled_modules))
+
+    console.print(table)
+
+
+# ---------------------------------------------------------------------------
+# create-module command
+# ---------------------------------------------------------------------------
+
+
+@app.command("create-module")
+def create_module(
+    name: str = typer.Argument(..., help="Module name (lowercase, underscores)"),
+    category: str = typer.Option("custom", "--category", "-c", help="Module category"),
+    author: str = typer.Option("Community", "--author", "-a", help="Module author"),
+    output_dir: Optional[str] = typer.Option(None, "--output", "-o", help="Output directory (default: godrecon/modules/)"),
+) -> None:
+    """[bold]Scaffold a new GODRECON module.[/]"""
+    import re
+
+    if not re.match(r"^[a-z][a-z0-9_]*$", name):
+        err_console.print(
+            f"[red]Invalid module name {name!r}. "
+            "Must start with a lowercase letter and contain only lowercase "
+            "letters, digits, and underscores.[/]"
+        )
+        raise typer.Exit(1)
+
+    from godrecon.core.plugin_sdk import create_module_scaffold
+
+    dest = output_dir or str(Path(__file__).parent / "modules")
+    module_path = create_module_scaffold(name, dest, category=category, author=author)
+    console.print(f"[bold green]✓[/] Module scaffold created at [bold]{module_path}[/]")
+    console.print(f"  [dim]{module_path}/__init__.py[/]")
+    console.print(f"  [dim]{module_path}/scanner.py[/]")
 
 
 if __name__ == "__main__":
